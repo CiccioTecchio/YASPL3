@@ -1,0 +1,18 @@
+package parser;
+
+import java_cup.runtime.*;
+
+terminal		ZERO,ONE;
+
+non terminal	bit_seq;
+non terminal	Couple grammar;
+
+
+bit_seq ::= grammar:e			{: System.out.println(e); :}
+			 ;
+			 
+grammar			::=	ONE grammar:e	{: RESULT = new Couple(e.getnOfOnes() + 1, e.getnOfZeros()); :}
+				|	ZERO grammar:e	{: RESULT = new Couple(e.getnOfOnes()  , e.getnOfZeros() + 1); :}
+				|	ONE				{: RESULT = new Couple(1,0); :}
+				|	ZERO			{: RESULT = new Couple(0,1); :}
+				;
