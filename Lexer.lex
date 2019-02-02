@@ -51,6 +51,7 @@ keyword 	= "head"|"start"|"def"
 controlOp 	= "if"| "then" | "while" | "do" | "else"
 type 		= "int" | "bool" | "double" | "string" | "char"
 boolVal 	= "true" | "false"
+logicalOp	= "and" | "or" | "not"
 id 			= [:jletter:]([:jletter:]|[:jdigit:])*
 mathOp 		= "+"|"-"|"*"|"/"
 sign 		= "+"|"-"
@@ -74,6 +75,7 @@ whitespace = [ \r\n\t\f]
 {type}		{ return new Symbol(LexerSym.TYPE); }
 {boolVal}	{ return new Symbol(LexerSym.BOOLVAL); }
 {paramType}	{ return new Symbol(LexerSym.PARAMTYPE); }
+{logicalOp}	{ return new Symbol(LexerSym.LOGICALOP); }
 {id}		{ return new Symbol(LexerSym.ID); }
 {mathOp}	{ return new Symbol(LexerSym.MATHOP); }
 {intConst}	{ return new Symbol(LexerSym.INTCONST); }

@@ -26,6 +26,7 @@ public interface LexerSym {
   public static final int STRINGCONST = 14;
   public static final int CHARCONST = 15;
   public static final int PARAMTYPE = 16;
+  public static final int LOGICALOP = 17;
   
   public static final String[] terminalNames = new String[] {
   "EOF",
@@ -44,7 +45,8 @@ public interface LexerSym {
   "DOUBLECONST",
   "STRINGCONST",
   "CHARCONST",
-  "PARAMTYPE"
+  "PARAMTYPE",
+  "LOGICALOP"
   };
 
   /* non terminals */
