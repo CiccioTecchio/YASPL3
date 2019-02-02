@@ -8,15 +8,43 @@ package parser;
 /** CUP generated interface containing symbol constants. */
 public interface LexerSym {
   /* terminals */
-  public static final int ZERO = 2;
-  public static final int ONE = 3;
-  public static final int error = 1;
+  
   public static final int EOF = 0;
+  public static final int error = 1;
+  public static final int SEPARATOR = 2;
+  public static final int RELOP = 3;
+  public static final int READ = 4;
+  public static final int WRITE = 5;
+  public static final int KEYWORD = 6;
+  public static final int CONTROLOP = 7;
+  public static final int TYPE = 8;
+  public static final int BOOLVAL = 9;
+  public static final int ID = 10;
+  public static final int MATHOP = 11;
+  public static final int INTCONST = 12;
+  public static final int DOUBLECONST = 13;
+  public static final int STRINGCONST = 14;
+  public static final int CHARCONST = 15;
+  public static final int PARAMTYPE = 16;
+  
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
-  "ZERO",
-  "ONE"
+  "SEPARATOR",
+  "RELOP",
+  "READ",
+  "WRITE",
+  "KEYWORD",
+  "CONTROLOP",
+  "TYPE",
+  "BOOLVAL",
+  "ID",
+  "MATHOP",
+  "INTCONST",
+  "DOUBLECONST",
+  "STRINGCONST",
+  "CHARCONST",
+  "PARAMTYPE"
   };
 
   /* non terminals */
