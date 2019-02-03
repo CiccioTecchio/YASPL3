@@ -3,7 +3,6 @@ package parser;
 import java_cup.runtime.*;
 import lexer.*;
 
-
 /*List of terminals*/
 terminal HEAD;
 terminal START;
@@ -49,7 +48,7 @@ terminal IN;
 terminal OUT;
 terminal INOUT;
 terminal INT;
-terminal UMINUS; /*is the Symbol '-'  used for unary operation*/ 
+/*terminal UMINUS; is the Symbol '-'  used for unary operation*/ 
 
 
 /*List of non teminals*/  
@@ -77,8 +76,89 @@ non terminal	Rel_op;
 /*List of precedences*/
 precedence	left 		PLUS, MINUS, AND;
 precedence	left 		TIMES, DIV, OR;
-precedence	nonassoc 	GT, GE, LT, LE, ASSIGN, EQ, UMINUS;
+precedence	nonassoc 	GT, GE, LT, LE, ASSIGN, EQ/*, UMINUS*/;
 
 /*Grammar*/
-Programma ::= HEAD {: System.out.println("Match"); :}
+Programma 	::= HEAD Decls START Statements {: System.out.println("Match"); :};
+Decls 		::= Var_decl Decls
+			|	Def_decl Decls
+			|	/*epsilon*/
 			;
+Statements	::=	Stat Statements
+			|	/*epsilon*/
+			;
+Var_decl	::=	Type Var_decls_init SEMI;
+Type		::=	INT
+			|	BOOL
+			|	DOUBLE
+			|	STRING
+			|	CHAR
+			;
+Var_decls_init	::=	ID Var_init_value COMMA Var_decls_init
+				|	ID Var_init_value
+				;
+Var_init_value	::= ASSIGN Expr
+				|	/*epsilon*/
+				;
+Vars		::=	ID COMMA Vars
+			|	ID
+			;
+Def_decl	::=	DEF ID LPAR Par_decls RPAR Body
+			|	DEF ID LPAR RPAR Body
+			;
+Var_decls	::=	Var_decl Var_decls
+			| 	/*epsilon*/
+			;
+Par_decls	::=	Par_type Type ID COMMA Par_decls
+			|	Par_type Type ID
+			;
+Par_type	::=	IN
+			|	OUT
+			|	INOUT
+			;
+Body		::=	LGPAR Var_decls Statements RGPAR;
+Stat		::= Vars READ SEMI
+			|	Args WRITE SEMI
+			|	ID ASSIGN Expr SEMI
+			|	ID LPAR Args RPAR SEMI
+			|	ID LPAR RPAR SEMI
+			|	IF LPAR Expr RPAR THEN Comp_stat ELSE Comp_stat
+			|	IF LPAR Expr RPAR THEN Comp_stat
+			|	WHILE LPAR Expr RPAR DO Comp_stat
+			;
+Vars		::=	ID COMMA Vars
+			|	ID
+			;
+Args		::=	Expr COMMA Args
+			|	Expr
+			;
+Comp_stat	::=	LGPAR Statements RGPAR;
+Expr		::=	Expr Arith_op Expr
+			|	Expr Bool_op Expr
+			|	Expr Rel_op Expr
+			|	MINUS Expr
+			|	NOT Expr
+			|	LPAR Expr RPAR
+			|	TRUE
+			|	FALSE
+			|	ID
+			|	INT_CONST
+			|	DOUBLE_CONST
+			|	CHAR_CONST
+			|	STRING_CONST
+			;
+Arith_op	::=	PLUS
+			|	MINUS
+			|	TIMES
+			|	DIV
+			;
+Bool_op		::= AND
+			|	OR
+			;
+Rel_op		::= GT
+			|	GE
+			|	LT
+			|	LE
+			|	EQ
+			;				
+													
