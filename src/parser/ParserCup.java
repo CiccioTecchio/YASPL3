@@ -6,6 +6,7 @@
 package parser;
 
 import java_cup.runtime.*;
+import lexer.*;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -31,9 +32,7 @@ public class ParserCup extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\006\000\002\002\003\000\002\002\004\000\002\003" +
-    "\004\000\002\003\004\000\002\003\003\000\002\003\003" +
-    "" });
+    "\000\002\000\002\002\003\000\002\002\004" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -41,11 +40,9 @@ public class ParserCup extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\010\000\006\004\004\005\006\001\002\000\010\002" +
-    "\ufffc\004\004\005\006\001\002\000\004\002\001\001\002" +
-    "\000\010\002\ufffd\004\004\005\006\001\002\000\004\002" +
-    "\010\001\002\000\004\002\000\001\002\000\004\002\uffff" +
-    "\001\002\000\004\002\ufffe\001\002" });
+    "\000\004\000\004\004\005\001\002\000\004\002\006\001" +
+    "\002\000\004\002\001\001\002\000\004\002\000\001\002" +
+    "" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -53,10 +50,8 @@ public class ParserCup extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\010\000\006\002\006\003\004\001\001\000\004\003" +
-    "\011\001\001\000\002\001\001\000\004\003\010\001\001" +
-    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\002\001\001" });
+    "\000\004\000\004\002\003\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -119,19 +114,16 @@ class CUP$ParserCup$actions {
       switch (CUP$ParserCup$act_num)
         {
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 0: // bit_seq ::= grammar 
+          case 0: // Programma ::= HEAD 
             {
               Object RESULT =null;
-		int eleft = ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()).left;
-		int eright = ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()).right;
-		Couple e = (Couple)((java_cup.runtime.Symbol) CUP$ParserCup$stack.peek()).value;
-		 System.out.println(e); 
-              CUP$ParserCup$result = parser.getSymbolFactory().newSymbol("bit_seq",0, ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), RESULT);
+		 System.out.println("Match"); 
+              CUP$ParserCup$result = parser.getSymbolFactory().newSymbol("Programma",0, ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), RESULT);
             }
           return CUP$ParserCup$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 1: // $START ::= bit_seq EOF 
+          case 1: // $START ::= Programma EOF 
             {
               Object RESULT =null;
 		int start_valleft = ((java_cup.runtime.Symbol)CUP$ParserCup$stack.elementAt(CUP$ParserCup$top-1)).left;
@@ -142,48 +134,6 @@ class CUP$ParserCup$actions {
             }
           /* ACCEPT */
           CUP$ParserCup$parser.done_parsing();
-          return CUP$ParserCup$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 2: // grammar ::= ONE grammar 
-            {
-              Couple RESULT =null;
-		int eleft = ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()).left;
-		int eright = ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()).right;
-		Couple e = (Couple)((java_cup.runtime.Symbol) CUP$ParserCup$stack.peek()).value;
-		 RESULT = new Couple(e.getnOfOnes() + 1, e.getnOfZeros()); 
-              CUP$ParserCup$result = parser.getSymbolFactory().newSymbol("grammar",1, ((java_cup.runtime.Symbol)CUP$ParserCup$stack.elementAt(CUP$ParserCup$top-1)), ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), RESULT);
-            }
-          return CUP$ParserCup$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 3: // grammar ::= ZERO grammar 
-            {
-              Couple RESULT =null;
-		int eleft = ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()).left;
-		int eright = ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()).right;
-		Couple e = (Couple)((java_cup.runtime.Symbol) CUP$ParserCup$stack.peek()).value;
-		 RESULT = new Couple(e.getnOfOnes()  , e.getnOfZeros() + 1); 
-              CUP$ParserCup$result = parser.getSymbolFactory().newSymbol("grammar",1, ((java_cup.runtime.Symbol)CUP$ParserCup$stack.elementAt(CUP$ParserCup$top-1)), ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), RESULT);
-            }
-          return CUP$ParserCup$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 4: // grammar ::= ONE 
-            {
-              Couple RESULT =null;
-		 RESULT = new Couple(1,0); 
-              CUP$ParserCup$result = parser.getSymbolFactory().newSymbol("grammar",1, ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), RESULT);
-            }
-          return CUP$ParserCup$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // grammar ::= ZERO 
-            {
-              Couple RESULT =null;
-		 RESULT = new Couple(0,1); 
-              CUP$ParserCup$result = parser.getSymbolFactory().newSymbol("grammar",1, ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), RESULT);
-            }
           return CUP$ParserCup$result;
 
           /* . . . . . .*/

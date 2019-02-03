@@ -105,7 +105,4 @@ public interface LexerSym {
   "INT"
   };
 
-  /* non terminals */
-  static final int grammar = 1;
-  static final int bit_seq = 0;
 }

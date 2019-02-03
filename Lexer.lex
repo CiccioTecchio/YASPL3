@@ -45,6 +45,10 @@ import static lexer.LexerSym.*;
 	}
 %}
 
+%eofval{
+    return symbol(ParserSym.EOF);
+%eofval}
+
 id 			= [:jletter:]([:jletter:]|[:jdigit:])*
 sign 		= "+"|"-"
 intConst 	= 0?|{sign}?[1-9][0-9]*
@@ -57,7 +61,7 @@ charConst	= '({any})?'
 whitespace = [ \r\n\t\f]
 %%
 {whitespace} 	{ /* ignore */ }
-"head"			{ return new Symbol(LexerSym.HEAD); }
+"head"			{ return new Symbol(LexerSym.HEAD, yytext()); }
 "start"			{ return new Symbol(LexerSym.START); }
 ";"				{ return new Symbol(LexerSym.SEMI); }
 "int"			{ return new Symbol(LexerSym.INT); }
@@ -103,4 +107,4 @@ whitespace = [ \r\n\t\f]
 {id}			{ return new Symbol(LexerSym.ID, yytext()); }
 
 [^]				{ return new Symbol(LexerSym.error);}
-<<EOF>> 		{return new Symbol(LexerSym.EOF);}
+<<EOF>> 		{ return new Symbol(LexerSym.EOF); }

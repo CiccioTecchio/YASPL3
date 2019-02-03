@@ -1,18 +1,84 @@
 package parser;
 
 import java_cup.runtime.*;
-
-terminal		ZERO,ONE;
-
-non terminal	bit_seq;
-non terminal	Couple grammar;
+import lexer.*;
 
 
-bit_seq ::= grammar:e			{: System.out.println(e); :}
-			 ;
-			 
-grammar			::=	ONE grammar:e	{: RESULT = new Couple(e.getnOfOnes() + 1, e.getnOfZeros()); :}
-				|	ZERO grammar:e	{: RESULT = new Couple(e.getnOfOnes()  , e.getnOfZeros() + 1); :}
-				|	ONE				{: RESULT = new Couple(1,0); :}
-				|	ZERO			{: RESULT = new Couple(0,1); :}
-				;
+/*List of terminals*/
+terminal HEAD;
+terminal START;
+terminal SEMI;
+terminal BOOL;
+terminal DOUBLE;
+terminal STRING;
+terminal CHAR;
+terminal ID;
+terminal COMMA;
+terminal DEF;
+terminal LPAR;
+terminal RPAR;
+terminal LGPAR;
+terminal RGPAR;
+terminal READ;
+terminal WRITE;
+terminal PLUS;
+terminal MINUS;
+terminal TIMES;
+terminal DIV;
+terminal INT_CONST;
+terminal DOUBLE_CONST;
+terminal STRING_CONST;
+terminal CHAR_CONST;
+terminal TRUE;
+terminal FALSE;
+terminal ASSIGN;
+terminal IF;
+terminal THEN;
+terminal WHILE;
+terminal DO;
+terminal ELSE;
+terminal GT;
+terminal GE;
+terminal LT;
+terminal LE;
+terminal EQ;
+terminal NOT;
+terminal AND;
+terminal OR;
+terminal IN;
+terminal OUT;
+terminal INOUT;
+terminal INT;
+terminal UMINUS; /*is the Symbol '-'  used for unary operation*/ 
+
+
+/*List of non teminals*/  
+non terminal	Programma; 
+non terminal	Decls;
+non terminal	Statements; 
+non terminal	Var_decl;
+non terminal	Type;
+non terminal	Var_decls_init;
+non terminal	Var_init_value;
+non terminal	Vars;
+non terminal	Def_decl;
+non terminal	Var_decls;
+non terminal	Par_decls;  
+non terminal	Par_type;
+non terminal	Body;
+non terminal	Stat;
+non terminal	Args;
+non terminal	Comp_stat;
+non terminal	Expr;
+non terminal	Arith_op;
+non terminal	Bool_op;
+non terminal	Rel_op;
+
+/*List of precedences*/
+precedence	left 		PLUS, MINUS, AND;
+precedence	left 		TIMES, DIV, OR;
+precedence	nonassoc 	GT, GE, LT, LE, ASSIGN, EQ, UMINUS;
+
+/*Grammar*/
+Programma ::= HEAD {: System.out.println("Match"); :}
+			;

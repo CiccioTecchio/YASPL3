@@ -15,11 +15,11 @@ public class Main {
 		try {
 			FileInputStream fs = new FileInputStream(new File("src/main/source.yaspl"));
 			LexerLex lexer = new LexerLex(fs);
-		   	for(int tokenId= lexer.next_token().sym; tokenId != LexerSym.EOF; tokenId  = lexer.next_token().sym) {
+		   	/*for(int tokenId= lexer.next_token().sym; tokenId != LexerSym.EOF; tokenId  = lexer.next_token().sym) {
 		   		System.out.println("token returned is "+ LexerSym.terminalNames[tokenId] + "\n");
-		   	}
-			//ParserCup parser = new ParserCup(lexer);
-			//parser.parse();
+		   	}*/
+			ParserCup parser = new ParserCup(lexer);
+			parser.parse();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Add argoment");
