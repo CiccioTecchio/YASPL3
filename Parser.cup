@@ -11,7 +11,7 @@ terminal BOOL;
 terminal DOUBLE;
 terminal STRING;
 terminal CHAR;
-terminal ID;
+terminal String ID;
 terminal COMMA;
 terminal DEF;
 terminal LPAR;
@@ -24,10 +24,10 @@ terminal PLUS;
 terminal MINUS;
 terminal TIMES;
 terminal DIV;
-terminal INT_CONST;
-terminal DOUBLE_CONST;
-terminal STRING_CONST;
-terminal CHAR_CONST;
+terminal String INT_CONST;
+terminal String DOUBLE_CONST;
+terminal String STRING_CONST;
+terminal String CHAR_CONST;
 terminal TRUE;
 terminal FALSE;
 terminal ASSIGN;
@@ -48,7 +48,7 @@ terminal IN;
 terminal OUT;
 terminal INOUT;
 terminal INT;
-/*terminal UMINUS; is the Symbol '-'  used for unary operation*/ 
+terminal UMINUS; /*is the Symbol '-'  used for unary operation*/ 
 
 
 /*List of non teminals*/  
@@ -73,16 +73,21 @@ non terminal	Arith_op;
 non terminal	Bool_op;
 non terminal	Rel_op;
 
-/*List of precedences*/
-precedence	left 		PLUS, MINUS, AND;
-precedence	left 		TIMES, DIV, OR;
-precedence	nonassoc 	GT, GE, LT, LE, ASSIGN, EQ/*, UMINUS*/;
+/*List of precedences*/ 
+
+precedence nonassoc  ELSE; 
+precedence left PLUS,MINUS,OR;
+precedence left TIMES,DIV,AND;
+precedence nonassoc GT, GE, LT, LE, EQ; 
+precedence left NOT, COMMA;
+precedence right UMINUS;
+
 
 /*Grammar*/
 Programma 	::= HEAD Decls START Statements {: System.out.println("Match"); :};
-Decls 		::= Var_decl Decls
-			|	Def_decl Decls
-			|	/*epsilon*/
+Decls 		::= Var_decl Decls	
+			|	Def_decl Decls	
+			|	/*epsilon*/		
 			;
 Statements	::=	Stat Statements
 			|	/*epsilon*/
@@ -126,17 +131,16 @@ Stat		::= Vars READ SEMI
 			|	IF LPAR Expr RPAR THEN Comp_stat
 			|	WHILE LPAR Expr RPAR DO Comp_stat
 			;
-Vars		::=	ID COMMA Vars
-			|	ID
-			;
 Args		::=	Expr COMMA Args
 			|	Expr
 			;
+			
 Comp_stat	::=	LGPAR Statements RGPAR;
+
 Expr		::=	Expr Arith_op Expr
 			|	Expr Bool_op Expr
 			|	Expr Rel_op Expr
-			|	MINUS Expr
+			|	MINUS Expr {::} %prec UMINUS
 			|	NOT Expr
 			|	LPAR Expr RPAR
 			|	TRUE

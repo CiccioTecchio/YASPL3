@@ -50,9 +50,8 @@ import static lexer.LexerSym.*;
 %eofval}
 
 id 			= [:jletter:]([:jletter:]|[:jdigit:])*
-sign 		= "+"|"-"
-intConst 	= 0?|{sign}?[1-9][0-9]*
-doubleConst = 0?|{sign}?[1-9]+.0*[1-9]+ 
+intConst 	= 0?|[1-9][0-9]*
+doubleConst = 0?|[1-9]+.0*[1-9]+ 
 any			= .
 stringConst = \"({any})*\"
 charConst	= '({any})?'
@@ -61,7 +60,7 @@ charConst	= '({any})?'
 whitespace = [ \r\n\t\f]
 %%
 {whitespace} 	{ /* ignore */ }
-"head"			{ return new Symbol(LexerSym.HEAD, yytext()); }
+"head"			{ return new Symbol(LexerSym.HEAD); }
 "start"			{ return new Symbol(LexerSym.START); }
 ";"				{ return new Symbol(LexerSym.SEMI); }
 "int"			{ return new Symbol(LexerSym.INT); }
