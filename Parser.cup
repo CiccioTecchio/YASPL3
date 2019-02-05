@@ -1,16 +1,16 @@
 package parser;
 
 import java_cup.runtime.*;
-import lexer.*;
+import syntax_tree.*;
 
 /*List of terminals*/
 terminal HEAD;
 terminal START;
 terminal SEMI;
-terminal BOOL;
-terminal DOUBLE;
-terminal STRING;
-terminal CHAR;
+terminal String BOOL;
+terminal String DOUBLE;
+terminal String STRING;
+terminal String CHAR;
 terminal String ID;
 terminal COMMA;
 terminal DEF;
@@ -20,10 +20,10 @@ terminal LGPAR;
 terminal RGPAR;
 terminal READ;
 terminal WRITE;
-terminal PLUS;
-terminal MINUS;
-terminal TIMES;
-terminal DIV;
+terminal char PLUS;
+terminal char MINUS;
+terminal char TIMES;
+terminal char DIV;
 terminal String INT_CONST;
 terminal String DOUBLE_CONST;
 terminal String STRING_CONST;
@@ -52,26 +52,26 @@ terminal UMINUS; /*is the Symbol '-'  used for unary operation*/
 
 
 /*List of non teminals*/  
-non terminal	Programma; 
-non terminal	Decls;
-non terminal	Statements; 
-non terminal	Var_decl;
-non terminal	Type;
-non terminal	Var_decls_init;
-non terminal	Var_init_value;
-non terminal	Vars;
-non terminal	Def_decl;
-non terminal	Var_decls;
-non terminal	Par_decls;  
-non terminal	Par_type;
-non terminal	Body;
-non terminal	Stat;
-non terminal	Args;
-non terminal	Comp_stat;
-non terminal	Expr;
-non terminal	Arith_op;
-non terminal	Bool_op;
-non terminal	Rel_op;
+non terminal	Node	Programma; 
+non terminal	Node 	Decls;
+non terminal	Node 	Statements; 
+non terminal	Node	Var_decl;
+non terminal	String	Type;
+non terminal	Node	Var_decls_init;
+non terminal	Node	Var_init_value;
+non terminal	Node	Vars;
+non terminal	Node	Def_decl;
+non terminal	Node	Var_decls;
+non terminal	Node	Par_decls;  
+non terminal	Node	Par_type;
+non terminal	Node	Body;
+non terminal	Node	Stat;
+non terminal	Node	Args;
+non terminal	Node	Comp_stat;
+non terminal	Node	Expr;
+non terminal	String	Arith_op;
+non terminal	String	Bool_op;
+non terminal	String	Rel_op;
 
 /*List of precedences*/ 
 
@@ -79,31 +79,37 @@ precedence nonassoc  ELSE;
 precedence left PLUS,MINUS,OR;
 precedence left TIMES,DIV,AND;
 precedence nonassoc GT, GE, LT, LE, EQ; 
-precedence left NOT, COMMA;
-precedence right UMINUS;
+precedence left UMINUS, NOT, COMMA;
 
 
-/*Grammar*/
-Programma 	::= HEAD Decls START Statements {: System.out.println("Match"); :};
-Decls 		::= Var_decl Decls	
-			|	Def_decl Decls	
-			|	/*epsilon*/		
+/*Grammar*/														/*Sostituire Operation op con RESULT = new ecc...*/
+Programma 	::= HEAD Decls:decls START Statements:statements 	{: Operation op = new Operation("ProgramOp", decls, statements);
+																System.out.println(op.getOp()); 
+																RESULT = op; :};
+																
+Decls 		::= Var_decl:var_decl Decls:decls					{: Operation op = new Operation("DeclsOp", var_decl, decls);
+																System.out.println(op.getOp()+" prima"); 
+																RESULT = op; :}
+			|	Def_decl:def_decl Decls:decls					{: Operation op = new Operation("DeclsOp", def_decl, decls);
+																System.out.println(op.getOp());
+																RESULT = op; :}
+			|	{: RESULT = null; :} /*epsilon*/		
 			;
 Statements	::=	Stat Statements
-			|	/*epsilon*/
+			|	{: RESULT = null; :} /*epsilon*/
 			;
-Var_decl	::=	Type Var_decls_init SEMI;
-Type		::=	INT
-			|	BOOL
-			|	DOUBLE
-			|	STRING
-			|	CHAR
+Var_decl	::=	Type:tp Var_decls_init SEMI; 
+Type		::=	INT 	{: RESULT = "Type_Int"; :}
+			|	BOOL 	{: RESULT = "Type_Bool"; :}
+			|	DOUBLE 	{: RESULT = "Type_Double"; :}
+			|	STRING 	{: RESULT = "Type_String"; :}
+			|	CHAR 	{: RESULT = "Type_Char"; :}
 			;
 Var_decls_init	::=	ID Var_init_value COMMA Var_decls_init
 				|	ID Var_init_value
 				;
 Var_init_value	::= ASSIGN Expr
-				|	/*epsilon*/
+				|	{: RESULT = null; :} /*epsilon*/
 				;
 Vars		::=	ID COMMA Vars
 			|	ID
@@ -112,20 +118,25 @@ Def_decl	::=	DEF ID LPAR Par_decls RPAR Body
 			|	DEF ID LPAR RPAR Body
 			;
 Var_decls	::=	Var_decl Var_decls
-			| 	/*epsilon*/
+			| 	{: RESULT = null; :} /*epsilon*/
 			;
 Par_decls	::=	Par_type Type ID COMMA Par_decls
-			|	Par_type Type ID
+			|	Par_type:par Type:type ID:id				{:	Node n1 = new Node(type); 
+																Node n2 = new Node(id);
+																RESULT = new Operation("ParOp",par, n1, n2); 
+															:}
 			;
-Par_type	::=	IN
-			|	OUT
-			|	INOUT
+Par_type	::=	IN	{: RESULT = new Leaf("IN", "in"); :}
+			|	OUT	{: RESULT = new Leaf("OUT", "out"); :}
+			|	INOUT	{: RESULT = new Leaf("INOUT", "inout"); :}
 			;
 Body		::=	LGPAR Var_decls Statements RGPAR;
 Stat		::= Vars READ SEMI
 			|	Args WRITE SEMI
-			|	ID ASSIGN Expr SEMI
-			|	ID LPAR Args RPAR SEMI
+			|	ID:id ASSIGN Expr:e1 SEMI 			{:  Leaf l = new Leaf("ID",id);
+														RESULT = new Operation("AssignOp",l,e1); 
+													:}
+			|	ID:id LPAR Args:args RPAR SEMI		
 			|	ID LPAR RPAR SEMI
 			|	IF LPAR Expr RPAR THEN Comp_stat ELSE Comp_stat
 			|	IF LPAR Expr RPAR THEN Comp_stat
@@ -137,32 +148,62 @@ Args		::=	Expr COMMA Args
 			
 Comp_stat	::=	LGPAR Statements RGPAR;
 
-Expr		::=	Expr Arith_op Expr
-			|	Expr Bool_op Expr
-			|	Expr Rel_op Expr
-			|	MINUS Expr {::} %prec UMINUS
-			|	NOT Expr
-			|	LPAR Expr RPAR
-			|	TRUE
-			|	FALSE
-			|	ID
-			|	INT_CONST
-			|	DOUBLE_CONST
-			|	CHAR_CONST
-			|	STRING_CONST
+Expr		::=	Expr:e1 Arith_op:arithOp Expr:e2 				{: switch(arithOp){
+																	case "PLUS":	RESULT = new Operation("AddOp",e1, e2);
+																			  		break;
+																	case "MINUS":	RESULT = new Operation("SubOp",e1, e2);
+																					break;
+																	case "TIMES":	RESULT = new Operation("MultOp",e1, e2);
+																					break;
+																	case "DIV":		RESULT = new Operation("DivOp",e1, e2);
+																					break;					
+																	}
+																:}
+																
+			|	Expr:e1 Bool_op:boolOp Expr:e2					{:  switch(boolOp){
+																	case "AND":	RESULT = new Operation("AndOp", e1, e2);
+																				break;
+																	case "OR":	RESULT = new Operation("OrOp",e1,e2);
+																				break;
+																	}
+																:}
+																
+			|	Expr:e1 Rel_op:relOp Expr:e2					{:	switch(relOp){
+																	case "GT":  RESULT = new Operation("GtOp", e1, e2);
+																				break;
+																	case "GE":  RESULT = new Operation("GeOp", e1, e2);
+																				break;
+																	case "LT":  RESULT = new Operation("LtOp", e1, e2);
+																				break;
+																	case "LE":  RESULT = new Operation("LeOp", e1, e2);
+																				break;
+																	case "EQ":  RESULT = new Operation("EqOp", e1, e2);
+																				break;
+																	}
+																:}
+			|	MINUS Expr:e1 {: RESULT = new Operation("Uminus", e1); :} %prec UMINUS		
+			|	NOT Expr:e1						{: RESULT = new Operation("NotOp", e1); :}
+			|	LPAR Expr:e1 RPAR				{: RESULT = e1; :}
+			|	TRUE							{: RESULT = new Leaf("TRUE","true"); :}
+			|	FALSE							{: RESULT = new Leaf("FALSE","false"); :}
+			|	ID:id							{: RESULT = new Leaf("ID", id); :}
+			|	INT_CONST:intConst 				{: RESULT = new Leaf("INT_CONST", intConst); :}
+			|	DOUBLE_CONST:doubleConst		{: RESULT = new Leaf("DOUBLE_CONST", doubleConst); :}
+			|	CHAR_CONST:charConst			{: RESULT = new Leaf("CHAR_CONST", charConst); :}
+			|	STRING_CONST:stringConst 		{: RESULT = new Leaf("STRING_CONST", stringConst); :}
 			;
-Arith_op	::=	PLUS
-			|	MINUS
-			|	TIMES
-			|	DIV
+Arith_op	::=	PLUS {: RESULT = "PLUS"; :}
+			|	MINUS {: RESULT = "MINUS"; :}
+			|	TIMES {: RESULT = "TIMES"; :}
+			|	DIV {: RESULT = "DIV"; :}
 			;
-Bool_op		::= AND
-			|	OR
+Bool_op		::= AND {: RESULT = "AND"; :}
+			|	OR	{: RESULT = "OR"; :}
 			;
-Rel_op		::= GT
-			|	GE
-			|	LT
-			|	LE
-			|	EQ
+Rel_op		::= GT {: RESULT = "GT"; :}
+			|	GE {: RESULT = "GE"; :}
+			|	LT {: RESULT = "LT"; :}
+			|	LE {: RESULT = "LE"; :}
+			|	EQ {: RESULT = "EQ"; :}
 			;				
 													

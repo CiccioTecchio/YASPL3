@@ -50,8 +50,9 @@ import static lexer.LexerSym.*;
 %eofval}
 
 id 			= [:jletter:]([:jletter:]|[:jdigit:])*
-intConst 	= 0?|[1-9][0-9]*
-doubleConst = 0?|[1-9]+.0*[1-9]+ 
+digit 		= [0-9]
+intConst 	= {digit}+
+doubleConst = {intConst}("."{intConst})?
 any			= .
 stringConst = \"({any})*\"
 charConst	= '({any})?'
