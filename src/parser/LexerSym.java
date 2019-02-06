@@ -106,25 +106,22 @@ public interface LexerSym {
   };
 
   /* non terminals */
-  static final int Stat = 13;
-  static final int Decls = 1;
-  static final int Def_decl = 8;
-  static final int Var_decls_init = 5;
-  static final int Statements = 2;
-  static final int Rel_op = 19;
-  static final int Comp_stat = 15;
-  static final int Var_init_value = 6;
-  static final int Args = 14;
-  static final int Expr = 16;
-  static final int Bool_op = 18;
   static final int Type = 4;
-  static final int Arith_op = 17;
-  static final int Var_decl = 3;
+  static final int Expr = 16;
   static final int Programma = 0;
-  static final int Par_decls = 10;
-  static final int Body = 12;
-  static final int Vars = 7;
+  static final int Def_decl = 8;
+  static final int Statements = 2;
   static final int Var_decls = 9;
   static final int Par_type = 11;
+  static final int Var_decl = 3;
+  static final int Var_decls_init = 5;
+  static final int Decls = 1;
+  static final int Comp_stat = 15;
+  static final int Stat = 13;
+  static final int Body = 12;
+  static final int Var_init_value = 6;
+  static final int Args = 14;
+  static final int Par_decls = 10;
+  static final int Vars = 7;
 }
 

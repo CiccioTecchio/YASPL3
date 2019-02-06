@@ -2,5 +2,4 @@ head
 
 
 start
-
-	i=i-1;
+	true, false, i+1 ->;

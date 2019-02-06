@@ -18,4 +18,20 @@ public class Operation extends Node {
 		return nodeList;
 	}
 	
+	public Operation addChild(Node n) {
+		nodeList.add(n);
+		return this;
+	}
+
+	@Override
+	public String toString() {
+		String toReturn = "";
+		for(Node n: nodeList) {
+			toReturn+="["+n.toString()+"] ";
+		}
+		return toReturn;
+	}
+	
+	
+	
 }
