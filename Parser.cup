@@ -1,7 +1,8 @@
 package parser;
 
 import java_cup.runtime.*;
-import syntax_tree.*;
+import syntax_tree.*;  
+import syntax_tree.comp.*;
 
 /*List of terminals*/
 terminal HEAD;
@@ -48,26 +49,26 @@ terminal IN;
 terminal OUT;
 terminal INOUT;
 terminal INT;
-terminal UMINUS; /*is the Symbol '-'  used for unary operation*/ 
+terminal UMINUS; /*is the Symbol '-'  used for unary Internal*/ 
 
 
 /*List of non teminals*/  
-non terminal	Operation	Programma; 
-non terminal	Operation 	Decls;
-non terminal	Operation 	Statements; 
-non terminal	Operation	Var_decl;
+non terminal	Internal	Programma; 
+non terminal	Internal 	Decls;
+non terminal	Internal 	Statements; 
+non terminal	Internal	Var_decl;
 non terminal	String		Type;
-non terminal	Operation	Var_decls_init;
-non terminal	Operation	Var_init_value;
+non terminal	Internal	Var_decls_init;
+non terminal	Node		Var_init_value;
 non terminal	Node		Vars;
-non terminal	Operation	Def_decl;
-non terminal	Operation	Var_decls;
-non terminal	Operation	Par_decls;  
-non terminal	Node		Par_type;
-non terminal	Operation	Body;
-non terminal	Operation	Stat;
-non terminal	Operation	Args;
-non terminal	Operation	Comp_stat;
+non terminal	Internal	Def_decl;
+non terminal	Internal	Var_decls;
+non terminal	Internal	Par_decls;  
+non terminal	Leaf		Par_type;
+non terminal	Internal	Body;
+non terminal	Internal	Stat;
+non terminal	Internal	Args;
+non terminal	Internal	Comp_stat;
 non terminal	Node		Expr;
 
 /*List of precedences*/ 
@@ -79,97 +80,92 @@ precedence nonassoc GT, GE, LT, LE, EQ;
 precedence left UMINUS, NOT, COMMA;
 
 
-/*Grammar*/														/*Sostituire Operation op con RESULT = new ecc...*/
-Programma 	::= HEAD Decls:decls START Statements:statements 	{: Operation op = new Operation("ProgramOp", decls, statements);
-																//System.out.println(op.getOp()); 
-																RESULT = op; :};
+/*Grammar*/														
+Programma 	::= HEAD Decls:decls START Statements:statements	{:RESULT = new Internal("ProgrammaOp", decls, statements); :}
+			; 
 																
-Decls 		::= Var_decl:var_decl Decls:decls					{: Operation op = new Operation("DeclsOp", var_decl, decls);
-																//System.out.println(op.getOp()+" prima"); 
-																RESULT = op; :}
-			|	Def_decl:def_decl Decls:decls					{: Operation op = new Operation("DeclsOp", def_decl, decls);
-																//System.out.println(op.getOp());
-																RESULT = op; :}
-			|	{: RESULT = null; :} /*epsilon*/		
+Decls 		::= Var_decl:var_decl Decls:decls	{: RESULT = decls.addChild(var_decl); :}
+			|	Def_decl:def_decl Decls:decls	{: RESULT = decls.addChild(def_decl); :}
+			|	{: RESULT = new Internal("DeclsOp"); :} /*epsilon*/		
 			;
-Statements	::=	Stat Statements
-			|	{: RESULT = null; :} /*epsilon*/
+Statements	::=	Stat:s Statements:stmt {: RESULT = stmt.addChild(s); :}
+			|	{: RESULT = new Internal("Statement"); :} /*epsilon*/
 			;
-Var_decl	::=	Type:tp Var_decls_init SEMI; 
+Var_decl	::=	Type:tp Var_decls_init:vdi SEMI {: RESULT = new Internal("VarDeclsOp", new Internal("VarDeclOp", new Leaf("Type", tp), vdi));:}
+			; 
 Type		::=	INT 	{: RESULT = "Type_Int"; :}
 			|	BOOL 	{: RESULT = "Type_Bool"; :}
 			|	DOUBLE 	{: RESULT = "Type_Double"; :}
 			|	STRING 	{: RESULT = "Type_String"; :}
 			|	CHAR 	{: RESULT = "Type_Char"; :}
 			;
-Var_decls_init	::=	ID:id Var_init_value:viv COMMA Var_decls_init:vdi	{:
-																		Node n = new Node(id); 
-																		RESULT = new Operation("VarDeclsInit", n , viv, vdi);
-																		:}
-				|	ID:id Var_init_value:viv							{:
-																		Node n = new Node(id); 
-																		RESULT = new Operation("VarDeclsInit", n, viv);
+Var_decls_init	::=	ID:id Var_init_value:viv COMMA Var_decls_init:vdi	{: Internal tr = (viv == null)? new Internal ("VarNotInitOp", new Leaf("ID", id)) 
+																		   					   		   : new Internal("VarInitOp", new Leaf("ID", id), viv);
+																		   					   		   RESULT = vdi.addChild(tr); 
+																		   					   		    :}
+				|	ID:id Var_init_value:viv							{:	
+																		Internal tr = (viv == null)? new Internal ("VarNotInitOp", new Leaf("ID", id))  
+																		   					    : new Internal("VarInitOp", new Leaf("ID", id), viv);
+																		 						RESULT = new Internal("VarDeclInitOp", tr);
 																		:}
 				;
-Var_init_value	::= ASSIGN Expr:e1 {: RESULT = new Operation("VarInitValueOp",e1); :}
+Var_init_value	::= ASSIGN Expr:e {: RESULT = e; :}
 				|	{: RESULT = null; :} /*epsilon*/
 				;
-Vars		::=	ID:id COMMA Vars:vars 	{: RESULT = ((Operation)vars).addChild(new Leaf("ID",id)); :}
+Vars		::=	ID:id COMMA Vars:vars 	{: RESULT = ((Internal)vars).addChild(new Leaf("ID",id)); :}
 			|	ID:id 					{: Leaf l = new Leaf("ID",id);
-										   RESULT = new Operation("VarsOp",l); :}
+										   RESULT = new Internal("VarsOp",l); :}
 			;
-Def_decl	::=	DEF ID LPAR Par_decls RPAR Body
-			|	DEF ID LPAR RPAR Body
+Def_decl	::=	DEF ID:id LPAR Par_decls:par RPAR Body:b {: RESULT = new Internal("DefDeclOpWithPar", new Leaf("ID", id), par, b); :}
+			|	DEF ID:id LPAR RPAR Body:b 				 {: RESULT = new Internal("DefDeclOp", new Leaf("ID",id), b);:}
 			;
-Var_decls	::=	Var_decl Var_decls
-			| 	{: RESULT = null; :} /*epsilon*/
+Var_decls	::=	Var_decl:vd Var_decls:vds {:   RESULT = vds.addChild(vd); :} 
+			| {: RESULT = new Internal("VarDeclsOp"); :}
 			;
-Par_decls	::=	Par_type:parType Type:type ID:id COMMA Par_decls:parDecls {:
-																			Node n1 = new Node(type); 
-																			Node n2 = new Node(id);
-																			RESULT = new Operation("ParOp", parType, n1, n2, parDecls);
-																			:}
-			|	Par_type:par Type:type ID:id				{:	Node n1 = new Node(type); 
-																Node n2 = new Node(id);
-																RESULT = new Operation("ParOp",par, n1, n2); 
-															:}
+Par_decls	::=	Par_type:parType Type:type ID:id COMMA Par_decls:parDecls  {: RESULT = parDecls.addChild(new Internal("Par_declsOp",parType, new Leaf("Type",type) ,new Leaf("ID",id))); :}
+			|	Par_type:par Type:type ID:id				{:	Leaf n1 = new Leaf("Type", type); 
+																Leaf n2 = new Leaf("ID", id);
+																Internal op = new Internal("Par", par, n1, n2); 
+																RESULT = new Internal("Par_declsOp", op); :}
 			;
 Par_type	::=	IN		{: RESULT = new Leaf("IN", "in"); :}
 			|	OUT		{: RESULT = new Leaf("OUT", "out"); :}
 			|	INOUT	{: RESULT = new Leaf("INOUT", "inout"); :}
 			;
-Body		::=	LGPAR Var_decls Statements RGPAR;
-Stat		::= Vars:vars READ SEMI						{: RESULT = new Operation("ReadOp", vars); :}
-			|	Args:args WRITE SEMI				{: RESULT = new Operation("WriteOp", args); :}
+Body		::=	LGPAR Var_decls:vd Statements:s RGPAR	{: RESULT = new Internal("BodyOp", vd, s); :}
+			;
+Stat		::= Vars:vars READ SEMI						{: RESULT = new Internal("ReadOp", vars); :}
+			|	Args:args WRITE SEMI				{: RESULT = new Internal("WriteOp", args); :}
 			|	ID:id ASSIGN Expr:e1 SEMI 			{:  Leaf l = new Leaf("ID",id);
-														RESULT = new Operation("AssignOp",l,e1); :}
+														RESULT = new Internal("AssignOp",l,e1); :}
 			|	ID:id LPAR Args:args RPAR SEMI		{: 	Leaf l = new Leaf("ID", id);
-														RESULT = new Operation("CallOp", l, args ); 
+														RESULT = new Internal("CallOp", l, args ); 
 													:}
-			|	ID:id LPAR RPAR SEMI					{: RESULT = new Operation("CallOp", new Leaf("ID", id)); :}
-			|	IF LPAR Expr RPAR THEN Comp_stat ELSE Comp_stat
-			|	IF LPAR Expr RPAR THEN Comp_stat
-			|	WHILE LPAR Expr RPAR DO Comp_stat
+			|	ID:id LPAR RPAR SEMI					{: RESULT = new Internal("CallOp", new Leaf("ID", id)); :}
+			|	IF LPAR Expr:e RPAR THEN Comp_stat:cs1 ELSE Comp_stat:cs2 {: RESULT = new Internal("IfThenElseOp", e, cs1, cs2 );  :}
+			|	IF LPAR Expr:e RPAR THEN Comp_stat:cs 					  {: RESULT = new Internal("IfThenOp", e, cs); :}
+			|	WHILE LPAR Expr:e RPAR DO Comp_stat:cs					  {: RESULT = new Internal("WhileOp", e, cs); :}
 			;
 Args		::=	Expr:e1 COMMA Args:arg1	{: RESULT = arg1.addChild(e1); :}
-			|	Expr:e1					{: RESULT = new Operation("Args", e1); :}
+			|	Expr:e1					{: RESULT = new Internal("Args", e1); :}
 			;
 			
-Comp_stat	::=	LGPAR Statements RGPAR;
+Comp_stat	::=	LGPAR Statements:s RGPAR  {: RESULT = s; :}
+			;
 
-Expr		::=	Expr:e1 PLUS Expr:e2 			{: RESULT = new Operation("AddOp", e1, e2); :}
-			|	Expr:e1 MINUS Expr:e2			{: RESULT = new Operation("SubOp", e1, e2); :}
-			|	Expr:e1 TIMES Expr:e2			{: RESULT = new Operation("MultOp", e1, e2); :}
-			|	Expr:e1 DIV Expr:e2				{: RESULT = new Operation("DivOp", e1, e2); :}
-			|	Expr:e1 AND Expr:e2				{: RESULT = new Operation("AndOp", e1, e2); :}
-			|	Expr:e1 OR Expr:e2				{: RESULT = new Operation("OrOp", e1, e2); :}
-			|	Expr:e1 GT Expr:e2				{: RESULT = new Operation("GtOp", e1, e2); :}
-			|	Expr:e1 GE Expr:e2				{: RESULT = new Operation("GeOp", e1, e2); :}
-			|	Expr:e1 LE Expr:e2				{: RESULT = new Operation("LeOp", e1, e2); :}
-			|	Expr:e1 LT Expr:e2				{: RESULT = new Operation("LtOp", e1, e2); :}
-			|	Expr:e1 EQ Expr:e2				{: RESULT = new Operation("EqOp", e1, e2); :}
-			|	MINUS Expr:e1 					{: RESULT = new Operation("Uminus", e1); :} %prec UMINUS		
-			|	NOT Expr:e1						{: RESULT = new Operation("NotOp", e1); :}
+Expr		::=	Expr:e1 MINUS Expr:e2			{: RESULT = new Internal("SubOp", e1, e2); :}
+			|	Expr:e1 PLUS Expr:e2 			{: RESULT = new Internal("AddOp", e1, e2); :}
+			|	Expr:e1 TIMES Expr:e2			{: RESULT = new Internal("MultOp", e1, e2); :}
+			|	Expr:e1 DIV Expr:e2				{: RESULT = new Internal("DivOp", e1, e2); :}
+			|	Expr:e1 AND Expr:e2				{: RESULT = new Internal("AndOp", e1, e2); :}
+			|	Expr:e1 OR Expr:e2				{: RESULT = new Internal("OrOp", e1, e2); :}
+			|	Expr:e1 GT Expr:e2				{: RESULT = new Internal("GtOp", e1, e2); :}
+			|	Expr:e1 GE Expr:e2				{: RESULT = new Internal("GeOp", e1, e2); :}
+			|	Expr:e1 LE Expr:e2				{: RESULT = new Internal("LeOp", e1, e2); :}
+			|	Expr:e1 LT Expr:e2				{: RESULT = new Internal("LtOp", e1, e2); :}
+			|	Expr:e1 EQ Expr:e2				{: RESULT = new Internal("EqOp", e1, e2); :}
+			|	MINUS Expr:e1 					{: RESULT = new Internal("Uminus", e1); :} %prec UMINUS		
+			|	NOT Expr:e1						{: RESULT = new Internal("NotOp", e1); :}
 			|	LPAR Expr:e1 RPAR				{: RESULT = e1; :}
 			|	TRUE							{: RESULT = new Leaf("TRUE","true"); :}
 			|	FALSE							{: RESULT = new Leaf("FALSE","false"); :}

@@ -1,26 +1,19 @@
-package syntax_tree;
+package syntax_tree.comp;
 
 import java.util.ArrayList;
 
-public class Operation extends Node {
+import syntax_tree.comp.Node;
+
+public class Internal extends Node {
 	
 	private ArrayList<Node> nodeList;
 	//... consente la creazione di un costruttore con 1 o più Node
-	public Operation(String op, Node...sons) {
+	public Internal(String op, Node...sons) {
 		super(op);
 		this.nodeList = new ArrayList<>();
 		for(Node son : sons) {
 			nodeList.add(son);
 		}
-	}
-	
-	public ArrayList<Node> getNodeList(){
-		return nodeList;
-	}
-	
-	public Operation addChild(Node n) {
-		nodeList.add(n);
-		return this;
 	}
 
 	@Override
@@ -30,8 +23,5 @@ public class Operation extends Node {
 			toReturn+="["+n.toString()+"] ";
 		}
 		return toReturn;
-	}
-	
-	
-	
+	}	
 }

@@ -1,6 +1,5 @@
-package syntax_tree;
+package syntax_tree.comp;
 
-import visitor.Visitor;
 
 public class Node {
 	
@@ -8,10 +7,6 @@ public class Node {
 	
 	public Node(String op) {
 		this.op = op; 
-	}
-	
-	public Object accept(Visitor v) {
-		return v.visit(this);
 	}
 	
 	public String getOp() {

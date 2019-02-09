@@ -1,4 +1,6 @@
-package syntax_tree;
+package syntax_tree.comp;
+
+import syntax_tree.comp.Node;
 
 public class Leaf extends Node {
 
