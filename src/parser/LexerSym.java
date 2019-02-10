@@ -8,53 +8,53 @@ package parser;
 /** CUP generated interface containing symbol constants. */
 public interface LexerSym {
   /* terminals */
-  public static final int CHAR_CONST = 25;
-  public static final int LGPAR = 14;
+  public static final int CHAR_CONST = 26;
+  public static final int LGPAR = 15;
   public static final int CHAR = 8;
-  public static final int GE = 35;
+  public static final int GE = 36;
   public static final int UMINUS = 46;
-  public static final int DOUBLE_CONST = 23;
+  public static final int DOUBLE_CONST = 24;
   public static final int DOUBLE = 6;
   public static final int SEMI = 4;
-  public static final int INT = 45;
-  public static final int OUT = 43;
-  public static final int MINUS = 19;
-  public static final int WRITE = 17;
-  public static final int INOUT = 44;
-  public static final int AND = 40;
-  public static final int NOT = 39;
-  public static final int LT = 36;
-  public static final int RPAR = 13;
-  public static final int IN = 42;
-  public static final int OR = 41;
+  public static final int INT = 9;
+  public static final int OUT = 44;
+  public static final int MINUS = 20;
+  public static final int WRITE = 18;
+  public static final int INOUT = 45;
+  public static final int AND = 41;
+  public static final int NOT = 40;
+  public static final int LT = 37;
+  public static final int RPAR = 14;
+  public static final int IN = 43;
+  public static final int OR = 42;
   public static final int BOOL = 5;
-  public static final int RGPAR = 15;
-  public static final int COMMA = 10;
-  public static final int DIV = 21;
-  public static final int PLUS = 18;
-  public static final int ASSIGN = 28;
-  public static final int IF = 29;
-  public static final int ID = 9;
-  public static final int LE = 37;
+  public static final int RGPAR = 16;
+  public static final int COMMA = 11;
+  public static final int DIV = 22;
+  public static final int PLUS = 19;
+  public static final int ASSIGN = 29;
+  public static final int IF = 30;
+  public static final int ID = 10;
+  public static final int LE = 38;
   public static final int EOF = 0;
-  public static final int INT_CONST = 22;
-  public static final int TRUE = 26;
+  public static final int INT_CONST = 23;
+  public static final int TRUE = 27;
   public static final int error = 1;
   public static final int START = 3;
-  public static final int EQ = 38;
+  public static final int EQ = 39;
   public static final int HEAD = 2;
-  public static final int TIMES = 20;
-  public static final int ELSE = 33;
-  public static final int READ = 16;
-  public static final int WHILE = 31;
-  public static final int THEN = 30;
-  public static final int LPAR = 12;
+  public static final int TIMES = 21;
+  public static final int ELSE = 34;
+  public static final int READ = 17;
+  public static final int WHILE = 32;
+  public static final int THEN = 31;
+  public static final int LPAR = 13;
   public static final int STRING = 7;
-  public static final int DEF = 11;
-  public static final int FALSE = 27;
-  public static final int STRING_CONST = 24;
-  public static final int GT = 34;
-  public static final int DO = 32;
+  public static final int DEF = 12;
+  public static final int FALSE = 28;
+  public static final int STRING_CONST = 25;
+  public static final int GT = 35;
+  public static final int DO = 33;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -65,6 +65,7 @@ public interface LexerSym {
   "DOUBLE",
   "STRING",
   "CHAR",
+  "INT",
   "ID",
   "COMMA",
   "DEF",
@@ -101,7 +102,6 @@ public interface LexerSym {
   "IN",
   "OUT",
   "INOUT",
-  "INT",
   "UMINUS"
   };
 
