@@ -3,10 +3,10 @@ package main;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
 import java_cup.runtime.Symbol;
 import lexer.*;
 import parser.ParserCup;
+import syntaxTree.comp.Node;
 
 public class Main {
 

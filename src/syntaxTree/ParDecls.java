@@ -15,9 +15,10 @@ public class ParDecls extends Internal implements Visitable {
 	}
 	
 	//primo nodo
-	public ParDecls(String op) {
-		super(op);
+	public ParDecls(String op, Leaf par, Leaf id) {
+		super(op,par,id);
 		this.childList = new ArrayList<ParDecls>();
+		this.addChild(new ParDecls(op, par, id));
 	}
 	
 	public ArrayList<ParDecls> addChild(ParDecls pd){

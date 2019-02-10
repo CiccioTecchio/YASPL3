@@ -10,9 +10,10 @@ public class VarDeclsInit extends VarDeclsInitWrapper implements Visitable {
 	private ArrayList<VarDeclsInitWrapper> childList;
 	
 	//primo nodo
-	public VarDeclsInit(String op) {
+	public VarDeclsInit(String op, VarDeclsInitWrapper vdiw) {
 		super(op);
 		this.childList = new ArrayList<>();
+		this.addChild(vdiw);
 	}
 /*	
 	//VarInit

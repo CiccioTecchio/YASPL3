@@ -1,5 +1,1 @@
 head
-
-
-start
-	true, false, i+1 ->;

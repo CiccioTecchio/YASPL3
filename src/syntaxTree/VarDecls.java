@@ -13,10 +13,9 @@ public class VarDecls extends Internal implements Visitable {
 	public VarDecls(String op) {
 		super(op);
 		this.childList = new ArrayList<VarDecl>();
-		// TODO Auto-generated constructor stub
 	}
 	
-	public ArrayList<VarDecl> childList(VarDecl n){
+	public ArrayList<VarDecl> addChild(VarDecl n){
 		this.childList.add(n);
 		return this.childList;
 	}
@@ -25,7 +24,6 @@ public class VarDecls extends Internal implements Visitable {
 
 	@Override
 	public VarDecls accept(Visitor<?> visitor) {
-		// TODO Auto-generated method stub
 		return (VarDecls) visitor.visit(this);
 	}
 

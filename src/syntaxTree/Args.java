@@ -1,9 +1,7 @@
 package syntaxTree;
 
 import java.util.ArrayList;
-
 import syntaxTree.comp.Internal;
-import syntaxTree.comp.Node;
 import visitor.Visitable;
 import visitor.Visitor;
 
@@ -11,9 +9,10 @@ public class Args extends Internal implements Visitable {
 
 	private ArrayList<Expr> childList;
 	
-	public Args(String op) {
+	public Args(String op, Expr e) {
 		super(op);
 		this.childList = new ArrayList<>();
+		this.childList.add(e);
 	}
 	
 	public ArrayList<Expr> addChild(Expr e){

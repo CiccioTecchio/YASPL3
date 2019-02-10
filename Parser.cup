@@ -1,26 +1,25 @@
 package parser;
 
+
 import java_cup.runtime.*;
-import syntax_tree.*;  
-import syntax_tree.arithOp.*;
-import syntax_tree.comp.*;
-import syntax_tree.defDeclOp.*;
-import syntax_tree.leaf.*;
-import syntax_tree.logicOp.*;
-import syntax_tree.relOp.*;
-import syntax_tree.statOp.*;
-import syntax_tree.varInit.*;
-import syntax_tree.wrappers.*;
+import syntaxTree.*;  
+import syntaxTree.arithOp.*;
+import syntaxTree.comp.*;
+import syntaxTree.logicOp.*;
+import syntaxTree.relOp.*;
+import syntaxTree.statOp.*;
+import syntaxTree.leaf.*;
+import syntaxTree.wrapper.*;
 
 /*List of terminals*/
 terminal HEAD;
 terminal START;
 terminal SEMI;
-terminal String BOOL;
-terminal String DOUBLE;
-terminal String STRING;
-terminal String CHAR;
-terminal String INT;
+terminal BOOL;
+terminal DOUBLE;
+terminal STRING;
+terminal CHAR;
+terminal INT;
 terminal String ID;
 terminal COMMA;
 terminal DEF;
@@ -38,8 +37,8 @@ terminal String INT_CONST;
 terminal String DOUBLE_CONST;
 terminal String STRING_CONST;
 terminal String CHAR_CONST;
-terminal TrueLeaf TRUE;
-terminal FalseLeaf FALSE;
+terminal TRUE;
+terminal FALSE;
 terminal ASSIGN;
 terminal IF;
 terminal THEN;
@@ -65,20 +64,19 @@ non terminal	Programma			Programma;
 non terminal	Decls		 		Decls;
 non terminal	Statements			Statements; 
 non terminal	VarDecl				Var_decl;
-non terminal	TypeLeaf			Type;
+non terminal	Leaf				Type;
 non terminal	VarDeclsInit		Var_decls_init;
 non terminal	VarInitValue		Var_init_value;
 non terminal	Vars				Vars;
 non terminal	DefDecl				Def_decl;
 non terminal	VarDecls			Var_decls;
 non terminal	ParDecls			Par_decls;  
-non terminal	ParTypeLeaf			Par_type;
+non terminal	Leaf				Par_type;
 non terminal	Body				Body;
 non terminal	Stat				Stat;
 non terminal	Args				Args;
 non terminal	CompStat			Comp_stat;
-non terminal	ExprWrapper			Expr;
-
+non terminal	Expr				Expr;
 /*List of precedences*/ 
 
 precedence nonassoc  ELSE; 
@@ -88,75 +86,85 @@ precedence nonassoc GT, GE, LT, LE, EQ;
 precedence left UMINUS, NOT, COMMA;
 
 
-/*Grammar*/														
-Programma 	::= HEAD Decls:decls START Statements:statements	{:RESULT = new Programma("ProgrammaOp", decls, statements); :}
+/*Grammar*/												
+Programma 	::= HEAD Decls:decls START Statements:s	{: RESULT = new Programma("ProgrammaOp", decls, s); :}
 			; 
 																
-Decls 		::= Var_decl:var_decl Decls:decls	{: RESULT = decls.addChild(var_decl); :}
-			|	Def_decl:def_decl Decls:decls	{: RESULT = decls.addChild(def_decl); :}
-			|	{: RESULT = new Decls("DeclsOp"); :} /*epsilon*/		
+Decls 		::= Var_decl:var_decl Decls:decls	{: DeclsWrapper dw = new DeclsWrapper("DeclsVar", var_decl);
+												   decls.addChild(dw);
+												   RESULT = decls; :}
+			|	Def_decl:def_decl Decls:decls	{: 	DeclsWrapper dw = new DeclsWrapper("DeclsVar", def_decl);
+													decls.addChild(dw);
+												   	RESULT = decls; :}
+			|	{: //RESULT = new Decls("DeclsOp"); :} /*epsilon*/		
 			;
-Statements	::=	Stat:s Statements:stmt {: RESULT = stmt.addChild(s); :}
+Statements	::=	Stat:s Statements:stmt {: stmt.addChild(s);
+										RESULT = stmt; :}
 			|	{: RESULT = new Statements("StatementsOp"); :} /*epsilon*/
 			;
 Var_decl	::=	Type:tp Var_decls_init:vdi SEMI {: RESULT = new VarDecl("VarDeclsOp", tp, vdi); :}
 			; 
-Type		::=	INT 	{: RESULT = new TypeLeaf("Type", new Leaf("Value", "INT") ); :}
-			|	BOOL 	{: RESULT = new TypeLeaf("Type", new Leaf("Value", "BOOL") ); :}
-			|	DOUBLE 	{: RESULT = new TypeLeaf("Type", new Leaf("Value", "DOUBLE")); :}
-			|	STRING 	{: RESULT = new TypeLeaf("Type", new Leaf("Value", "STRING")); :}
-			|	CHAR 	{: RESULT = new TypeLeaf("Type", new Leaf("Value", "CHAR")); :}
+Type		::=	INT 	{: RESULT = new Leaf("Type", "INT"); :}
+			|	BOOL 	{: RESULT = new Leaf("Type", "BOOL"); :}
+			|	DOUBLE 	{: RESULT = new Leaf("Type", "DOUBLE"); :}
+			|	STRING 	{: RESULT = new Leaf("Type", "STRING"); :}
+			|	CHAR 	{: RESULT = new Leaf("Type", "CHAR"); :}
 			;
 			
-Var_decls_init	::=	ID:id Var_init_value:viv COMMA Var_decls_init:vdi	{: VarDeclsWrapper vdw = (viv == null)? new VarNotInit ("VarNotInitOp", new IdLeaf("ID",new Leaf("ID",id))) 
-																		   					   		   		  : new VarInit("VarInitOp", new IdLeaf("ID",new Leaf("ID",id)), viv);
-																		   					   		   			RESULT = vdi.addChild(vdw); 
+Var_decls_init	::=	ID:id Var_init_value:viv COMMA Var_decls_init:vdi	{: VarDeclsInitWrapper vdw = (viv == null)? new VarDeclsInitWrapper ("VarNotInitOp", new Leaf("ID",id)) 
+																		   					   		   		  		: new VarDeclsInitWrapper ("VarInitOp", new Leaf("ID",id), viv);
+																		   vdi.addChild(vdw);
+																		   RESULT = vdi; 
 																		:}
 				|	ID:id Var_init_value:viv							{:	
-																			VarDeclsWrapper vdw = (viv == null)	? new VarNotInit("VarNotInitOp", new IdLeaf("ID",new Leaf("ID",id)))  
-																		   					    			: new VarInit("VarInitOp", new IdLeaf("ID",new Leaf("ID",id)), viv);
-																		 									RESULT = new VarDeclsInit ("VarDeclsInitOp").addChild(vdw);
+																			VarDeclsInitWrapper vdw = (viv == null)	? new VarDeclsInitWrapper ("VarNotInitOp", new Leaf("ID",id))  
+																		   					    					: new VarDeclsInitWrapper ("VarInitOp", new Leaf("ID",id), viv);
+																		 	RESULT = new VarDeclsInit ("VarDeclsInitOp", vdw);
 																		:}
 				;
 Var_init_value	::= ASSIGN Expr:e {: RESULT = new VarInitValue("VarInitValueOp", e); :}
 				|	{: RESULT = null; :} /*epsilon*/
 				;
-Vars		::=	ID:id COMMA Vars:vars 	{: RESULT = vars.addChild(new IdLeaf("ID",new Leaf("ID",id))); :}
-			|	ID:id 					{: RESULT = new Vars("VarsOp").addChild(new IdLeaf("ID",new Leaf("ID",id))); :}
+Vars		::=	ID:id COMMA Vars:vars 	{: vars.addChild(new Leaf("ID",id));
+										   RESULT = vars; :}
+			|	ID:id 					{: RESULT = new Vars("VarsOp", new Leaf("ID",id)); :}
 			;
-Def_decl	::=	DEF ID:id LPAR Par_decls:par RPAR Body:b {: RESULT = new DefDecl("DefDeclOp", new DefDeclOpWithPar("DefDeclOpWithPar",new IdLeaf("ID",new Leaf("ID",id)), par, b)); :}
-			|	DEF ID:id LPAR RPAR Body:b 				 {: RESULT = new DefDecl("DefDeclOp", new DefDeclOp("DefDeclWithOutPar", new IdLeaf("ID",new Leaf("ID",id)), b)); :}
+Def_decl	::=	DEF ID:id LPAR Par_decls:par RPAR Body:b {: RESULT = new DefDecl("DefDeclOp", new Leaf("ID", id), par, b); :}
+			|	DEF ID:id LPAR RPAR Body:b 				 {: RESULT = new DefDecl("DefDeclOp", new Leaf("ID",id), b ); :}
 			;
-Var_decls	::=	Var_decl:vd Var_decls:vds {:   RESULT = vds.addChild(vd); :} 
+Var_decls	::=	Var_decl:vd Var_decls:vds {: vds.addChild(vd);
+											 RESULT = vds; :} 
 			| {: RESULT = new VarDecls("VarDeclsOp"); :}
 			;
-Par_decls	::=	Par_type:parType Type:type ID:id COMMA Par_decls:parDecls  	{: RESULT = parDecls.addChild(new ParDecls("Par_declsOp",parType, type, new IdLeaf("ID",new Leaf("ID",id)))); :}
-			|	Par_type:par Type:type ID:id								{: RESULT = new ParDecls("Par_declsOp").addChild(new ParDecls("Par_declsOp",par,type,new IdLeaf("ID",new Leaf("ID",id)))); :}
+Par_decls	::=	Par_type:par Type:type ID:id COMMA Par_decls:parDecls  	{: parDecls.addChild(new ParDecls("Par_declsOp", par, type, new Leaf("ID",id)));
+																		   RESULT = parDecls; :}
+			|	Par_type:par Type:type ID:id							{: RESULT = new ParDecls("Par_declsOp",par, type, new Leaf("ID",id)); :}
 			;
 			
-Par_type	::=	IN		{: RESULT = new ParTypeLeaf("IN", new Leaf("Value", "in")); :}
-			|	OUT		{: RESULT = new ParTypeLeaf("OUT", new Leaf("Value", "out")); :}
-			|	INOUT	{: RESULT = new ParTypeLeaf("INOUT", new Leaf("Value", "inout")); :}
+Par_type	::=	IN		{: RESULT = new Leaf("ParType", "in"); :}
+			|	OUT		{: RESULT = new Leaf("ParType", "out"); :}
+			|	INOUT	{: RESULT = new Leaf("ParType", "inout"); :}
 			;
 			
-Body		::=	LGPAR Var_decls:vd Statements:s RGPAR	{: RESULT = new Body("BodyOp", vd, s); :}
+Body		::=	LGPAR Var_decls:vd Statements:s RGPAR	{:  RESULT = new Body("BodyOp", vd, s); :}
 			;
 			
 Stat		::= Vars:vars READ SEMI											{: RESULT = new Stat("ReadOp", vars); :}
 			|	Args:args WRITE SEMI										{: RESULT = new Stat("WriteOp", args); :}
-			|	ID:id ASSIGN Expr:e1 SEMI 									{: RESULT = new Stat("AssignOp",new IdLeaf("ID",new Leaf("ID",id)), e1); :}
-			|	ID:id LPAR Args:args RPAR SEMI								{: RESULT = new Stat("CallOp", new IdLeaf("ID",new Leaf("ID",id)), args ); :}
-			|	ID:id LPAR RPAR SEMI									  	{: RESULT = new Stat("CallOp", new IdLeaf("ID",new Leaf("ID",id))); :}
+			|	ID:id ASSIGN Expr:e1 SEMI 									{: RESULT = new Stat("AssignOp", new Leaf("ID",id), e1); :}
+			|	ID:id LPAR Args:args RPAR SEMI								{: RESULT = new Stat("CallOp", new Leaf("ID",id), args); :}
+			|	ID:id LPAR RPAR SEMI									  	{: RESULT = new Stat("CallOp", new Leaf("ID",id)); :}
 			|	IF LPAR Expr:e RPAR THEN Comp_stat:cs1 ELSE Comp_stat:cs2 	{: RESULT = new Stat("IfThenElseOp", e, cs1, cs2 );  :}
 			|	IF LPAR Expr:e RPAR THEN Comp_stat:cs 					  	{: RESULT = new Stat("IfThenOp", e, cs); :}
 			|	WHILE LPAR Expr:e RPAR DO Comp_stat:cs					  	{: RESULT = new Stat("WhileOp", e, cs); :}
 			;
 			
-Args		::=	Expr:e COMMA Args:arg1			{: RESULT = arg1.addChild(e); :}
-			|	Expr:e							{: RESULT = new Args("ArgsOp").addChild(e); :}
+Args		::=	Expr:e COMMA Args:arg			{: arg.addChild(e);
+												   RESULT = arg; :}
+			|	Expr:e							{: RESULT = new Args("ArgsOp", e); :}
 			;
 			
-Comp_stat	::=	LGPAR Statements:s RGPAR  		{: RESULT = s; :}
+Comp_stat	::=	LGPAR Statements:s RGPAR  		{: RESULT = new CompStat("CompStat", s); :}
 			;
 
 Expr		::=	Expr:e1 MINUS Expr:e2			{: RESULT = new SubOp("SubOp", e1, e2); :}
@@ -173,11 +181,11 @@ Expr		::=	Expr:e1 MINUS Expr:e2			{: RESULT = new SubOp("SubOp", e1, e2); :}
 			|	MINUS Expr:e 					{: RESULT = new UminusOp("UminusOp", e); :} %prec UMINUS		
 			|	NOT Expr:e						{: RESULT = new NotOp("NotOp", e); :}
 			|	LPAR Expr:e RPAR				{: RESULT = e; :}
-			|	TRUE							{: RESULT = new TrueLeaf("TRUE", new Leaf("Value", "true") ); :}
-			|	FALSE							{: RESULT = new FalseLeaf("FALSE", new Leaf("Value", "false")); :}
-			|	ID:id							{: RESULT = new IdLeaf("ID", new Leaf("Value", id)); :}
-			|	INT_CONST:intConst 				{: RESULT = new IntConstLeaf("INT_CONST", new Leaf("Value", intConst)); :}
-			|	DOUBLE_CONST:doubleConst		{: RESULT = new DoubleConstLeaf("DOUBLE_CONST", new Leaf("Value", doubleConst)); :}
-			|	CHAR_CONST:charConst			{: RESULT = new CharConstLeaf("CHAR_CONST", new Leaf("Value", charConst)); :}
-			|	STRING_CONST:stringConst 		{: RESULT = new StringConstLeaf("STRING_CONST", new Leaf("Value", stringConst) ); :}
+			|	TRUE							{: RESULT = new Expr("Value", new Leaf("TRUE","true")); :}
+			|	FALSE							{: RESULT = new Expr("Value", new Leaf("FALSE","false")); :}
+			|	ID:id							{: RESULT = new Expr("Value", new Leaf("ID",id)); :}
+			|	INT_CONST:intConst 				{: RESULT = new Expr("Value", new Leaf("INT_CONST",intConst)); :}
+			|	DOUBLE_CONST:doubleConst		{: RESULT = new Expr("Value", new Leaf("DOUBLE_CONST",doubleConst)); :}
+			|	CHAR_CONST:charConst			{: RESULT = new Expr("Value", new Leaf("CHAR_CONST", charConst)); :}
+			|	STRING_CONST:stringConst 		{: RESULT = new Expr("Value", new Leaf("STRING_CONST",stringConst)); :}
 			;									

@@ -45,10 +45,6 @@ import static lexer.LexerSym.*;
 	}
 %}
 
-%eofval{
-    return symbol(ParserSym.EOF);
-%eofval}
-
 id 			= [:jletter:]([:jletter:]|[:jdigit:])*
 digit 		= [0-9]
 intConst 	= {digit}+
@@ -106,5 +102,5 @@ whitespace = [ \r\n\t\f]
 "intout"		{ return new Symbol(LexerSym.INOUT); }
 {id}			{ return new Symbol(LexerSym.ID, yytext()); }
 
-[^]				{ return new Symbol(LexerSym.error);}
+[^]				{  throw new Error("Illegal character <"+yytext()+"> at line "+yyline+", column "+yycolumn);}
 <<EOF>> 		{ return new Symbol(LexerSym.EOF); }

@@ -1,4 +1,4 @@
-package syntaxTree.stat;
+package syntaxTree.statOp;
 
 import syntaxTree.Stat;
 import syntaxTree.Vars;
