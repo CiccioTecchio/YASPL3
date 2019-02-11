@@ -9,7 +9,6 @@ public class ReadOp extends Stat implements Visitable {
 
 	public ReadOp(String op, Vars v) {
 		super(op, v);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

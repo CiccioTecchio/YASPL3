@@ -1,11 +1,11 @@
 package syntaxTree;
 
-import syntaxTree.comp.Internal;
 import syntaxTree.comp.Leaf;
+import syntaxTree.wrapper.DeclsWrapper;
 import visitor.Visitable;
 import visitor.Visitor;
 
-public class DefDecl extends Internal implements Visitable {
+public class DefDecl extends DeclsWrapper implements Visitable {
 
 	//Definizione con parametri
 	public DefDecl(String op, Leaf id, ParDecls pd, Body b) {

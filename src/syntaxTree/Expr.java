@@ -18,7 +18,7 @@ public class Expr extends Internal implements Visitable {
 	}
 	
 	//non creo IdLeaf così facendo non ho necessità di creare un nodo interno per contenere un IdLeaf
-	public Expr(String op, Leaf id) {
+	public Expr(String op, String id) {
 		super(op, id);
 	}
 

@@ -14,9 +14,9 @@ public class Statements extends Internal implements Visitable {
 		this.childList = new ArrayList<Stat>();
 	}
 	
-	public ArrayList<Stat> addChild(Stat s){
+	public Statements addChild(Stat s){
 		this.childList.add(s);
-		return this.childList;
+		return this;
 	}
 
 	@Override

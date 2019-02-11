@@ -2,28 +2,22 @@ package syntaxTree;
 
 import java.util.ArrayList;
 import syntaxTree.comp.Internal;
-import syntaxTree.comp.Leaf;
+import syntaxTree.wrapper.ParDeclSon;
 import visitor.Visitable;
 import visitor.Visitor;
 
 public class ParDecls extends Internal implements Visitable {
 
-	private ArrayList<ParDecls> childList;
+	private ArrayList<ParDeclSon> childList;
 	
-	public ParDecls(String op, Leaf parType, Leaf type, Leaf id) {
-		super(op, parType, type, id);
+	public ParDecls(String op) {
+		super(op);
+		childList = new ArrayList<ParDeclSon>();
 	}
 	
-	//primo nodo
-	public ParDecls(String op, Leaf par, Leaf id) {
-		super(op,par,id);
-		this.childList = new ArrayList<ParDecls>();
-		this.addChild(new ParDecls(op, par, id));
-	}
-	
-	public ArrayList<ParDecls> addChild(ParDecls pd){
+	public ParDecls addChild(ParDeclSon pd){
 		this.childList.add(pd);
-		return this.childList;
+		return this;
 	}
 
 	@Override

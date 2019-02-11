@@ -10,7 +10,6 @@ public class WriteOp extends Stat implements Visitable {
 
 	public WriteOp(String op, Args a) {
 		super(op, a);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

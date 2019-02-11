@@ -1,8 +1,10 @@
 package syntaxTree.wrapper;
 
-import syntaxTree.DefDecl;
-import syntaxTree.VarDecl;
+import syntaxTree.Body;
+import syntaxTree.ParDecls;
+import syntaxTree.VarDeclsInit;
 import syntaxTree.comp.Internal;
+import syntaxTree.comp.Leaf;
 import visitor.Visitable;
 import visitor.Visitor;
 
@@ -12,12 +14,17 @@ public class DeclsWrapper extends Internal implements Visitable {
 		super(op);
 	}
 	
-	public DeclsWrapper(String op, DefDecl dd) {
-		super(op,dd);
+	public DeclsWrapper(String op, Leaf id, ParDecls pd, Body b) {
+		super(op, id, pd, b);
+	}
+	
+	//Definizione senza parametri
+	public DeclsWrapper(String op, Leaf id, Body b) {
+		super(op, id, b);
 	}
 
-	public DeclsWrapper(String op, VarDecl vd) {
-		super(op,vd);
+	public DeclsWrapper(String op,  Leaf t, VarDeclsInit vdi) {
+		super(op, t, vdi);
 	}
 
 	@Override

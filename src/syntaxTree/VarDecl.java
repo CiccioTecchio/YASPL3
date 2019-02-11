@@ -1,11 +1,11 @@
 package syntaxTree;
 
-import syntaxTree.comp.Internal;
 import syntaxTree.comp.Leaf;
+import syntaxTree.wrapper.DeclsWrapper;
 import visitor.Visitable;
 import visitor.Visitor;
 
-public class VarDecl extends Internal implements Visitable {
+public class VarDecl extends DeclsWrapper implements Visitable {
 
 	public VarDecl(String op, Leaf t, VarDeclsInit vdi) {
 		super(op, t, vdi);

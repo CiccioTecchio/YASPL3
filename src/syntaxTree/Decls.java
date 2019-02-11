@@ -1,14 +1,12 @@
 package syntaxTree;
 
 import java.util.ArrayList;
-
 import syntaxTree.comp.Internal;
-import syntaxTree.comp.Node;
 import syntaxTree.wrapper.DeclsWrapper;
 import visitor.Visitable;
 import visitor.Visitor;
 
-public class Decls extends DeclsWrapper implements Visitable {
+public class Decls extends Internal implements Visitable {
 
 	private ArrayList<DeclsWrapper> childList;
 	
@@ -17,9 +15,9 @@ public class Decls extends DeclsWrapper implements Visitable {
 		this.childList = new ArrayList<DeclsWrapper>();
 	}
 	
-	public ArrayList<DeclsWrapper> addChild(DeclsWrapper dw){
+	public Decls addChild(DeclsWrapper dw){
 		childList.add(dw);
-		return this.childList;
+		return this;
 	}
 	
 	@Override

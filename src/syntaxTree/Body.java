@@ -8,7 +8,6 @@ public class Body extends Internal implements Visitable {
 
 	public Body(String op, VarDecls vd, Statements s) {
 		super(op, vd, s);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

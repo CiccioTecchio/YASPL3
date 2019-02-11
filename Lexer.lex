@@ -17,12 +17,11 @@ import static lexer.LexerSym.*;
 
 %public
 %final
-// %abstract
+// %abstract 
+%cupsym lexer.LexerSym 
 
-%cupsym lexer.LexerSym
 %cup
 // %cupdebug
-
 %init{
 	// TODO: code that goes to constructor
 %init}
@@ -45,6 +44,10 @@ import static lexer.LexerSym.*;
 	}
 %}
 
+%eofval{
+	return new Symbol(LexerSym.EOF);
+%eofval}
+
 id 			= [:jletter:]([:jletter:]|[:jdigit:])*
 digit 		= [0-9]
 intConst 	= {digit}+
@@ -52,9 +55,8 @@ doubleConst = {intConst}("."{intConst})?
 any			= .
 stringConst = \"({any})*\"
 charConst	= '({any})?'
-
-
 whitespace = [ \r\n\t\f]
+
 %%
 {whitespace} 	{ /* ignore */ }
 "head"			{ return new Symbol(LexerSym.HEAD); }
@@ -101,6 +103,4 @@ whitespace = [ \r\n\t\f]
 "out"			{ return new Symbol(LexerSym.OUT); }
 "intout"		{ return new Symbol(LexerSym.INOUT); }
 {id}			{ return new Symbol(LexerSym.ID, yytext()); }
-
 [^]				{  throw new Error("Illegal character <"+yytext()+"> at line "+yyline+", column "+yycolumn);}
-<<EOF>> 		{ return new Symbol(LexerSym.EOF); }

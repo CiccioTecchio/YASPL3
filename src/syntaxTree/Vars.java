@@ -11,15 +11,14 @@ public class Vars extends Internal implements Visitable {
 
 	private ArrayList<Leaf> childList;
 	
-	public Vars(String op, Leaf id) {
-		super(op, id);
+	public Vars(String op) {
+		super(op);
 		this.childList = new ArrayList<Leaf>();
-		childList.add(id);
 	}
 	
-	public ArrayList<Leaf> addChild(Leaf id){
+	public Vars addChild(Leaf id){
 		this.childList.add(id);
-		return this.childList;
+		return this;
 	}
 
 	@Override

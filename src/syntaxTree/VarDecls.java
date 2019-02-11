@@ -15,12 +15,10 @@ public class VarDecls extends Internal implements Visitable {
 		this.childList = new ArrayList<VarDecl>();
 	}
 	
-	public ArrayList<VarDecl> addChild(VarDecl n){
+	public VarDecls addChild(VarDecl n){
 		this.childList.add(n);
-		return this.childList;
-	}
-	
-	
+		return this;
+	}	
 
 	@Override
 	public VarDecls accept(Visitor<?> visitor) {

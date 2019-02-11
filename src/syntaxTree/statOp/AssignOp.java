@@ -10,7 +10,6 @@ public class AssignOp extends Stat implements Visitable {
 
 	public AssignOp(String op, Leaf id, Expr e) {
 		super(op, id, e);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

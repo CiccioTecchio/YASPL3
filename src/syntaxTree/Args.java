@@ -9,15 +9,14 @@ public class Args extends Internal implements Visitable {
 
 	private ArrayList<Expr> childList;
 	
-	public Args(String op, Expr e) {
+	public Args(String op) {
 		super(op);
 		this.childList = new ArrayList<>();
-		this.childList.add(e);
 	}
 	
-	public ArrayList<Expr> addChild(Expr e){
+	public Args addChild(Expr e){
 		this.childList.add(e);
-		return this.childList;
+		return this;
 	}
 
 	@Override
