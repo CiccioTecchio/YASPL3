@@ -9,10 +9,12 @@ import visitor.Visitor;
 public class ParDecls extends Internal implements Visitable {
 
 	private ArrayList<ParDeclSon> childList;
+	private String op;
 	
 	public ParDecls(String op) {
 		super(op);
 		childList = new ArrayList<ParDeclSon>();
+		this.op = op;
 	}
 	
 	public ParDecls addChild(ParDeclSon pd){
@@ -20,9 +22,17 @@ public class ParDecls extends Internal implements Visitable {
 		return this;
 	}
 
+	public ArrayList<ParDeclSon> getChildList() {
+		return childList;
+	}
+
+	public String getOp() {
+		return op;
+	}
+
 	@Override
-	public ParDecls accept(Visitor<?> visitor) {
-		return (ParDecls) visitor.visit(this);
+	public Object accept(Visitor<?> visitor) {
+		return visitor.visit(this);
 	}
 
 }

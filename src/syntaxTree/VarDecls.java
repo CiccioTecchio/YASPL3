@@ -8,11 +8,13 @@ import visitor.Visitor;
 public class VarDecls extends Internal implements Visitable {
 	
 	private ArrayList<VarDecl> childList;
+	private String op;
 	
 	//primo nodo
 	public VarDecls(String op) {
 		super(op);
 		this.childList = new ArrayList<VarDecl>();
+		this.op = op;
 	}
 	
 	public VarDecls addChild(VarDecl n){
@@ -21,8 +23,16 @@ public class VarDecls extends Internal implements Visitable {
 	}	
 
 	@Override
-	public VarDecls accept(Visitor<?> visitor) {
-		return (VarDecls) visitor.visit(this);
+	public Object accept(Visitor<?> visitor) {
+		return visitor.visit(this);
 	}
 
+	public ArrayList<VarDecl> getChildList() {
+		return childList;
+	}
+
+	public String getOp() {
+		return op;
+	}
+	
 }

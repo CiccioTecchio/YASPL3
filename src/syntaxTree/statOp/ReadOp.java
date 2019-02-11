@@ -7,13 +7,26 @@ import visitor.Visitor;
 
 public class ReadOp extends Stat implements Visitable {
 
+	private String op;
+	private Vars v;
+	
 	public ReadOp(String op, Vars v) {
 		super(op, v);
+		this.op = op;
+		this.v = v;
 	}
 
 	@Override
-	public ReadOp accept(Visitor<?> visitor) {
-		return (ReadOp) visitor.visit(this);
+	public Object accept(Visitor<?> visitor) {
+		return visitor.visit(this);
 	}
-	
+
+	public String getOp() {
+		return op;
+	}
+
+	public Vars getV() {
+		return v;
+	}
+
 }

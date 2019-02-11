@@ -30,5 +30,6 @@ public class Internal extends Node {
 			toReturn+="["+n.toString()+"] ";
 		}
 		return toReturn;
-	}	
+	}
+	
 }

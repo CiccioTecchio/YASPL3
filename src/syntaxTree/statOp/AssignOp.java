@@ -8,12 +8,32 @@ import visitor.Visitor;
 
 public class AssignOp extends Stat implements Visitable {
 
+	private String op;
+	private Leaf id;
+	private Expr e;
 	public AssignOp(String op, Leaf id, Expr e) {
 		super(op, id, e);
+		this.op = op;
+		this.id = id;
+		this.e = e;
 	}
 
 	@Override
-	public AssignOp accept(Visitor<?> visitor) {
-		return (AssignOp) visitor.visit(this);
+	public Object accept(Visitor<?> visitor) {
+		return visitor.visit(this);
 	}
+
+	public String getOp() {
+		return op;
+	}
+
+	public Leaf getId() {
+		return id;
+	}
+
+	public Expr getE() {
+		return e;
+	}
+	
+	
 }

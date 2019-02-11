@@ -9,11 +9,13 @@ import visitor.Visitor;
 public class VarDeclsInit extends Internal implements Visitable {
 
 	private ArrayList<VarDeclsInitWrapper> childList;
+	private String op;
 	
 	//primo nodo
 	public VarDeclsInit(String op) {
 		super(op);
 		this.childList = new ArrayList<>();
+		this.op = op;
 	}
 
 	public VarDeclsInit addChild (VarDeclsInitWrapper vdiw){
@@ -23,9 +25,17 @@ public class VarDeclsInit extends Internal implements Visitable {
 	
 
 	@Override
-	public VarDeclsInit accept(Visitor<?> visitor) {
+	public Object accept(Visitor<?> visitor) {
 		// TODO Auto-generated method stub
-		return (VarDeclsInit) visitor.visit(this);
+		return visitor.visit(this);
+	}
+
+	public ArrayList<VarDeclsInitWrapper> getChildList() {
+		return childList;
+	}
+
+	public String getOp() {
+		return op;
 	}
 
 }

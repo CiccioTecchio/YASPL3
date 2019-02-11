@@ -7,20 +7,40 @@ import visitor.Visitable;
 import visitor.Visitor;
 
 public class CallOp extends Stat implements Visitable {
-
+	
+	private String op;
+	private Leaf id;
+	private Args a;
+	
 	public CallOp(String op, Leaf id, Args a) {
 		super(op, id, a);
-		// TODO Auto-generated constructor stub
+		this.op = op;
+		this.id = id;
+		this.a = a;
 	}
 
 	public CallOp(String op, Leaf id) {
 		super(op, id);
-		// TODO Auto-generated constructor stub
+		this.op = op;
+		this.id = id;
 	}
 
 	@Override
-	public CallOp accept(Visitor<?> visitor) {
-		return (CallOp) visitor.visit(this);
+	public Object accept(Visitor<?> visitor) {
+		return visitor.visit(this);
 	}
 
+	public String getOp() {
+		return op;
+	}
+
+	public Leaf getId() {
+		return id;
+	}
+
+	public Args getA() {
+		return a;
+	}
+
+	
 }
