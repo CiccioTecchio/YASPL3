@@ -22,7 +22,11 @@ public class Internal extends Node {
 		if(this.childList == null) this.childList = new ArrayList<Node>();
 		this.childList.add(new Leaf(op,value));
 	}
-
+	public Internal(String op, Leaf value) {
+		super(op);
+		if(this.childList == null) this.childList = new ArrayList<Node>();
+		this.childList.add(value);
+	}
 	@Override
 	public String toString() {
 		String toReturn = "";

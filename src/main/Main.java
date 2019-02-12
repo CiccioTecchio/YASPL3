@@ -3,10 +3,14 @@ package main;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+
 import java_cup.runtime.Symbol;
 import lexer.*;
 import parser.ParserCup;
+import syntaxTree.Programma;
 import syntaxTree.comp.Node;
+import visitor.TreePrinterVisitor;
 
 public class Main {
 
@@ -19,7 +23,13 @@ public class Main {
 		   		System.out.println("token returned is "+ LexerSym.terminalNames[tokenId] + "\n");
 		   	}*/
 			ParserCup parser = new ParserCup(lexer);
-			parser.parse();
+			//parser.parse();
+			Programma p = (Programma) parser.parse().value;
+			TreePrinterVisitor tpv = new TreePrinterVisitor();
+			String r = tpv.visit(p);
+			FileWriter fw = new FileWriter("src/main/ast.xml");
+		    fw.write(r);
+		    fw.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Add argoment");

@@ -86,9 +86,7 @@ precedence nonassoc GT, GE, LT, LE, EQ;
 precedence left UMINUS, NOT, COMMA;	
 
 /*Grammar*/												
-Programma 	::= HEAD Decls:decls START Statements:s	{:	RESULT = new Programma("ProgrammaOp", decls, s); 
-														TreePrinterVisitor tpv = new TreePrinterVisitor();
-														System.out.println(tpv.visit(RESULT));:}
+Programma 	::= HEAD Decls:decls START Statements:s	{:	RESULT = new Programma("ProgrammaOp", decls, s); :}
 			; 
 																
 Decls 		::= Var_decl:var Decls:decls								{: RESULT = decls.addChild(var); :}
@@ -169,11 +167,11 @@ Expr		::=	Expr:e1 MINUS Expr:e2		{: RESULT = new SubOp("SubOp", e1, e2); :}
 			|	MINUS Expr:e 				{: RESULT = new UminusOp("UminusOp", e); :} %prec UMINUS			
 			|	NOT Expr:e					{: RESULT = new NotOp("NotOp", e); :}
 			|	LPAR Expr:e RPAR			{: RESULT = e; :}
-			|	TRUE						{: RESULT = new Expr("BOOL_CONST", "true"); :}
-			|	FALSE						{: RESULT = new Expr("BOOL_CONST", "false"); :}	
-			|	ID:id						{: RESULT = new Expr("ID", id); :}
-			|	INT_CONST:intConst 			{: RESULT = new Expr("INT_CONST", intConst); :}	
-			|	DOUBLE_CONST:doubleConst	{: RESULT = new Expr("DOUBLE_CONST", doubleConst); :}	
-			|	CHAR_CONST:charConst		{: RESULT = new Expr("CHAR_CONST", charConst); :}
-			|	STRING_CONST:stringConst 	{: RESULT = new Expr("STRING_CONST", stringConst); :}	
+			|	TRUE						{: RESULT = new Expr("BOOL_CONST", new Leaf("Value", "true")); :}
+			|	FALSE						{: RESULT = new Expr("BOOL_CONST", new Leaf("Value", "false")); :}	
+			|	ID:id						{: RESULT = new Expr("ID", new Leaf("Value", id)); :}
+			|	INT_CONST:intConst 			{: RESULT = new Expr("INT_CONST", new Leaf("Value", intConst) ); :}	
+			|	DOUBLE_CONST:doubleConst	{: RESULT = new Expr("DOUBLE_CONST", new Leaf("Value", doubleConst)); :}	
+			|	CHAR_CONST:charConst		{: RESULT = new Expr("CHAR_CONST", new Leaf("Value", charConst)); :}
+			|	STRING_CONST:stringConst 	{: RESULT = new Expr("STRING_CONST", new Leaf("Value", stringConst)); :}	
 			;									

@@ -53,4 +53,6 @@ public interface Visitor<E> {
 	E visit(DeclsWrapper n);
 	E visit(ParDeclSon n);
 	E visit(VarDeclsInitWrapper n);
+	
+	E visit(Leaf n);
 }

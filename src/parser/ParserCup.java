@@ -380,8 +380,6 @@ class CUP$ParserCup$actions {
 		int sright = ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()).right;
 		Statements s = (Statements)((java_cup.runtime.Symbol) CUP$ParserCup$stack.peek()).value;
 			RESULT = new Programma("ProgrammaOp", decls, s); 
-														TreePrinterVisitor tpv = new TreePrinterVisitor();
-														System.out.println(tpv.visit(RESULT));
               CUP$ParserCup$result = parser.getSymbolFactory().newSymbol("Programma",0, ((java_cup.runtime.Symbol)CUP$ParserCup$stack.elementAt(CUP$ParserCup$top-3)), ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), RESULT);
             }
           return CUP$ParserCup$result;
@@ -1104,7 +1102,7 @@ class CUP$ParserCup$actions {
           case 54: // Expr ::= TRUE 
             {
               Expr RESULT =null;
-		 RESULT = new Expr("BOOL_CONST", "true"); 
+		 RESULT = new Expr("BOOL_CONST", new Leaf("Value", "true")); 
               CUP$ParserCup$result = parser.getSymbolFactory().newSymbol("Expr",16, ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), RESULT);
             }
           return CUP$ParserCup$result;
@@ -1113,7 +1111,7 @@ class CUP$ParserCup$actions {
           case 55: // Expr ::= FALSE 
             {
               Expr RESULT =null;
-		 RESULT = new Expr("BOOL_CONST", "false"); 
+		 RESULT = new Expr("BOOL_CONST", new Leaf("Value", "false")); 
               CUP$ParserCup$result = parser.getSymbolFactory().newSymbol("Expr",16, ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), RESULT);
             }
           return CUP$ParserCup$result;
@@ -1125,7 +1123,7 @@ class CUP$ParserCup$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()).right;
 		String id = (String)((java_cup.runtime.Symbol) CUP$ParserCup$stack.peek()).value;
-		 RESULT = new Expr("ID", id); 
+		 RESULT = new Expr("ID", new Leaf("Value", id)); 
               CUP$ParserCup$result = parser.getSymbolFactory().newSymbol("Expr",16, ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), RESULT);
             }
           return CUP$ParserCup$result;
@@ -1137,7 +1135,7 @@ class CUP$ParserCup$actions {
 		int intConstleft = ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()).left;
 		int intConstright = ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()).right;
 		String intConst = (String)((java_cup.runtime.Symbol) CUP$ParserCup$stack.peek()).value;
-		 RESULT = new Expr("INT_CONST", intConst); 
+		 RESULT = new Expr("INT_CONST", new Leaf("Value", intConst) ); 
               CUP$ParserCup$result = parser.getSymbolFactory().newSymbol("Expr",16, ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), RESULT);
             }
           return CUP$ParserCup$result;
@@ -1149,7 +1147,7 @@ class CUP$ParserCup$actions {
 		int doubleConstleft = ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()).left;
 		int doubleConstright = ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()).right;
 		String doubleConst = (String)((java_cup.runtime.Symbol) CUP$ParserCup$stack.peek()).value;
-		 RESULT = new Expr("DOUBLE_CONST", doubleConst); 
+		 RESULT = new Expr("DOUBLE_CONST", new Leaf("Value", doubleConst)); 
               CUP$ParserCup$result = parser.getSymbolFactory().newSymbol("Expr",16, ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), RESULT);
             }
           return CUP$ParserCup$result;
@@ -1161,7 +1159,7 @@ class CUP$ParserCup$actions {
 		int charConstleft = ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()).left;
 		int charConstright = ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()).right;
 		String charConst = (String)((java_cup.runtime.Symbol) CUP$ParserCup$stack.peek()).value;
-		 RESULT = new Expr("CHAR_CONST", charConst); 
+		 RESULT = new Expr("CHAR_CONST", new Leaf("Value", charConst)); 
               CUP$ParserCup$result = parser.getSymbolFactory().newSymbol("Expr",16, ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), RESULT);
             }
           return CUP$ParserCup$result;
@@ -1173,7 +1171,7 @@ class CUP$ParserCup$actions {
 		int stringConstleft = ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()).left;
 		int stringConstright = ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()).right;
 		String stringConst = (String)((java_cup.runtime.Symbol) CUP$ParserCup$stack.peek()).value;
-		 RESULT = new Expr("STRING_CONST", stringConst); 
+		 RESULT = new Expr("STRING_CONST", new Leaf("Value", stringConst)); 
               CUP$ParserCup$result = parser.getSymbolFactory().newSymbol("Expr",16, ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), RESULT);
             }
           return CUP$ParserCup$result;
