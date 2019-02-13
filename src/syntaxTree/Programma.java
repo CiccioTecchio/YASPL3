@@ -6,7 +6,7 @@ import visitor.Visitable;
 import visitor.Visitor;
 
 public class Programma extends Internal implements Visitable {
-	
+
 	private String op;
 	private Decls d;
 	private Statements s;
@@ -17,48 +17,25 @@ public class Programma extends Internal implements Visitable {
 		this.d = d;
 		this.s = s;
 	}
-	
-	
+
+	@Override
+	public Object accept(Visitor<?> visitor) {
+		// TODO Auto-generated method stub
+		return visitor.visit(this);
+	}
 
 	public String getOp() {
 		return op;
 	}
 
-
-
-	public void setOp(String op) {
-		this.op = op;
-	}
-
-
-
 	public Decls getD() {
 		return d;
 	}
 
-
-
-	public void setD(Decls d) {
-		this.d = d;
-	}
-
-
-
 	public Statements getS() {
 		return s;
 	}
-
-
-
-	public void setS(Statements s) {
-		this.s = s;
-	}
-
-
-
-	@Override
-	public Object accept(Visitor<?> visitor) {
-		return visitor.visit(this);
-	}
+	
+	
 
 }

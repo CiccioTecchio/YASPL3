@@ -27,6 +27,7 @@ public class VarInitValue extends Internal implements Visitable {
 	public Expr getE() {
 		return e;
 	}
+
 	
 	
 

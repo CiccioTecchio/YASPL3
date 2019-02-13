@@ -19,17 +19,22 @@ public class MultOp extends Expr implements Visitable {
 	
 	@Override
 	public Object accept(Visitor<?> visitor) {
+		// TODO Auto-generated method stub
 		return visitor.visit(this);
 	}
-	
+
 	public String getOp() {
 		return op;
 	}
+
 	public Expr getE1() {
 		return e1;
 	}
+
 	public Expr getE2() {
 		return e2;
 	}
+	
+	
 
 }

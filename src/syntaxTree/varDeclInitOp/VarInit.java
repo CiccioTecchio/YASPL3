@@ -1,29 +1,25 @@
-package syntaxTree.statOp;
+package syntaxTree.varDeclInitOp;
 
-import syntaxTree.Args;
-import syntaxTree.Stat;
+import syntaxTree.VarInitValue;
+import syntaxTree.comp.Internal;
 import syntaxTree.comp.Leaf;
 import syntaxTree.leaf.IdConst;
+import syntaxTree.wrapper.VarDeclsInitWrapper;
 import visitor.Visitable;
 import visitor.Visitor;
 
-public class CallOp extends Stat implements Visitable {
+public class VarInit extends VarDeclsInitWrapper implements Visitable {
 
 	private String op;
 	private IdConst id;
-	private Args a;
-	
-	public CallOp(String op, IdConst id, Args a) {
-		super(op, id, a);
-		this.op = op;
-		this.id = id;
-		this.a = a;
-	}
+	private VarInitValue viv;
 
-	public CallOp(String op, IdConst id) {
-		super(op, id);
+
+	public VarInit(String op, IdConst id, VarInitValue viv) {
+		super(op,id,viv);
 		this.op = op;
 		this.id = id;
+		this.viv = viv;
 	}
 
 	@Override
@@ -40,8 +36,8 @@ public class CallOp extends Stat implements Visitable {
 		return id;
 	}
 
-	public Args getA() {
-		return a;
+	public VarInitValue getViv() {
+		return viv;
 	}
 	
 	

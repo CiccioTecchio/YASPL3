@@ -5,7 +5,7 @@ import visitor.Visitable;
 import visitor.Visitor;
 
 public class NotOp extends Expr implements Visitable {
-	
+
 	private String op;
 	private Expr e;
 	
@@ -17,6 +17,7 @@ public class NotOp extends Expr implements Visitable {
 	
 	@Override
 	public Object accept(Visitor<?> visitor) {
+		// TODO Auto-generated method stub
 		return visitor.visit(this);
 	}
 
@@ -27,5 +28,7 @@ public class NotOp extends Expr implements Visitable {
 	public Expr getE() {
 		return e;
 	}
+	
+	
 
 }

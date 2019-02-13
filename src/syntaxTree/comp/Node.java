@@ -16,10 +16,6 @@ public class Node {
 	public void setOp(String op) {
 		this.op = op;
 	}
-	
-	@Override
-	public String toString() {
-		return "[ "+this.getOp()+" ]";
-	}
+
 
 }

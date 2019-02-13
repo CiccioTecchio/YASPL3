@@ -11,12 +11,13 @@ public class UminusOp extends Expr implements Visitable {
 	
 	public UminusOp(String op, Expr e) {
 		super(op, e);
-		this.op = op;
 		this.e = e;
+		this.op = op;
 	}
 
 	@Override
 	public Object accept(Visitor<?> visitor) {
+		// TODO Auto-generated method stub
 		return visitor.visit(this);
 	}
 
@@ -24,16 +25,8 @@ public class UminusOp extends Expr implements Visitable {
 		return op;
 	}
 
-	public void setOp(String op) {
-		this.op = op;
-	}
-
 	public Expr getE() {
 		return e;
-	}
-
-	public void setE(Expr e) {
-		this.e = e;
 	}
 	
 	

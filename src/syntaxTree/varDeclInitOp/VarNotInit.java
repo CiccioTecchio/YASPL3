@@ -1,23 +1,19 @@
-package syntaxTree.statOp;
+package syntaxTree.varDeclInitOp;
 
-import syntaxTree.Expr;
-import syntaxTree.Stat;
-import syntaxTree.comp.Leaf;
 import syntaxTree.leaf.IdConst;
+import syntaxTree.wrapper.VarDeclsInitWrapper;
 import visitor.Visitable;
 import visitor.Visitor;
 
-public class AssignOp extends Stat implements Visitable {
+public class VarNotInit extends VarDeclsInitWrapper implements Visitable {
 
 	private String op;
 	private IdConst id;
-	private Expr e;
 	
-	public AssignOp(String op, IdConst id, Expr e) {
-		super(op, id, e);
+	public VarNotInit(String op, IdConst id) {
+		super(op,id);
 		this.op = op;
 		this.id = id;
-		this.e = e;
 	}
 
 	@Override
@@ -34,9 +30,4 @@ public class AssignOp extends Stat implements Visitable {
 		return id;
 	}
 
-	public Expr getE() {
-		return e;
-	}
-	
-	
 }

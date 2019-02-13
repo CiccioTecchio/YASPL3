@@ -3,10 +3,13 @@ package visitor;
 import syntaxTree.*;  
 import syntaxTree.arithOp.*;
 import syntaxTree.comp.*;
+import syntaxTree.declsOp.*;
+import syntaxTree.leaf.*;
 import syntaxTree.logicOp.*;
 import syntaxTree.relOp.*;
 import syntaxTree.statOp.*;
-import syntaxTree.wrapper.*;
+import syntaxTree.utils.ParDeclSon;
+import syntaxTree.varDeclInitOp.*;
 
 public interface Visitor<E> {
 	
@@ -14,11 +17,10 @@ public interface Visitor<E> {
 	E visit(Body n);
 	E visit(CompStat n);
 	E visit(Decls n);
-	E visit(DefDecl n);
-	E visit(Expr n);
+	E visit(DefDeclNoPar n);
+	E visit(DefDeclPar n);
 	E visit(ParDecls n);
 	E visit(Programma n);
-	//E visit(Stat n);
 	E visit(Statements n);
 	E visit(VarDecl n);
 	E visit(VarDecls n);
@@ -42,6 +44,13 @@ public interface Visitor<E> {
 	E visit(LeOp n);
 	E visit(LtOp n);
 	
+	E visit(BoolConst n);
+	E visit(IdConst n);
+	E visit(IntConst n);
+	E visit(DoubleConst n);
+	E visit(CharConst n);
+	E visit(StringConst n);
+	
 	E visit(AssignOp n);
 	E visit(CallOp n);
 	E visit(IfThenElseOp n);
@@ -49,10 +58,12 @@ public interface Visitor<E> {
 	E visit(ReadOp n);
 	E visit(WhileOp n);
 	E visit(WriteOp n);
-	
-	E visit(DeclsWrapper n);
-	E visit(ParDeclSon n);
-	E visit(VarDeclsInitWrapper n);
-	
 	E visit(Leaf n);
+	
+	E visit(ParDeclSon n);
+	E visit(VarInit n);
+	E visit(VarNotInit n);
+	
+	E visit(TypeLeaf n);
+	E visit(ParTypeLeaf n);
 }

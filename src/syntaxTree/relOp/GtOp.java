@@ -17,6 +17,12 @@ public class GtOp extends Expr implements Visitable {
 		this.e2 = e2;
 	}
 
+	@Override
+	public Object accept(Visitor<?> visitor) {
+		// TODO Auto-generated method stub
+		return visitor.visit(this);
+	}
+
 	public String getOp() {
 		return op;
 	}
@@ -28,11 +34,7 @@ public class GtOp extends Expr implements Visitable {
 	public Expr getE2() {
 		return e2;
 	}
-
-	@Override
-	public Object accept(Visitor<?> visitor) {
-		return visitor.visit(this);
-	}
-
 	
+	
+
 }

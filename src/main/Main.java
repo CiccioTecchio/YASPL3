@@ -10,7 +10,7 @@ import lexer.*;
 import parser.ParserCup;
 import syntaxTree.Programma;
 import syntaxTree.comp.Node;
-import visitor.TreePrinterVisitor;
+import visitor.ASTVisitor;
 
 public class Main {
 
@@ -25,7 +25,7 @@ public class Main {
 			ParserCup parser = new ParserCup(lexer);
 			//parser.parse();
 			Programma p = (Programma) parser.parse().value;
-			TreePrinterVisitor tpv = new TreePrinterVisitor();
+			ASTVisitor tpv = new ASTVisitor();
 			String r = tpv.visit(p);
 			FileWriter fw = new FileWriter("src/main/ast.xml");
 		    fw.write(r);

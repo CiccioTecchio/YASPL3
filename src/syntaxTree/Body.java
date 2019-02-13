@@ -33,7 +33,5 @@ public class Body extends Internal implements Visitable {
 	public Statements getS() {
 		return s;
 	}
-
-	
 	
 }

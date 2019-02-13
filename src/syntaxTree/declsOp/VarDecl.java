@@ -1,6 +1,7 @@
-package syntaxTree;
+package syntaxTree.declsOp;
 
-import syntaxTree.comp.Leaf;
+import syntaxTree.VarDeclsInit;
+import syntaxTree.leaf.TypeLeaf;
 import syntaxTree.wrapper.DeclsWrapper;
 import visitor.Visitable;
 import visitor.Visitor;
@@ -8,10 +9,10 @@ import visitor.Visitor;
 public class VarDecl extends DeclsWrapper implements Visitable {
 
 	private String op;
-	private Leaf t;
+	private TypeLeaf t;
 	private VarDeclsInit vdi;
 	
-	public VarDecl(String op, Leaf t, VarDeclsInit vdi) {
+	public VarDecl(String op, TypeLeaf t, VarDeclsInit vdi) {
 		super(op, t, vdi);
 		this.op = op;
 		this.t = t;
@@ -20,6 +21,7 @@ public class VarDecl extends DeclsWrapper implements Visitable {
 
 	@Override
 	public Object accept(Visitor<?> visitor) {
+		// TODO Auto-generated method stub
 		return visitor.visit(this);
 	}
 
@@ -27,7 +29,7 @@ public class VarDecl extends DeclsWrapper implements Visitable {
 		return op;
 	}
 
-	public Leaf getT() {
+	public TypeLeaf getT() {
 		return t;
 	}
 
@@ -35,4 +37,6 @@ public class VarDecl extends DeclsWrapper implements Visitable {
 		return vdi;
 	}
 	
+	
+
 }

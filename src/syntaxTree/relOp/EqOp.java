@@ -19,6 +19,7 @@ public class EqOp extends Expr implements Visitable {
 
 	@Override
 	public Object accept(Visitor<?> visitor) {
+		// TODO Auto-generated method stub
 		return visitor.visit(this);
 	}
 
@@ -33,5 +34,7 @@ public class EqOp extends Expr implements Visitable {
 	public Expr getE2() {
 		return e2;
 	}
+	
+	
 
 }

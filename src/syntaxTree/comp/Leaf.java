@@ -21,14 +21,8 @@ public class Leaf extends Node implements Visitable{
 		this.value = value;
 	}
 	
-	@Override
 	public Object accept(Visitor<?> visitor) {
-		return value;
-	}
-
-	@Override
-	public String toString() {
-		return "[ "+this.getOp()+" , "+value+" ]";
+		return visitor.visit(this);
 	}
 	
 	
