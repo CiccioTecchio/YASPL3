@@ -383,8 +383,7 @@ class CUP$ParserCup$actions {
 		int sleft = ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()).left;
 		int sright = ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()).right;
 		Statements s = (Statements)((java_cup.runtime.Symbol) CUP$ParserCup$stack.peek()).value;
-		 RESULT = new Programma("Programma", decls, s); 
-																				System.out.println("Done!!"); 
+		 RESULT = new Programma("Programma", decls, s);
               CUP$ParserCup$result = parser.getSymbolFactory().newSymbol("Programma",0, ((java_cup.runtime.Symbol)CUP$ParserCup$stack.elementAt(CUP$ParserCup$top-3)), ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), RESULT);
             }
           return CUP$ParserCup$result;

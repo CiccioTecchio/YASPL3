@@ -90,8 +90,7 @@ precedence nonassoc GT, GE, LT, LE, EQ;
 precedence left UMINUS, NOT, COMMA;	
 
 /*Grammar*/												
-Programma 	::= HEAD Decls:decls START Statements:s							{: RESULT = new Programma("Programma", decls, s); 
-																				System.out.println("Done!!"); :}
+Programma 	::= HEAD Decls:decls START Statements:s							{: RESULT = new Programma("Programma", decls, s);:}
 			; 
 																
 Decls 		::= Var_decl:var Decls:decls									{: RESULT = decls.addChild(var); :}

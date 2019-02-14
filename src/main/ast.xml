@@ -186,14 +186,14 @@ sommapiccola
 <WriteOp>
 <ArgsOp>
 <StringConst>
-"Questo programma permette di svolgere una serie di moltiplicazioni"
+&quot;Questo programma permette di svolgere una serie di moltiplicazioni&quot;
 </StringConst>
 </ArgsOp>
 </WriteOp>
 <WriteOp>
 <ArgsOp>
 <StringConst>
-"accumulando i risultati < 100 in sommagrande e quelli < 100 in sommapiccola"
+&quot;accumulando i risultati &amp;lt; 100 in sommagrande e quelli &amp;lt; 100 in sommapiccola&quot;
 </StringConst>
 </ArgsOp>
 </WriteOp>
@@ -221,7 +221,7 @@ i
 <WriteOp>
 <ArgsOp>
 <StringConst>
-"Quante moltiplicazioni vuoi svolgere? (inserire intero > 0)"
+&quot;Quante moltiplicazioni vuoi svolgere? (inserire intero &amp;gt; 0)&quot;
 </StringConst>
 </ArgsOp>
 </WriteOp>
@@ -292,7 +292,7 @@ y
 <WriteOp>
 <ArgsOp>
 <StringConst>
-"Moltiplicazione " + i + ": inserisci due numeri positivi"
+&quot;Moltiplicazione &quot; + i + &quot;: inserisci due numeri positivi&quot;
 </StringConst>
 </ArgsOp>
 </WriteOp>
@@ -387,7 +387,7 @@ i
 <ArgsOp>
 <AddOp>
 <StringConst>
-"Valore di sommagrande: "
+&quot;Valore di sommagrande: &quot;
 </StringConst>
 <Id>
 sommagrande
@@ -399,7 +399,7 @@ sommagrande
 <ArgsOp>
 <AddOp>
 <StringConst>
-"Valore di sommapiccola: "
+&quot;Valore di sommapiccola: &quot;
 </StringConst>
 <Id>
 sommapiccola
@@ -410,7 +410,7 @@ sommapiccola
 <WriteOp>
 <ArgsOp>
 <StringConst>
-"ciao"
+&quot;ciao&quot;
 </StringConst>
 </ArgsOp>
 </WriteOp>

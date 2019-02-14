@@ -1,57 +1,23 @@
 package visitor;
 
-import syntaxTree.Args;
-import syntaxTree.Body;
-import syntaxTree.CompStat;
-import syntaxTree.Decls;
-import syntaxTree.Expr;
-import syntaxTree.ParDecls;
-import syntaxTree.Programma;
-import syntaxTree.Stat;
-import syntaxTree.Statements;
-import syntaxTree.VarDecls;
-import syntaxTree.VarDeclsInit;
-import syntaxTree.VarInitValue;
-import syntaxTree.Vars;
-import syntaxTree.arithOp.AddOp;
-import syntaxTree.arithOp.DivOp;
-import syntaxTree.arithOp.MultOp;
-import syntaxTree.arithOp.SubOp;
-import syntaxTree.arithOp.UminusOp;
-import syntaxTree.comp.Leaf;
-import syntaxTree.declsOp.DefDeclNoPar;
-import syntaxTree.declsOp.DefDeclPar;
-import syntaxTree.declsOp.VarDecl;
-import syntaxTree.leaf.BoolConst;
-import syntaxTree.leaf.CharConst;
-import syntaxTree.leaf.DoubleConst;
-import syntaxTree.leaf.IdConst;
-import syntaxTree.leaf.IntConst;
-import syntaxTree.leaf.ParTypeLeaf;
-import syntaxTree.leaf.StringConst;
-import syntaxTree.leaf.TypeLeaf;
-import syntaxTree.logicOp.AndOp;
-import syntaxTree.logicOp.NotOp;
-import syntaxTree.logicOp.OrOp;
-import syntaxTree.relOp.EqOp;
-import syntaxTree.relOp.GeOp;
-import syntaxTree.relOp.GtOp;
-import syntaxTree.relOp.LeOp;
-import syntaxTree.relOp.LtOp;
-import syntaxTree.statOp.AssignOp;
-import syntaxTree.statOp.CallOp;
-import syntaxTree.statOp.IfThenElseOp;
-import syntaxTree.statOp.IfThenOp;
-import syntaxTree.statOp.ReadOp;
-import syntaxTree.statOp.WhileOp;
-import syntaxTree.statOp.WriteOp;
-import syntaxTree.utils.ParDeclSon;
-import syntaxTree.varDeclInitOp.VarInit;
-import syntaxTree.varDeclInitOp.VarNotInit;
-import syntaxTree.wrapper.DeclsWrapper;
-import syntaxTree.wrapper.VarDeclsInitWrapper;
+import syntaxTree.*;
+import syntaxTree.arithOp.*;
+import syntaxTree.comp.*;
+import syntaxTree.declsOp.*;
+import syntaxTree.leaf.*;
+import syntaxTree.logicOp.*;
+import syntaxTree.relOp.*;
+import syntaxTree.statOp.*;
+import syntaxTree.utils.*;
+import syntaxTree.varDeclInitOp.*;
+import syntaxTree.wrapper.*;
 
 public class ASTVisitor implements Visitor<String> {
+	private static final String LT = "&lt;";
+	private static final String GT = "&gt;";
+	private static final String AMP= "&amp;";
+	private static final String QUOT= "&quot;";
+	private static final String APOS= "&apos;";
 	
 	@Override
 	public String visit(Args n) {
@@ -424,7 +390,8 @@ public class ASTVisitor implements Visitor<String> {
 	@Override
 	public String visit(CharConst n) {
 		String toReturn = "<"+n.getOp()+">\n";
-		toReturn += ""+n.getId().accept(this);
+		String strConst = ""+n.getId().accept(this);
+		toReturn += replaceEscape(strConst);
 		toReturn += "</"+n.getOp()+">\n";
 		return toReturn;
 	}
@@ -432,7 +399,8 @@ public class ASTVisitor implements Visitor<String> {
 	@Override
 	public String visit(StringConst n) {
 		String toReturn = "<"+n.getOp()+">\n";
-		toReturn += ""+n.getId().accept(this);
+		String strConst = ""+n.getId().accept(this);
+		toReturn += replaceEscape(strConst);
 		toReturn += "</"+n.getOp()+">\n";
 		return toReturn;
 	}
@@ -453,4 +421,13 @@ public class ASTVisitor implements Visitor<String> {
 		return toReturn;
 	}
 
+	private String replaceEscape(String s) {
+		s = s.replace("<", LT);
+		s = s.replace(">", GT);
+		s = s.replace("&", AMP);
+		s = s.replace("\"", QUOT);
+		s = s.replace("\'", APOS);
+		return s;
+	}
+	
 }
