@@ -12,58 +12,58 @@ import syntaxTree.utils.ParDeclSon;
 import syntaxTree.varDeclInitOp.*;
 
 public interface Visitor<E> {
-	
-	E visit(Args n);
-	E visit(Body n);
-	E visit(CompStat n);
-	E visit(Decls n);
-	E visit(DefDeclNoPar n);
-	E visit(DefDeclPar n);
-	E visit(ParDecls n);
-	E visit(Programma n);
-	E visit(Statements n);
-	E visit(VarDecl n);
-	E visit(VarDecls n);
-	E visit(VarDeclsInit n);
-	E visit(VarInitValue n);
-	E visit(Vars n);
-	
-	E visit(AddOp n);
-	E visit(DivOp n);
-	E visit(MultOp n);
-	E visit(SubOp n);
-	E visit(UminusOp n);
-	
-	E visit(AndOp n);
-	E visit(NotOp n);
-	E visit(OrOp n);
-	
-	E visit(EqOp n);
-	E visit(GeOp n);
-	E visit(GtOp n);
-	E visit(LeOp n);
-	E visit(LtOp n);
-	
-	E visit(BoolConst n);
-	E visit(IdConst n);
-	E visit(IntConst n);
-	E visit(DoubleConst n);
-	E visit(CharConst n);
-	E visit(StringConst n);
-	
-	E visit(AssignOp n);
-	E visit(CallOp n);
-	E visit(IfThenElseOp n);
-	E visit(IfThenOp n);
-	E visit(ReadOp n);
-	E visit(WhileOp n);
-	E visit(WriteOp n);
-	E visit(Leaf n);
-	
-	E visit(ParDeclSon n);
-	E visit(VarInit n);
-	E visit(VarNotInit n);
-	
-	E visit(TypeLeaf n);
-	E visit(ParTypeLeaf n);
+
+	E visit(Args n) throws RuntimeException;
+	E visit(Body n) throws RuntimeException;
+	E visit(CompStat n) throws RuntimeException;
+	E visit(Decls n) throws RuntimeException;
+	E visit(DefDeclNoPar n) throws RuntimeException;
+	E visit(DefDeclPar n) throws RuntimeException;
+	E visit(ParDecls n) throws RuntimeException;
+	E visit(Programma n) throws RuntimeException;
+	E visit(Statements n) throws RuntimeException;
+	E visit(VarDecl n) throws RuntimeException;
+	E visit(VarDecls n) throws RuntimeException;
+	E visit(VarDeclsInit n) throws RuntimeException;
+	E visit(VarInitValue n) throws RuntimeException;
+	E visit(Vars n) throws RuntimeException;
+
+	E visit(AddOp n) throws RuntimeException;
+	E visit(DivOp n) throws RuntimeException;
+	E visit(MultOp n) throws RuntimeException;
+	E visit(SubOp n) throws RuntimeException;
+	E visit(UminusOp n) throws RuntimeException;
+
+	E visit(AndOp n) throws RuntimeException;
+	E visit(NotOp n) throws RuntimeException;
+	E visit(OrOp n) throws RuntimeException;
+
+	E visit(EqOp n) throws RuntimeException;
+	E visit(GeOp n) throws RuntimeException;
+	E visit(GtOp n) throws RuntimeException;
+	E visit(LeOp n) throws RuntimeException;
+	E visit(LtOp n) throws RuntimeException;
+
+	E visit(BoolConst n) throws RuntimeException;
+	E visit(IdConst n) throws RuntimeException;
+	E visit(IntConst n) throws RuntimeException;
+	E visit(DoubleConst n) throws RuntimeException;
+	E visit(CharConst n) throws RuntimeException;
+	E visit(StringConst n) throws RuntimeException;
+
+	E visit(AssignOp n) throws RuntimeException;
+	E visit(CallOp n) throws RuntimeException;
+	E visit(IfThenElseOp n) throws RuntimeException;
+	E visit(IfThenOp n) throws RuntimeException;
+	E visit(ReadOp n) throws RuntimeException;
+	E visit(WhileOp n) throws RuntimeException;
+	E visit(WriteOp n) throws RuntimeException;
+	E visit(Leaf n) throws RuntimeException;
+
+	E visit(ParDeclSon n) throws RuntimeException;
+	E visit(VarInit n) throws RuntimeException;
+	E visit(VarNotInit n) throws RuntimeException;
+
+	E visit(TypeLeaf n) throws RuntimeException;
+	E visit(ParTypeLeaf n) throws RuntimeException;
 }

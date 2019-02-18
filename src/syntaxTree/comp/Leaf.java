@@ -21,7 +21,7 @@ public class Leaf extends Node implements Visitable{
 		this.value = value;
 	}
 	
-	public Object accept(Visitor<?> visitor) {
+	public Object accept(Visitor<?> visitor){
 		return visitor.visit(this);
 	}
 	

@@ -6,8 +6,10 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import lexer.*;
 import parser.ParserCup;
+import semantic.SymbolTable;
 import syntaxTree.Programma;
 import visitor.ASTVisitor;
+import visitor.SymTableVisitor;
 
 public class Main {
 
@@ -20,6 +22,8 @@ public class Main {
 			ASTVisitor tpv = new ASTVisitor();
 			String r = tpv.visit(p);
 			FileWriter fw = new FileWriter(args[1]);
+			SymTableVisitor sym = new SymTableVisitor();
+			sym.visit(p);
 		    fw.write(r);
 		    fw.close();
 		} catch (FileNotFoundException e) {

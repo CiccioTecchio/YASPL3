@@ -53,7 +53,7 @@ digit 		= [0-9]
 intConst 	= {digit}+
 doubleConst = {intConst}("."{intConst})?
 any			= .
-stringConst = \"({any})*\"
+stringConst = \"~\"
 charConst	= '({any})?'
 whitespace = [ \r\n\t\f]
 

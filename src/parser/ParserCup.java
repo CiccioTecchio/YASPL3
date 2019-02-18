@@ -712,7 +712,7 @@ class CUP$ParserCup$actions {
           case 25: // Par_type ::= IN 
             {
               ParTypeLeaf RESULT =null;
-		 RESULT = new ParTypeLeaf("ParType", "in"); 
+		 RESULT = new ParTypeLeaf("ParType", "IN"); 
               CUP$ParserCup$result = parser.getSymbolFactory().newSymbol("Par_type",11, ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), RESULT);
             }
           return CUP$ParserCup$result;
@@ -721,7 +721,7 @@ class CUP$ParserCup$actions {
           case 26: // Par_type ::= OUT 
             {
               ParTypeLeaf RESULT =null;
-		 RESULT = new ParTypeLeaf("ParType", "out"); 
+		 RESULT = new ParTypeLeaf("ParType", "OUT"); 
               CUP$ParserCup$result = parser.getSymbolFactory().newSymbol("Par_type",11, ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), RESULT);
             }
           return CUP$ParserCup$result;
@@ -730,7 +730,7 @@ class CUP$ParserCup$actions {
           case 27: // Par_type ::= INOUT 
             {
               ParTypeLeaf RESULT =null;
-		 RESULT = new ParTypeLeaf("ParType", "inout"); 
+		 RESULT = new ParTypeLeaf("ParType", "INOUT"); 
               CUP$ParserCup$result = parser.getSymbolFactory().newSymbol("Par_type",11, ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), RESULT);
             }
           return CUP$ParserCup$result;

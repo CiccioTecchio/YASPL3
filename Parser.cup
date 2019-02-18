@@ -134,9 +134,9 @@ Par_decls	::=	Par_type:par Type:type ID:id COMMA Par_decls:parDecls		{: RESULT =
 																						.addChild(new ParDeclSon("ParDeclSon", par, type, new IdConst("Id", new Leaf("Value", id))));:}
 			;
 			
-Par_type	::=	IN															{: RESULT = new ParTypeLeaf("ParType", "in"); :}
-			|	OUT															{: RESULT = new ParTypeLeaf("ParType", "out"); :}
-			|	INOUT														{: RESULT = new ParTypeLeaf("ParType", "inout"); :}
+Par_type	::=	IN															{: RESULT = new ParTypeLeaf("ParType", "IN"); :}
+			|	OUT															{: RESULT = new ParTypeLeaf("ParType", "OUT"); :}
+			|	INOUT														{: RESULT = new ParTypeLeaf("ParType", "INOUT"); :}
 			;
 			
 Body		::=	LGPAR Var_decls:vd Statements:s RGPAR						{: RESULT = new Body("Body", vd, s); :}

@@ -128,7 +128,7 @@ risultato
 </Body>
 <ParDeclsOp>
 <ParType>
-in
+IN
 </ParType>
 <Type>
 DOUBLE
@@ -137,7 +137,7 @@ DOUBLE
 x
 </Id>
 <ParType>
-in
+IN
 </ParType>
 <Type>
 DOUBLE
@@ -146,7 +146,7 @@ DOUBLE
 y
 </Id>
 <ParType>
-out
+OUT
 </ParType>
 <Type>
 DOUBLE
@@ -155,7 +155,7 @@ DOUBLE
 res
 </Id>
 <ParType>
-out
+OUT
 </ParType>
 <Type>
 BOOL
@@ -291,9 +291,19 @@ y
 <Statements>
 <WriteOp>
 <ArgsOp>
+<AddOp>
+<AddOp>
 <StringConst>
-&quot;Moltiplicazione &quot; + i + &quot;: inserisci due numeri positivi&quot;
+&quot;Moltiplicazione &quot;
 </StringConst>
+<Id>
+i
+</Id>
+</AddOp>
+<StringConst>
+&quot;: inserisci due numeri positivi&quot;
+</StringConst>
+</AddOp>
 </ArgsOp>
 </WriteOp>
 <ReadOp>
