@@ -12,11 +12,10 @@ import syntaxTree.utils.*;
 import syntaxTree.varDeclInitOp.*;
 import syntaxTree.wrapper.DeclsWrapper;
 import syntaxTree.wrapper.VarDeclsInitWrapper;
-
 import java.util.ArrayList;
 import java.util.Stack;
 
-import exceptions.AlreadyDeclared;
+import exception.*;
 import semantic.*;
 import semantic.SymbolTable.*;
 
@@ -27,8 +26,6 @@ public class SymTableVisitor implements Visitor<Object> {
 	
 	public SymTableVisitor() {
 		this.stack = new Stack<SymbolTable>();
-		this.actualScope = new SymbolTable();
-		this.stack.push(actualScope);
 	}
 	
 	@Override
@@ -54,29 +51,34 @@ public class SymTableVisitor implements Visitor<Object> {
 	
 	@Override
 	public Object visit(ParDecls n) {
+		ArrayList<ParTuple> parArray = new ArrayList<>();
 		for(ParDeclSon s : n.getChildList()) {
-			s.accept(this);
+			parArray.add((ParTuple) s.accept(this));
+			
 		}
-		return null;
+		return parArray;
 	}
 	
 	@Override
-	public Object visit(ParDeclSon n) {
+	public Object visit(ParDeclSon n) throws AlreadyDeclaredException {
 		ParType x = this.getValueOfParTypeLeaf((String)n.getParType().accept(this));
-		Tuple t = new Tuple(Kind.VARDECL, this.getValueOfLeaf(n.getType()), x);
-		this.actualScope.put((String)n.getId().accept(this), t);
-		return null;
+		ParTuple t = new ParTuple(Kind.VARDECL, x, this.getValueOfLeaf(n.getTypeLeaf()));
+		String id = (String)n.getId().accept(this);
+		if(!this.actualScope.containsKey(id))
+		this.actualScope.put(id, t);
+		else throw new AlreadyDeclaredException("Variabile "+ id+ " già dichiarata");
+		return t;
 	}
 	
 	@Override
-	public Object visit(VarDecl n)throws AlreadyDeclared  {
+	public Object visit(VarDecl n)throws AlreadyDeclaredException  {
 		ArrayList<String> idList = (ArrayList<String>) n.getVdi().accept(this);
 		for(String s: idList) {
 			if(!this.actualScope.containsKey(s)) {
-			Tuple t = new Tuple(Kind.VARDECL, this.getValueOfLeaf(n.getT()));
+			VarTuple t = new VarTuple(Kind.VARDECL, this.getValueOfLeaf(n.getT()));
 			this.actualScope.put(s, t);
 			} else {
-				throw new AlreadyDeclared("AlreadyDeclaredException");
+				throw new AlreadyDeclaredException("AlreadyDeclaredException");
 			}
 		}
 		return null;
@@ -100,25 +102,27 @@ public class SymTableVisitor implements Visitor<Object> {
 	@Override
 	public Object visit(DefDeclNoPar n) {
 		SymbolTable sc = new SymbolTable();
-		Tuple t = new Tuple(Kind.DEFDECL);
+		DefTuple t = new DefTuple(Kind.DEFDECL);
 		this.actualScope.put((String)n.getId().accept(this), t);
 		this.stack.push(sc);
 		this.actualScope = this.stack.lastElement();
-		n.getB().accept(this);
 		n.setSym(actualScope);
+		n.getB().accept(this);
+		this.stack.pop();
 		return null;
 	}
 
 	@Override
 	public Object visit(DefDeclPar n) {
 		SymbolTable sc = new SymbolTable();
-		Tuple t = new Tuple(Kind.DEFDECL);
+		DefTuple t = new DefTuple(Kind.DEFDECL);
 		this.actualScope.put((String)n.getId().accept(this), t);
 		this.stack.push(sc);
 		this.actualScope = this.stack.lastElement();
-		n.getPd().accept(this);
-		n.getB().accept(this);
 		n.setSym(actualScope);
+		t.setParArray((ArrayList<ParTuple>) n.getPd().accept(this));
+		n.getB().accept(this);
+		this.stack.pop();
 		return null;
 	}
 
@@ -131,9 +135,10 @@ public class SymTableVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(Programma n) {
-		n.getD().accept(this);
+		this.stack.push(new SymbolTable());
+		this.actualScope = this.stack.lastElement();
 		n.setSym(actualScope);
-		System.out.println(this.stack.lastElement());
+		n.getD().accept(this);
 		return null;
 	}
 

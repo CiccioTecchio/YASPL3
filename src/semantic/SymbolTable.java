@@ -22,7 +22,8 @@ public class SymbolTable extends TreeMap<String, Tuple> {
 		STRING,
 		DOUBLE,
 		CHAR,
-		BOOL;
+		BOOL,
+		VOID;
 	}	
 	public enum ParType{
 		IN,
@@ -32,7 +33,7 @@ public class SymbolTable extends TreeMap<String, Tuple> {
 	
 	@Override
 	  public String toString() {
-	    String toReturn = "SymbolTable \n";
+	    String toReturn = "SymbolTable "+hashCode()+"\n";
 	    for(Map.Entry<String, Tuple> e : this.entrySet()) {
 	      toReturn += "<Name:\t"+e.getKey()+"\t\t"+e.getValue()+">\n";
 	    }

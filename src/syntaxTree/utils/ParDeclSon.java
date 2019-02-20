@@ -37,7 +37,7 @@ public class ParDeclSon extends Internal implements Visitable {
 		return parType;
 	}
 
-	public TypeLeaf getType() {
+	public TypeLeaf getTypeLeaf() {
 		return type;
 	}
 

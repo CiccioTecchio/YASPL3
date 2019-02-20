@@ -7,16 +7,17 @@ bool grande;
 
 def moltiplicazione(in double x, in double y, out double res, out bool grande)
 {
+	
 	double risultato = x*y;
 	if ((x*y) >= 100) then {
 		grande = true;
+		
 	}
 	else{ 
-		grande = false;
+		grande = true;
 	}
 	res = risultato;
 }
-
 
 start 
 
@@ -33,7 +34,6 @@ while (i <= 0) do{
 }
 
 while (i > 0) do{
-	
 	x = -1; 
 	y = -1;
 
@@ -52,7 +52,6 @@ while (i > 0) do{
 	}
 	i = i-1;
 }
-
 "Valore di sommagrande: " + sommagrande ->;
 "Valore di sommapiccola: " + sommapiccola ->;
 

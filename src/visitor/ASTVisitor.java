@@ -335,7 +335,7 @@ public class ASTVisitor implements Visitor<String> {
 	public String visit(ParDeclSon n) {
 		String toReturn = "";
 		toReturn += n.getParType().accept(this);
-		toReturn += n.getType().accept(this);
+		toReturn += n.getTypeLeaf().accept(this);
 		toReturn += n.getId().accept(this);
 		return toReturn;
 	}

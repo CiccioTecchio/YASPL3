@@ -10,6 +10,7 @@ import semantic.SymbolTable;
 import syntaxTree.Programma;
 import visitor.ASTVisitor;
 import visitor.SymTableVisitor;
+import visitor.TypeCheckerVisitor;
 
 public class Main {
 
@@ -24,6 +25,8 @@ public class Main {
 			FileWriter fw = new FileWriter(args[1]);
 			SymTableVisitor sym = new SymTableVisitor();
 			sym.visit(p);
+			TypeCheckerVisitor tcv = new TypeCheckerVisitor();
+			tcv.visit(p);
 		    fw.write(r);
 		    fw.close();
 		} catch (FileNotFoundException e) {

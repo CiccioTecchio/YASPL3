@@ -6,22 +6,22 @@ import semantic.Tuple;
 public class Node {
 	
 	private String op;
-	private Tuple ref;
+	private SymbolTable.Type type;
 	private SymbolTable sym;
 	
 	public Node(String op) {
 		this.op = op; 
 	}
 	
-	public Node(String op, Tuple ref, SymbolTable sym) {
+	public Node(String op, SymbolTable.Type type, SymbolTable sym) {
 		this.op = op;
-		this.ref = ref;
+		this.type = type;
 		this.sym = sym;
 	}
 	
-	public Node(String op, Tuple ref) {
+	public Node(String op, SymbolTable.Type type) {
 		this.op = op;
-		this.ref = ref;
+		this.type = type;
 	}
 	
 	public Node(String op, SymbolTable sym) {
@@ -37,12 +37,12 @@ public class Node {
 		this.op = op;
 	}
 
-	public Tuple getRef() {
-		return ref;
+	public SymbolTable.Type getType() {
+		return type;
 	}
 
-	public void setRef(Tuple ref) {
-		this.ref = ref;
+	public void setType(SymbolTable.Type t) {
+		this.type = t;
 	}
 
 	public SymbolTable getSym() {
