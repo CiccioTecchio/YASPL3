@@ -14,6 +14,7 @@ import syntaxTree.wrapper.DeclsWrapper;
 import syntaxTree.wrapper.VarDeclsInitWrapper;
 import java.util.ArrayList;
 import java.util.Stack;
+import java.util.logging.Logger;
 
 import exception.*;
 import semantic.*;
@@ -23,6 +24,7 @@ public class SymTableVisitor implements Visitor<Object> {
 	
 	private Stack<SymbolTable> stack;
 	private SymbolTable actualScope;
+	public static Logger logger=Logger.getLogger("global");
 	
 	public SymTableVisitor() {
 		this.stack = new Stack<SymbolTable>();
@@ -44,7 +46,8 @@ public class SymTableVisitor implements Visitor<Object> {
 	@Override
 	public Object visit(Body n) {
 		n.getVd().accept(this);
-		System.out.println(this.stack.pop().toString());
+		logger.info(this.stack.pop().toString());
+		//this.stack.pop();
 		this.actualScope = this.stack.lastElement();
 		return null;
 	}
@@ -101,28 +104,33 @@ public class SymTableVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(DefDeclNoPar n) {
-		SymbolTable sc = new SymbolTable();
+		//SymbolTable sc = new SymbolTable("DefDeclNoPar");
 		DefTuple t = new DefTuple(Kind.DEFDECL);
-		this.actualScope.put((String)n.getId().accept(this), t);
+		String defName = (String)n.getId().accept(this);
+		this.actualScope.put(defName, t);
+		SymbolTable sc = new SymbolTable(defName);
 		this.stack.push(sc);
 		this.actualScope = this.stack.lastElement();
 		n.setSym(actualScope);
 		n.getB().accept(this);
-		this.stack.pop();
+		//this.stack.pop();
+		logger.info(this.stack.pop().toString());
 		return null;
 	}
 
 	@Override
 	public Object visit(DefDeclPar n) {
-		SymbolTable sc = new SymbolTable();
 		DefTuple t = new DefTuple(Kind.DEFDECL);
-		this.actualScope.put((String)n.getId().accept(this), t);
+		String defName = (String)n.getId().accept(this);
+		this.actualScope.put(defName, t);
+		SymbolTable sc = new SymbolTable(defName);
 		this.stack.push(sc);
 		this.actualScope = this.stack.lastElement();
 		n.setSym(actualScope);
 		t.setParArray((ArrayList<ParTuple>) n.getPd().accept(this));
 		n.getB().accept(this);
-		this.stack.pop();
+		//this.stack.pop();
+		logger.info(this.stack.pop().toString());
 		return null;
 	}
 
@@ -135,7 +143,7 @@ public class SymTableVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(Programma n) {
-		this.stack.push(new SymbolTable());
+		this.stack.push(new SymbolTable("Globale"));
 		this.actualScope = this.stack.lastElement();
 		n.setSym(actualScope);
 		n.getD().accept(this);

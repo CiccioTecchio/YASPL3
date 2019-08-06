@@ -19,6 +19,11 @@ def moltiplicazione(in double x, in double y, out double res, out bool grande)
 	res = risultato;
 }
 
+def addizione()
+{
+int a = 3+5;
+}
+
 start 
 
 sommagrande = 0;
