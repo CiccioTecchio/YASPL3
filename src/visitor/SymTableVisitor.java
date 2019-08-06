@@ -48,7 +48,7 @@ public class SymTableVisitor implements Visitor<Object> {
 		n.getVd().accept(this);
 		logger.info(this.stack.pop().toString());
 		//this.stack.pop();
-		this.actualScope = this.stack.lastElement();
+		this.actualScope = this.stack.peek();
 		return null;
 	}
 	
@@ -81,7 +81,7 @@ public class SymTableVisitor implements Visitor<Object> {
 			VarTuple t = new VarTuple(Kind.VARDECL, this.getValueOfLeaf(n.getT()));
 			this.actualScope.put(s, t);
 			} else {
-				throw new AlreadyDeclaredException("AlreadyDeclaredException");
+				throw new AlreadyDeclaredException("Variabile "+ s + " già dichiarata");
 			}
 		}
 		return null;
@@ -104,17 +104,18 @@ public class SymTableVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(DefDeclNoPar n) {
-		//SymbolTable sc = new SymbolTable("DefDeclNoPar");
 		DefTuple t = new DefTuple(Kind.DEFDECL);
 		String defName = (String)n.getId().accept(this);
+		if(this.actualScope.containsKey(defName)) {
+			throw new AlreadyDeclaredException("Funzione "+ defName + " già dichiarata");
+		}else {
 		this.actualScope.put(defName, t);
 		SymbolTable sc = new SymbolTable(defName);
 		this.stack.push(sc);
-		this.actualScope = this.stack.lastElement();
+		this.actualScope = this.stack.peek();
 		n.setSym(actualScope);
 		n.getB().accept(this);
-		//this.stack.pop();
-		logger.info(this.stack.pop().toString());
+		}
 		return null;
 	}
 
@@ -122,15 +123,17 @@ public class SymTableVisitor implements Visitor<Object> {
 	public Object visit(DefDeclPar n) {
 		DefTuple t = new DefTuple(Kind.DEFDECL);
 		String defName = (String)n.getId().accept(this);
+		if(this.actualScope.containsKey(defName)) {
+			throw new AlreadyDeclaredException("Funzione "+ defName + " già dichiarata");
+		}else {
 		this.actualScope.put(defName, t);
 		SymbolTable sc = new SymbolTable(defName);
 		this.stack.push(sc);
-		this.actualScope = this.stack.lastElement();
+		this.actualScope = this.stack.peek();
 		n.setSym(actualScope);
 		t.setParArray((ArrayList<ParTuple>) n.getPd().accept(this));
 		n.getB().accept(this);
-		//this.stack.pop();
-		logger.info(this.stack.pop().toString());
+		}
 		return null;
 	}
 
@@ -144,9 +147,10 @@ public class SymTableVisitor implements Visitor<Object> {
 	@Override
 	public Object visit(Programma n) {
 		this.stack.push(new SymbolTable("Globale"));
-		this.actualScope = this.stack.lastElement();
+		this.actualScope = this.stack.peek();
 		n.setSym(actualScope);
 		n.getD().accept(this);
+		logger.info(this.stack.peek().toString());
 		return null;
 	}
 
