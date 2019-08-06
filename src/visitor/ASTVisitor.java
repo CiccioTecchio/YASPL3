@@ -68,8 +68,8 @@ public class ASTVisitor implements Visitor<String> {
 	public String visit(DefDeclPar n) {
 		String toReturn = "<"+n.getOp()+">\n";
 		toReturn += n.getId().accept(this);
-		toReturn += n.getB().accept(this);
 		toReturn += n.getPd().accept(this);
+		toReturn += n.getB().accept(this);
 		toReturn += "</"+n.getOp()+">\n";
 		return toReturn;
 	}

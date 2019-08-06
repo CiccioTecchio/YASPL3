@@ -14,7 +14,7 @@ def moltiplicazione(in double x, in double y, out double res, out bool grande)
 		
 	}
 	else{ 
-		grande = true;
+		grande = false;
 	}
 	res = risultato;
 }

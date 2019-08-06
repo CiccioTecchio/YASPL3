@@ -159,7 +159,7 @@ Args		::=	Expr:e COMMA Args:arg		{: RESULT = arg.addChild(e); :}
 Comp_stat	::=	LGPAR Statements:s RGPAR 	{: RESULT = new CompStat("CompStat", s); :}
 			;
 
-Expr		::=	Expr:e1 MINUS Expr:e2		{: RESULT = new SubOp("EqOp", e1, e2); :}	
+Expr		::=	Expr:e1 MINUS Expr:e2		{: RESULT = new SubOp("SubOp", e1, e2); :}	
 			|	Expr:e1 PLUS Expr:e2 		{: RESULT = new AddOp("AddOp", e1, e2); :}
 			|	Expr:e1 TIMES Expr:e2		{: RESULT = new MultOp("MultOp", e1, e2); :}	
 			|	Expr:e1 DIV Expr:e2			{: RESULT = new DivOp("DivOp", e1, e2); :}
