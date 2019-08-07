@@ -1,0 +1,661 @@
+<Programma symTbl = "Globale" type = "VOID">
+<Decls type = "VOID">
+<VarDecl type = "VOID">
+<Type>
+DOUBLE
+</Type>
+
+<VarDeclsInit type = "VOID">
+<VarNotInit>
+<Id type = "DOUBLE">
+sommagrande
+</Id>
+
+</VarNotInit>
+
+<VarNotInit>
+<Id type = "DOUBLE">
+sommapiccola
+</Id>
+
+</VarNotInit>
+
+</VarDeclsInit>
+
+</VarDecl>
+
+<VarDecl type = "VOID">
+<Type>
+INT
+</Type>
+
+<VarDeclsInit type = "VOID">
+<VarNotInit>
+<Id type = "INT">
+i
+</Id>
+
+</VarNotInit>
+
+</VarDeclsInit>
+
+</VarDecl>
+
+<VarDecl type = "VOID">
+<Type>
+DOUBLE
+</Type>
+
+<VarDeclsInit type = "VOID">
+<VarNotInit>
+<Id type = "DOUBLE">
+x
+</Id>
+
+</VarNotInit>
+
+<VarNotInit>
+<Id type = "DOUBLE">
+y
+</Id>
+
+</VarNotInit>
+
+<VarNotInit>
+<Id type = "DOUBLE">
+risultato
+</Id>
+
+</VarNotInit>
+
+</VarDeclsInit>
+
+</VarDecl>
+
+<VarDecl type = "VOID">
+<Type>
+BOOL
+</Type>
+
+<VarDeclsInit type = "VOID">
+<VarNotInit>
+<Id type = "BOOL">
+grande
+</Id>
+
+</VarNotInit>
+
+</VarDeclsInit>
+
+</VarDecl>
+
+<DefDecl symTbl = "moltiplicazione" type = "VOID">
+<Id type = "VOID">
+moltiplicazione
+</Id>
+
+<ParDeclsOp>
+<ParDeclSon>
+<ParType>
+IN
+</ParType>
+<Type>
+DOUBLE
+</Type>
+<Id>
+x
+</Id>
+</ParDeclSon>
+<ParDeclSon>
+<ParType>
+IN
+</ParType>
+<Type>
+DOUBLE
+</Type>
+<Id>
+y
+</Id>
+</ParDeclSon>
+<ParDeclSon>
+<ParType>
+OUT
+</ParType>
+<Type>
+DOUBLE
+</Type>
+<Id>
+res
+</Id>
+</ParDeclSon>
+<ParDeclSon>
+<ParType>
+OUT
+</ParType>
+<Type>
+BOOL
+</Type>
+<Id>
+grande
+</Id>
+</ParDeclSon>
+</ParDeclsOp>
+
+<Body type = "VOID">
+<VarDecls type = "VOID">
+<VarDecl type = "VOID">
+<Type>
+DOUBLE
+</Type>
+
+<VarDeclsInit type = "VOID">
+<VarInit>
+<Id type = "DOUBLE">
+risultato
+</Id>
+
+<VarInitValue type = "DOUBLE">
+<MultOp type = "DOUBLE">
+<Id type = "DOUBLE">
+x
+</Id>
+
+<Id type = "DOUBLE">
+y
+</Id>
+
+</MultOp>
+</VarInitValue>
+
+</VarInit>
+
+</VarDeclsInit>
+
+</VarDecl>
+
+</VarDecls>
+
+<Statements>
+<IfThenElseOp type = "VOID">
+<GeOp type = "BOOL">
+<MultOp type = "DOUBLE">
+<Id type = "DOUBLE">
+x
+</Id>
+
+<Id type = "DOUBLE">
+y
+</Id>
+
+</MultOp>
+
+<IntConst>
+100
+</IntConst>
+
+</GeOp>
+
+<CompStat type = "VOID">
+<Statements>
+<AssignOp type = "VOID">
+<Id type = "BOOL">
+grande
+</Id>
+
+<BoolConst>
+true
+</BoolConst>
+
+</AssignOp>
+
+</Statements>
+
+</CompStat>
+
+<CompStat type = "VOID">
+<Statements>
+<AssignOp type = "VOID">
+<Id type = "BOOL">
+grande
+</Id>
+
+<BoolConst>
+false
+</BoolConst>
+
+</AssignOp>
+
+</Statements>
+
+</CompStat>
+
+</IfThenElseOp>
+
+<AssignOp type = "VOID">
+<Id type = "DOUBLE">
+res
+</Id>
+
+<Id type = "DOUBLE">
+risultato
+</Id>
+
+</AssignOp>
+
+</Statements>
+
+</Body>
+
+</DefDecl>
+
+<DefDecl symTbl = "add" type = "VOID">
+<Id type = "VOID">
+add
+</Id>
+
+<Body type = "VOID">
+<VarDecls type = "VOID">
+<VarDecl type = "VOID">
+<Type>
+INT
+</Type>
+
+<VarDeclsInit type = "VOID">
+<VarInit>
+<Id type = "INT">
+a
+</Id>
+
+<VarInitValue type = "INT">
+<AddOp type = "INT">
+<IntConst>
+3
+</IntConst>
+
+<IntConst>
+2
+</IntConst>
+
+</AddOp>
+</VarInitValue>
+
+</VarInit>
+
+</VarDeclsInit>
+
+</VarDecl>
+
+</VarDecls>
+
+<Statements>
+</Statements>
+
+</Body>
+
+</DefDecl>
+
+</Decls>
+
+<Statements>
+<AssignOp type = "VOID">
+<Id type = "DOUBLE">
+sommagrande
+</Id>
+
+<IntConst>
+0
+</IntConst>
+
+</AssignOp>
+
+<AssignOp type = "VOID">
+<Id type = "DOUBLE">
+sommapiccola
+</Id>
+
+<IntConst>
+0
+</IntConst>
+
+</AssignOp>
+
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
+<StringConst>
+&quot;Questo programma permette di svolgere una serie di moltiplicazioni&quot;
+</StringConst>
+
+</ArgsOp>
+
+</WriteOp>
+
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
+<StringConst>
+&quot;accumulando i risultati &amp;lt; 100 in sommagrande e quelli &amp;lt; 100 in sommapiccola&quot;
+</StringConst>
+
+</ArgsOp>
+
+</WriteOp>
+
+<AssignOp type = "VOID">
+<Id type = "INT">
+i
+</Id>
+
+<UminusOp type = "INT">
+<IntConst>
+1
+</IntConst>
+
+</UminusOp>
+
+</AssignOp>
+
+<WhileOp type = "VOID">
+<LeOp type = "BOOL">
+<Id type = "INT">
+i
+</Id>
+
+<IntConst>
+0
+</IntConst>
+
+</LeOp>
+
+<CompStat type = "VOID">
+<Statements>
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
+<StringConst>
+&quot;Quante moltiplicazioni vuoi svolgere? (inserire intero &amp;gt; 0)&quot;
+</StringConst>
+
+</ArgsOp>
+
+</WriteOp>
+
+<ReadOp type = "VOID">
+<Vars type = "VOID">
+<Id type = "INT">
+i
+</Id>
+</Vars>
+
+</ReadOp>
+
+</Statements>
+
+</CompStat>
+
+</WhileOp>
+
+<WhileOp type = "VOID">
+<GtOp type = "BOOL">
+<Id type = "INT">
+i
+</Id>
+
+<IntConst>
+0
+</IntConst>
+
+</GtOp>
+
+<CompStat type = "VOID">
+<Statements>
+<AssignOp type = "VOID">
+<Id type = "DOUBLE">
+x
+</Id>
+
+<UminusOp type = "INT">
+<IntConst>
+1
+</IntConst>
+
+</UminusOp>
+
+</AssignOp>
+
+<AssignOp type = "VOID">
+<Id type = "DOUBLE">
+y
+</Id>
+
+<UminusOp type = "INT">
+<IntConst>
+1
+</IntConst>
+
+</UminusOp>
+
+</AssignOp>
+
+<WhileOp type = "VOID">
+<NotOp type = "BOOL">
+<AndOp type = "BOOL">
+<GtOp type = "BOOL">
+<Id type = "DOUBLE">
+x
+</Id>
+
+<IntConst>
+0
+</IntConst>
+
+</GtOp>
+
+<GtOp type = "BOOL">
+<Id type = "DOUBLE">
+y
+</Id>
+
+<IntConst>
+0
+</IntConst>
+
+</GtOp>
+
+</AndOp>
+
+</NotOp>
+
+<CompStat type = "VOID">
+<Statements>
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
+<AddOp type = "STRING">
+<AddOp type = "STRING">
+<StringConst>
+&quot;Moltiplicazione &quot;
+</StringConst>
+
+<Id type = "INT">
+i
+</Id>
+
+</AddOp>
+
+<StringConst>
+&quot;: inserisci due numeri positivi&quot;
+</StringConst>
+
+</AddOp>
+
+</ArgsOp>
+
+</WriteOp>
+
+<ReadOp type = "VOID">
+<Vars type = "VOID">
+<Id type = "DOUBLE">
+x
+</Id>
+<Id type = "DOUBLE">
+y
+</Id>
+</Vars>
+
+</ReadOp>
+
+</Statements>
+
+</CompStat>
+
+</WhileOp>
+
+<CallOpWithArgs type = "VOID">
+<Id type = "VOID">
+moltiplicazione
+</Id>
+
+<ArgsOp type = "VOID">
+<Id type = "DOUBLE">
+x
+</Id>
+
+<Id type = "DOUBLE">
+y
+</Id>
+
+<Id type = "DOUBLE">
+risultato
+</Id>
+
+<Id type = "BOOL">
+grande
+</Id>
+
+</ArgsOp>
+
+</CallOpWithArgs>
+
+<IfThenElseOp type = "VOID">
+<Id type = "BOOL">
+grande
+</Id>
+
+<CompStat type = "VOID">
+<Statements>
+<AssignOp type = "VOID">
+<Id type = "DOUBLE">
+sommagrande
+</Id>
+
+<AddOp type = "DOUBLE">
+<Id type = "DOUBLE">
+sommagrande
+</Id>
+
+<Id type = "DOUBLE">
+risultato
+</Id>
+
+</AddOp>
+
+</AssignOp>
+
+</Statements>
+
+</CompStat>
+
+<CompStat type = "VOID">
+<Statements>
+<AssignOp type = "VOID">
+<Id type = "DOUBLE">
+sommapiccola
+</Id>
+
+<AddOp type = "DOUBLE">
+<Id type = "DOUBLE">
+sommapiccola
+</Id>
+
+<Id type = "DOUBLE">
+risultato
+</Id>
+
+</AddOp>
+
+</AssignOp>
+
+</Statements>
+
+</CompStat>
+
+</IfThenElseOp>
+
+<AssignOp type = "VOID">
+<Id type = "INT">
+i
+</Id>
+
+<SubOp type = "INT">
+<Id type = "INT">
+i
+</Id>
+
+<IntConst>
+1
+</IntConst>
+
+</SubOp>
+
+</AssignOp>
+
+</Statements>
+
+</CompStat>
+
+</WhileOp>
+
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
+<AddOp type = "STRING">
+<StringConst>
+&quot;Valore di sommagrande: &quot;
+</StringConst>
+
+<Id type = "DOUBLE">
+sommagrande
+</Id>
+
+</AddOp>
+
+</ArgsOp>
+
+</WriteOp>
+
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
+<AddOp type = "STRING">
+<StringConst>
+&quot;Valore di sommapiccola: &quot;
+</StringConst>
+
+<Id type = "DOUBLE">
+sommapiccola
+</Id>
+
+</AddOp>
+
+</ArgsOp>
+
+</WriteOp>
+
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
+<StringConst>
+&quot;ciao&quot;
+</StringConst>
+
+</ArgsOp>
+
+</WriteOp>
+
+</Statements>
+
+</Programma>

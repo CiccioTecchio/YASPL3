@@ -8,6 +8,7 @@ import lexer.*;
 import parser.ParserCup;
 import syntaxTree.Programma;
 import visitor.ASTVisitor;
+import visitor.EnrichASTVisitor;
 import visitor.SymTableVisitor;
 import visitor.TypeCheckerVisitor;
 
@@ -28,8 +29,9 @@ public class Main {
 			sym.visit(p);
 			TypeCheckerVisitor tcv = new TypeCheckerVisitor();
 			tcv.visit(p);
+			EnrichASTVisitor eAST = new EnrichASTVisitor();
 			fw = new FileWriter(args[2]);
-			fw.write(tcv.getAST());
+			fw.write(eAST.visit(p));
 		    fw.close();
 		    
 		} catch (FileNotFoundException e) {

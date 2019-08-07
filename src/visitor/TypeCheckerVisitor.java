@@ -151,8 +151,12 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(ParDecls n) throws RuntimeException {
-		// TODO Auto-generated method stub
-		return null;
+		n.setType(Type.VOID);
+		for(ParDeclSon son: n.getChildList()) {
+			son.accept(this);
+		}
+		return Type.VOID;
+		
 	}
 
 
@@ -428,6 +432,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 			else  if(t instanceof ParTuple) n.setType(((ParTuple) t).getType());
 			else n.setType(((VarTuple) t).getType());
 		}
+		//System.out.println(n.getType());
 		return n.getType();
 	}
 
@@ -579,7 +584,11 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(ParDeclSon n) throws RuntimeException {
-		return null;
+		n.setType(Type.VOID);
+		n.getParType().accept(this);
+		n.getTypeLeaf().accept(this);
+		n.getId().accept(this);
+		return Type.VOID;
 	}
 
 
@@ -607,14 +616,14 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(TypeLeaf n) throws RuntimeException {
-		return null;
+		return n.getValue();
 	}
 
 
 
 	@Override
 	public Object visit(ParTypeLeaf n) throws RuntimeException {
-		return null;
+		return n.getValue();
 	}
 	
 	private Tuple lookup(String id) throws NotDefinedElementException{
