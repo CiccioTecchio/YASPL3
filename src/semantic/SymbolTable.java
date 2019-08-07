@@ -53,4 +53,8 @@ public class SymbolTable extends TreeMap<String, Tuple> {
 	    return toReturn;
 	  }
 	
+	public String getScopeName() {
+		return scopeName;
+	}
+	
 }

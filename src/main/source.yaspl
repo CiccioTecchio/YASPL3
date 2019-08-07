@@ -5,8 +5,7 @@ int i;
 double x, y, risultato;
 bool grande;
 
-def moltiplicazione(in double x, in double y, out double res, out bool grande)
-{
+def moltiplicazione(in double x, in double y, out double res, out bool grande){
 	
 	double risultato = x*y;
 	if ((x*y) >= 100) then {

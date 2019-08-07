@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import lexer.*;
 import parser.ParserCup;
-import semantic.SymbolTable;
 import syntaxTree.Programma;
 import visitor.ASTVisitor;
 import visitor.SymTableVisitor;
@@ -23,16 +22,21 @@ public class Main {
 			ASTVisitor tpv = new ASTVisitor();
 			String r = tpv.visit(p);
 			FileWriter fw = new FileWriter(args[1]);
-			SymTableVisitor sym = new SymTableVisitor();
+			fw.write(r);
+			fw.close();
+			SymTableVisitor sym = new SymTableVisitor("src/main/scopes.log");
 			sym.visit(p);
 			TypeCheckerVisitor tcv = new TypeCheckerVisitor();
 			tcv.visit(p);
-		    fw.write(r);
+			fw = new FileWriter(args[2]);
+			fw.write(tcv.getAST());
 		    fw.close();
+		    
 		} catch (FileNotFoundException e) {
 			System.out.println("You need to add arguments:\n"
 					+ "1. specify the yaspl source file\n"
-					+ "2. specify the output xml file");
+					+ "2. specify the file where you want to print the ast in XML"
+					+ "3. specify the file where you want to print the enriched ast in XML\"");
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();

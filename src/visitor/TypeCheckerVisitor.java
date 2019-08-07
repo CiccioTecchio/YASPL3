@@ -13,114 +13,141 @@ import syntaxTree.varDeclInitOp.*;
 import syntaxTree.wrapper.DeclsWrapper;
 import syntaxTree.wrapper.VarDeclsInitWrapper;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
+import java.util.logging.Logger;
+
 import exception.*;
 import semantic.*;
 import semantic.SymbolTable.*;
 
 public class TypeCheckerVisitor implements Visitor<Object> {
-	
+
 	private Stack<SymbolTable> stack;
+	private SymbolTable actualScope;
+	private String ast;
 	
-	private SymbolTable.Type[][] sumOpCompTable = {
-			{Type.INT, Type.STRING, Type.DOUBLE, Type.CHAR, null, null}, //riga degli interi
-			{Type.STRING, Type.STRING, Type.STRING, Type.STRING, Type.STRING, null}, //riga delle stringhe
-			{Type.DOUBLE, Type.STRING, Type.DOUBLE, null, null, null}, //riga dei double
-			{Type.CHAR, Type.STRING, null, Type.STRING, null, null}, //riga dei char
-			{null, Type.STRING, null, null, null, null}, //riga dei bool
+	private Logger logger=Logger.getLogger("TypeChecker");
+	
+	private SymbolTable.Type[][] sumOpCompOp = {
+			{Type.INT, Type.STRING, Type.DOUBLE, null, null, null},	//riga interi
+			{Type.STRING, Type.STRING, Type.STRING, Type.STRING, Type.STRING, null },	//riga stringa
+			{Type.DOUBLE, Type.STRING, Type.DOUBLE, null, null, null},	//riga double
+			{null, Type.STRING, null, Type.STRING, null, null},	//riga char
+			{null, Type.STRING, null, null, null, null}	//riga bool
 	};
 	
-	private SymbolTable.Type[][] arithOpCompTable = {
-			{Type.INT, null, Type.DOUBLE, null, null, null}, //riga degli interi
-			{null, null, null, null, null, null}, //riga delle stringhe
-			{Type.DOUBLE, null, Type.DOUBLE, null, null, null}, //riga dei double
-			{null, null, null, null, null, null}, //riga dei char
-			{null, null, null, null, null, null}, //riga dei bool
+	
+	private SymbolTable.Type[][] arithOpCompOp = { // it's sub, mult and divOp
+			{Type.INT, null, Type.DOUBLE, null, null, null},	//riga interi
+			{null, null, null, null, null, null},	//riga stringa
+			{Type.DOUBLE, null, Type.DOUBLE, null, null, null},	//riga double
+			{null, null, null, null, null, null},	//riga char
+			{null, null, null, null, null, null},	//riga bool
 	};
 	
-	private SymbolTable.Type[][] compareOpCompTable = {
-			{Type.BOOL, null, Type.BOOL, Type.BOOL, null, null}, //riga degli interi
-			{null, Type.BOOL, null, null, null, null}, //riga delle stringhe
-			{Type.BOOL, null, Type.BOOL, null, null, null}, //riga dei double
-			{Type.BOOL, null, null, Type.BOOL, null, null}, //riga dei char
-			{null, null, null, null, null, null}, //riga dei bool
+	private SymbolTable.Type[][] eqOpCompOp = {
+			{Type.BOOL, null, Type.BOOL, null, null, null},	//riga interi
+			{null, Type.BOOL, null, null, null,  null},	//riga stringa
+			{Type.BOOL, null, Type.BOOL, null, null, null},	//riga double
+			{null, null, null, Type.BOOL, null, null},	//riga char
+			{null, null, null, null, Type.BOOL, null}	//riga bool
 	};
 	
-	private SymbolTable.Type[][] eqOpCompTable = {
-			{Type.BOOL, null, Type.BOOL, Type.BOOL, null, null}, //riga degli interi
-			{null, Type.BOOL, null, null, null, null}, //riga delle stringhe
-			{Type.BOOL, null, Type.BOOL, null, null, null}, //riga dei double
-			{Type.BOOL, null, null, Type.BOOL, null, null}, //riga dei char
-			{null, null, null, null, Type.BOOL, null}, //riga dei bool
+	private SymbolTable.Type[][] relOpCompOp = { //it's relOp
+			{Type.BOOL, null, Type.BOOL, null, null, null},	//riga interi
+			{null, Type.BOOL, null, null, null, null},	//riga stringa
+			{Type.BOOL, null, Type.BOOL, null, null, null},	//riga double
+			{null, null, null, Type.BOOL, null, null},	//riga char
+			{null, null, null, null, null, null},	//riga bool
 	};
 	
-	private SymbolTable.Type[][] assignOpCompTable = {
-		      {Type.INT, null, Type.INT, Type.INT, null, null},
-		      {null, Type.STRING, null, Type.STRING, null, null},
-		      {Type.DOUBLE, null, Type.DOUBLE, null, null, null},
-		      {Type.CHAR, null, null, Type.CHAR, null, null},
-		      {null, null, null, null, Type.BOOL, null}
-		  };
+	private SymbolTable.Type[][] assignOpCompOp = {
+			{Type.INT, null, Type.INT, null, null, null},	//riga interi
+			{null, Type.STRING, null, Type.STRING, null, null},	//riga stringa
+			{Type.DOUBLE, null, Type.DOUBLE, null, null, null},	//riga double
+			{null, null, null, Type.CHAR, null, null},	//riga char
+			{null, null, null, null, Type.BOOL, null}	//riga bool
+	};
 	
-	private SymbolTable.Type[] uminusCompTable = {Type.INT, null, Type.DOUBLE, null, null};
+	private SymbolTable.Type[] uminusOpCompOp = {
+			Type.INT, null, Type.DOUBLE, null, Type.BOOL,  null
+	};	
 	
 	public TypeCheckerVisitor() {
-		this.stack = new Stack<SymbolTable>();
-
+		this.stack = new Stack<>();
+		this.ast = "";
 	}
-	
+
 	@Override
 	public Object visit(Args n) throws RuntimeException {
-		ArrayList<SymbolTable.Type> typeArray = new ArrayList<>();
-		for (Expr e: n.getChildList()) {
-			typeArray.add((Type) e.accept(this));
+		ArrayList<Type> parTypes = new ArrayList<>();
+		for(Expr e : n.getChildList()) {
+			parTypes.add((Type)e.accept(this));
 		}
 		n.setType(Type.VOID);
-		return typeArray;
+		return parTypes;
 	}
+
+
 
 	@Override
 	public Object visit(Body n) throws RuntimeException {
-		Type s = (Type)n.getS().accept(this);
+		n.getVd().accept(this);
+		n.getS().accept(this);
 		n.setType(Type.VOID);
 		return n.getType();
 	}
+
+
 
 	@Override
 	public Object visit(CompStat n) throws RuntimeException {
-		Type s =(Type) n.getS().accept(this);
 		n.setType(Type.VOID);
-		return n.getType();
+		n.getS().accept(this);
+		return Type.VOID;
 	}
+
+
 
 	@Override
 	public Object visit(Decls n) throws RuntimeException {
+		n.setType(Type.VOID);
 		for(DeclsWrapper dw: n.getChildList()) {
 			dw.accept(this);
 		}
-		n.setType(Type.VOID);
-		return n.getType();
+		return Type.VOID;
 	}
+
+
 
 	@Override
 	public Object visit(DefDeclNoPar n) throws RuntimeException {
-		stack.push(n.getSym());
+		n.setType(Type.VOID);
+		this.stack.push(n.getSym());
+		this.actualScope = this.stack.peek();
 		n.getId().accept(this);
 		n.getB().accept(this);
-		stack.pop();
-		n.setType(Type.VOID);
+		this.stack.pop();
+		this.actualScope = this.stack.peek();
 		return n.getType();
 	}
 
+
+
 	@Override
 	public Object visit(DefDeclPar n) throws RuntimeException {
-		stack.push(n.getSym());
+		n.setType(Type.VOID);
+		this.stack.push(n.getSym());
+		this.actualScope = this.stack.peek();
 		n.getId().accept(this);
 		n.getB().accept(this);
-		stack.pop();
-		n.setType(Type.VOID);
+		this.stack.pop();
+		this.actualScope = this.stack.peek();
 		return n.getType();
 	}
+
+
 
 	@Override
 	public Object visit(ParDecls n) throws RuntimeException {
@@ -128,441 +155,524 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		return null;
 	}
 
+
+
 	@Override
 	public Object visit(Programma n) throws RuntimeException {
-		this.stack.push(n.getSym());
+		n.setType(Type.VOID);
+		SymbolTable tbl = n.getSym();
+		stack.push(tbl);
+		this.actualScope = stack.peek();
 		n.getD().accept(this);
 		n.getS().accept(this);
-		n.setType(Type.VOID);
-		return n.getType();
+		return Type.VOID;
 	}
+
+
 
 	@Override
 	public Object visit(Statements n) throws RuntimeException {
-		for(Stat s : n.getChildList()) {
+		n.setType(Type.VOID);
+		for(Stat s: n.getChildList() ) {
 			s.accept(this);
 		}
-		n.setType(Type.VOID);
-		return n.getType();
+		return Type.VOID;
 	}
+
+
 
 	@Override
 	public Object visit(VarDecl n) throws RuntimeException {
-		Type vdi = (Type)n.getVdi().accept(this);
-		n.setType(vdi);
-		return n.getType();
+		n.setType(Type.VOID);
+		n.getVdi().accept(this);
+		return Type.VOID;
 	}
+
+
 
 	@Override
 	public Object visit(VarDecls n) throws RuntimeException {
-		for(VarDecl vd: n.getChildList()) {
-			vd.accept(this);
-		}
 		n.setType(Type.VOID);
-		return n.getType();
+		for(DeclsWrapper dw: n.getChildList()) {
+			dw.accept(this);
+		}
+		return Type.VOID;
 	}
+
+
 
 	@Override
 	public Object visit(VarDeclsInit n) throws RuntimeException {
+		n.setType(Type.VOID);
 		for(VarDeclsInitWrapper vdiw: n.getChildList()) {
 			vdiw.accept(this);
 		}
-		n.setType(Type.VOID);
-		return n.getType();
+		return Type.VOID;
 	}
+
+
 
 	@Override
 	public Object visit(VarInitValue n) throws RuntimeException {
-		n.setType((Type) n.getE().accept(this));
+		n.setType((Type)n.getE().accept(this));
 		return n.getType();
 	}
+
+
 
 	@Override
 	public Object visit(Vars n) throws RuntimeException {
-		for(IdConst id : n.getChildList()) {
+		n.setType(Type.VOID);
+		for(IdConst id: n.getChildList()) {
 			id.accept(this);
 		}
-		n.setType(Type.VOID);
+		return Type.VOID;
+	}
+
+
+
+	@Override
+	public Object visit(AddOp n) throws RuntimeException {
+		Type t1 = (Type) n.getE1().accept(this);
+		Type t2 = (Type) n.getE2().accept(this);
+		Type toReturn = this.sumOpCompOp[gift(t1)][gift(t2)];
+		if(toReturn == null) {
+			throw new TypeMismatchException(n.getOp(), t1, t2);
+		}else
+		n.setType(toReturn);
+		return toReturn;
+	}
+
+
+
+	@Override
+	public Object visit(DivOp n) throws RuntimeException {
+		Type t1 = (Type) n.getE1().accept(this);
+		Type t2 = (Type) n.getE2().accept(this);
+		Type toReturn = this.arithOpCompOp[gift(t1)][gift(t2)];
+		if(toReturn == null) {
+			throw new TypeMismatchException(n.getOp(), t1, t2);
+		}else
+		n.setType(toReturn);
+		return toReturn;
+	}
+
+
+
+	@Override
+	public Object visit(MultOp n) throws RuntimeException {
+		Type t1 = (Type) n.getE1().accept(this);
+		Type t2 = (Type) n.getE2().accept(this);
+		Type toReturn = this.arithOpCompOp[gift(t1)][gift(t2)];
+		if(toReturn == null) {
+			throw new TypeMismatchException(n.getOp(), t1, t2);
+		}else
+		n.setType(toReturn);
+		return toReturn;
+	}
+
+
+
+	@Override
+	public Object visit(SubOp n) throws RuntimeException {
+		Type t1 = (Type) n.getE1().accept(this);
+		Type t2 = (Type) n.getE2().accept(this);
+		Type toReturn = this.arithOpCompOp[gift(t1)][gift(t2)];
+		if(toReturn == null) {
+			throw new TypeMismatchException(n.getOp(), t1, t2);
+		}else
+		n.setType(toReturn);
+		return toReturn;
+	}
+
+
+
+	@Override
+	public Object visit(UminusOp n) throws RuntimeException {
+		Type t = (Type) n.getE().accept(this);
+		Type toReturn = this.uminusOpCompOp[gift(t)];
+		if(toReturn == null) {
+			throw new TypeMismatchException(n.getOp(), t);
+		}else
+		n.setType(toReturn);
+		return toReturn;
+	}
+
+
+
+	@Override
+	public Object visit(AndOp n) throws RuntimeException {
+		Type t1 = (Type) n.getE1().accept(this);
+		Type t2 = (Type) n.getE2().accept(this);
+		Type toReturn = (t1 == t2) && (t2 == Type.BOOL)? Type.BOOL : null;
+		if(toReturn == null) {
+			throw new TypeMismatchException(n.getOp(), t1, t2);
+		}else
+		n.setType(toReturn);
+		return toReturn;
+	}
+
+
+
+	@Override
+	public Object visit(NotOp n) throws RuntimeException {
+		Type t = (Type) n.getE().accept(this);
+		Type toReturn = (t == Type.BOOL)? Type.BOOL : null;
+		if(toReturn == null) {
+			throw new TypeMismatchException(n.getOp(), t);
+		}else
+		n.setType(toReturn);
 		return n.getType();
 	}
 
-	@Override
-	public Object visit(AddOp n) throws TypeMismatchException {
-	Type t1 = (Type) n.getE1().accept(this);
-	Type t2 = (Type) n.getE2().accept(this);
-	Type sumType = sumOpCompTable[gift(t1)][gift(t2)];
-	if(sumType!=null) {
-		n.setType(sumType);
-		return sumType;
-	}else {
-		throw new TypeMismatchException(n.getOp(),t1,t2);
-	}
-		
-	}
+
 
 	@Override
-	public Object visit(DivOp n) throws TypeMismatchException {
+	public Object visit(OrOp n) throws RuntimeException {
 		Type t1 = (Type) n.getE1().accept(this);
 		Type t2 = (Type) n.getE2().accept(this);
-		Type sumType = arithOpCompTable[gift(t1)][gift(t2)];
-		if(sumType!=null) {
-			n.setType(sumType);
-			return sumType;
-		}else {
-			throw new TypeMismatchException(n.getOp(),t1,t2);
-		}
+		Type toReturn = (t1 == t2) && (t2 == Type.BOOL)? Type.BOOL : null;
+		if(toReturn == null) {
+			throw new TypeMismatchException(n.getOp(), t1, t2);
+		}else
+		n.setType(toReturn);
+		return toReturn;
 	}
 
+
+
 	@Override
-	public Object visit(MultOp n) throws TypeMismatchException {
+	public Object visit(EqOp n) throws RuntimeException {
 		Type t1 = (Type) n.getE1().accept(this);
 		Type t2 = (Type) n.getE2().accept(this);
-		Type sumType = arithOpCompTable[gift(t1)][gift(t2)];
-		if(sumType!=null) {
-			n.setType(sumType);
-			return sumType;
-		}else {
-			throw new TypeMismatchException(n.getOp(),t1,t2);
-		}
-			
+		Type toReturn = this.eqOpCompOp[gift(t1)][gift(t2)];
+		if(toReturn == null) {
+			throw new TypeMismatchException(n.getOp(), t1, t2);
+		}else
+		n.setType(toReturn);
+		return toReturn;	
 	}
 
+
+
 	@Override
-	public Object visit(SubOp n) throws TypeMismatchException {
+	public Object visit(GeOp n) throws RuntimeException {
 		Type t1 = (Type) n.getE1().accept(this);
 		Type t2 = (Type) n.getE2().accept(this);
-		Type sumType = arithOpCompTable[gift(t1)][gift(t2)];
-		if(sumType!=null) {
-			n.setType(sumType);
-			return sumType;
-		}else {
-			throw new TypeMismatchException(n.getOp(),t1,t2);
-		}
-			
+		Type toReturn = this.relOpCompOp[gift(t1)][gift(t2)];
+		if(toReturn == null) {
+			throw new TypeMismatchException(n.getOp(), t1, t2);
+		}else
+		n.setType(toReturn);
+		return toReturn;
 	}
 
-	@Override
-	public Object visit(UminusOp n) throws TypeMismatchException {
-		Type t1 = (Type) n.getE().accept(this);
-		Type sumType = uminusCompTable[gift(t1)];
-		if(sumType!=null) {
-			n.setType(sumType);
-			return sumType;
-		}else {
-			throw new TypeMismatchException(n.getOp(),t1);
-		}
-			
-	}
+
 
 	@Override
-	public Object visit(AndOp n) throws TypeMismatchException {
+	public Object visit(GtOp n) throws RuntimeException {
 		Type t1 = (Type) n.getE1().accept(this);
 		Type t2 = (Type) n.getE2().accept(this);
-		Type tr = (t1 == Type.BOOL && t2 == Type.BOOL)? Type.BOOL: null;
-		if(tr!=null) {
-			n.setType(tr);
-			return tr;
-		}else {
-			throw new TypeMismatchException(n.getOp(),t1,t2);
-		}
+		Type toReturn = this.relOpCompOp[gift(t1)][gift(t2)];
+		if(toReturn == null) {
+			throw new TypeMismatchException(n.getOp(), t1, t2);
+		}else
+		n.setType(toReturn);
+		return toReturn;
 	}
 
-	@Override
-	public Object visit(NotOp n) throws TypeMismatchException {
-		Type t1 = (Type) n.getE().accept(this);
-		Type tr = (t1 == Type.BOOL)? Type.BOOL: null;
-		if(tr!=null) {
-			n.setType(tr);
-			return tr;
-		}else {
-			throw new TypeMismatchException(n.getOp(),t1);
-		}
-	}
+
 
 	@Override
-	public Object visit(OrOp n) throws TypeMismatchException {
+	public Object visit(LeOp n) throws RuntimeException {
 		Type t1 = (Type) n.getE1().accept(this);
 		Type t2 = (Type) n.getE2().accept(this);
-		Type tr = (t1 == Type.BOOL && t2 == Type.BOOL)? Type.BOOL: null;
-		if(tr!=null) {
-			n.setType(tr);
-			return tr;
-		}else {
-			throw new TypeMismatchException(n.getOp(),t1,t2);
-		}
-
+		Type toReturn = this.relOpCompOp[gift(t1)][gift(t2)];
+		if(toReturn == null) {
+			throw new TypeMismatchException(n.getOp(), t1, t2);
+		}else
+		n.setType(toReturn);
+		return toReturn;
 	}
 
-	@Override
-	public Object visit(EqOp n) throws TypeMismatchException {
-		Type t1 = (Type) n.getE1().accept(this);
-		Type t2 = (Type) n.getE2().accept(this);
-		Type sumType = eqOpCompTable[gift(t1)][gift(t2)];
-		if(sumType!=null) {
-			n.setType(sumType);
-			return n.getType();
-		}else {
-			throw new TypeMismatchException(n.getOp(),t1,t2);
-		}	
-	}
+
 
 	@Override
-	public Object visit(GeOp n) throws TypeMismatchException {
+	public Object visit(LtOp n) throws RuntimeException {
 		Type t1 = (Type) n.getE1().accept(this);
 		Type t2 = (Type) n.getE2().accept(this);
-		Type sumType = compareOpCompTable[gift(t1)][gift(t2)];
-		if(sumType!=null) {
-			n.setType(sumType);
-			return n.getType();
-		}else {
-			throw new TypeMismatchException(n.getOp(),t1,t2);
-		}
+		Type toReturn = this.relOpCompOp[gift(t1)][gift(t2)];
+		if(toReturn == null) {
+			throw new TypeMismatchException(n.getOp(), t1, t2);
+		}else
+		n.setType(toReturn);
+		return toReturn;
 	}
 
-	@Override
-	public Object visit(GtOp n) throws TypeMismatchException {
-		Type t1 = (Type) n.getE1().accept(this);
-		Type t2 = (Type) n.getE2().accept(this);
-		Type sumType = compareOpCompTable[gift(t1)][gift(t2)];
-		if(sumType!=null) {
-			n.setType(sumType);
-			return n.getType();
-		}else {
-			throw new TypeMismatchException(n.getOp(),t1,t2);
-		}
-	}
 
-	@Override
-	public Object visit(LeOp n) throws TypeMismatchException {
-		Type t1 = (Type) n.getE1().accept(this);
-		Type t2 = (Type) n.getE2().accept(this);
-		Type sumType = compareOpCompTable[gift(t1)][gift(t2)];
-		if(sumType!=null) {
-			n.setType(sumType);
-			return n.getType();
-		}else {
-			throw new TypeMismatchException(n.getOp(),t1,t2);
-		}
-	}
-
-	@Override
-	public Object visit(LtOp n) throws TypeMismatchException {
-		Type t1 = (Type) n.getE1().accept(this);
-		Type t2 = (Type) n.getE2().accept(this);
-		Type sumType = compareOpCompTable[gift(t1)][gift(t2)];
-		if(sumType!=null) {
-			n.setType(sumType);
-			return n.getType();
-		}else {
-			throw new TypeMismatchException(n.getOp(),t1,t2);
-		}
-	}
 
 	@Override
 	public Object visit(BoolConst n) throws RuntimeException {
 		n.setType(Type.BOOL);
-		return n.getType();
+		return Type.BOOL;
 	}
+
+
 
 	@Override
 	public Object visit(IdConst n) throws RuntimeException {
 		Tuple t = lookup(n.getId().getValue());
-		if(t instanceof ParTuple) {
-			n.setType(((ParTuple )t).getType());
-		}else {
-			if(t instanceof VarTuple) {
-				n.setType(((VarTuple )t).getType());
-			}else {
-				if(t instanceof DefTuple) {
-					n.setType(Type.VOID);
-				}
-			}
+		if(t == null) throw new NotDefinedElementException(n.getId().getValue()+"Non definita");
+		else {
+			if(t instanceof DefTuple) n.setType(Type.VOID);
+			else  if(t instanceof ParTuple) n.setType(((ParTuple) t).getType());
+			else n.setType(((VarTuple) t).getType());
 		}
 		return n.getType();
 	}
+
+
 
 	@Override
 	public Object visit(IntConst n) throws RuntimeException {
 		n.setType(Type.INT);
-		return n.getType();
+		return Type.INT;
 	}
+
+
 
 	@Override
 	public Object visit(DoubleConst n) throws RuntimeException {
 		n.setType(Type.DOUBLE);
-		return n.getType();
+		return Type.DOUBLE;
 	}
+
+
 
 	@Override
 	public Object visit(CharConst n) throws RuntimeException {
 		n.setType(Type.CHAR);
-		return n.getType();
+		return Type.CHAR;
 	}
+
+
 
 	@Override
 	public Object visit(StringConst n) throws RuntimeException {
 		n.setType(Type.STRING);
-		return n.getType();
+		return Type.STRING;
 	}
+
+
 
 	@Override
-	public Object visit(AssignOp n) throws TypeMismatchException {
-		Type expr = (Type) n.getE().accept(this);
-		Type id = (Type) n.getId().accept(this);
-		if(assignOpCompTable[gift(expr)]
-				[gift(id)]!=null) {
-			n.setType(Type.VOID);
-		}else throw new TypeMismatchException(n.getOp(), expr, id);
-		return n.getType();
+	public Object visit(AssignOp n) throws RuntimeException {
+		Type t1 = (Type) n.getId().accept(this);
+		Type t2 = (Type) n.getE().accept(this);
+		Type toReturn = this.assignOpCompOp[gift(t1)][gift(t2)];
+		if(toReturn == null) {
+			throw new TypeMismatchException(n.getOp(), t1, t2);
+		}else
+		n.setType(Type.VOID);
+		return Type.VOID;
 	}
 
+
+
+	@SuppressWarnings("unchecked")
 	@Override
 	public Object visit(CallOp n) throws RuntimeException {
+		n.setType(Type.VOID);
 		n.getId().accept(this);
+		
+		ArrayList<Type> typesArgs;
+		ArrayList<Expr> exprOfArgs;
+		typesArgs = (n.getA()!= null)? (ArrayList<Type>) n.getA().accept(this): new ArrayList<Type>();
+		exprOfArgs= (n.getA() != null)? n.getA().getChildList(): new ArrayList<Expr>();
 		String id = n.getId().getId().getValue();
-		ArrayList<Type> gettedPar = new ArrayList<>();
-		ArrayList<Expr> givenExpr;
-		if(n.getA()!= null) {
-		givenExpr = n.getA().getChildList();
-		} else givenExpr = new ArrayList<>();
-		gettedPar= (ArrayList<Type>) n.getA().accept(this);
 		Tuple t = lookup(id);
 		if(t instanceof DefTuple) {
-			DefTuple dt = (DefTuple)t;
-			ArrayList<ParTuple> parArray = dt.getParArray();
-			int sizeDt = parArray.size();
-			int getterSize = gettedPar.size();
-			if(sizeDt == getterSize) {
-				for(int i =0; i<sizeDt && i< getterSize; i++) {
-					if((parArray.get(i).getPt() == ParType.OUT || parArray.get(i).getPt() == ParType.INOUT) &&
-						!(givenExpr.get(i) instanceof IdConst)) throw new WrongArgumentException(id, i);
-					int pAtype = gift(parArray.get(i).getType());
-					int gettedType = gift(gettedPar.get(i));
-					if(assignOpCompTable[pAtype][gettedType]!=null) {
-						n.setType(Type.VOID);
-					}else throw new TypeMismatchException(n.getOp());
+			DefTuple dt = (DefTuple) t;
+			if(dt.getParArray().size() != typesArgs.size()) {
+				throw new WrongArgumentException(id);
+			}
+			else {
+				ArrayList<ParTuple> format = dt.getParArray();
+				int len = format.size();
+				for(int i =0; i < len; i++) {
+					if((format.get(i).getPt() == ParType.OUT || format.get(i).getPt() == ParType.INOUT)&& !(exprOfArgs.get(i) instanceof IdConst))
+					{
+						throw new WrongArgumentException(id);
+					}
+					if(assignOpCompOp[gift(format.get(i).getType())][gift(typesArgs.get(i))] == null) {
+						throw new WrongArgumentException(id, i, format.get(i).getType(), typesArgs.get(i));
+					}
 				}
-			} else throw new WrongArgumentException(id);
-		}else throw new NotDefinedElementException(id, Kind.DEFDECL);
-		
-		return null;
+			}
+		} else throw new NotDefinedElementException(id, Kind.DEFDECL);
+		return Type.VOID;
 	}
 
+
+
 	@Override
-	public Object visit(IfThenElseOp n) throws TypeMismatchException {
+	public Object visit(IfThenElseOp n) throws RuntimeException {
 		Type expr = (Type) n.getE().accept(this);
-		Type cs1 = (Type) n.getCs1().accept(this);
-		Type cs2 = (Type) n.getCs2().accept(this);
-		if(expr==Type.BOOL) {
+		n.getCs1().accept(this);
+		n.getCs2().accept(this);
+		if(expr == Type.BOOL) {
 			n.setType(Type.VOID);
-		}else {
-			throw new TypeMismatchException(n.getOp(), expr);
-		}
-		return n.getType();
+		}else throw new TypeMismatchException(n.getOp(), expr);
+		return Type.VOID;
 	}
+
+
 
 	@Override
 	public Object visit(IfThenOp n) throws RuntimeException {
 		Type expr = (Type) n.getE().accept(this);
-		Type cs1 = (Type) n.getCs().accept(this);
-		if(expr==Type.BOOL) {
+		n.getCs().accept(this);
+		if(expr == Type.BOOL) {
 			n.setType(Type.VOID);
-		}else {
-			throw new TypeMismatchException(n.getOp(), expr);
-		}
-		return n.getType();
+		}else throw new TypeMismatchException(n.getOp(), expr);
+		return Type.VOID;
 	}
+
+
 
 	@Override
 	public Object visit(ReadOp n) throws RuntimeException {
-		Type vars = (Type) n.getV().accept(this);
 		n.setType(Type.VOID);
-		return n.getType();
+		n.getV().accept(this);
+		return Type.VOID;
 	}
+
+
 
 	@Override
 	public Object visit(WhileOp n) throws RuntimeException {
 		Type expr = (Type) n.getE().accept(this);
-		Type cs1 = (Type) n.getCs().accept(this);
-		if(expr==Type.BOOL) {
+		n.getCs().accept(this);
+		if(expr == Type.BOOL) {
 			n.setType(Type.VOID);
-		}else {
-			throw new TypeMismatchException(n.getOp(), expr);
-		}
-		return n.getType();
+		}else throw new TypeMismatchException(n.getOp(), expr);
+		return Type.VOID;
 	}
+
+
 
 	@Override
 	public Object visit(WriteOp n) throws RuntimeException {
-		n.getA().accept(this);
 		n.setType(Type.VOID);
-		return n.getType();
+		n.getA().accept(this);
+		return Type.VOID;
 	}
+
+
 
 	@Override
 	public Object visit(Leaf n) throws RuntimeException {
 		return n.getValue();
 	}
 
+
+
 	@Override
 	public Object visit(ParDeclSon n) throws RuntimeException {
-		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 	@Override
 	public Object visit(VarInit n) throws RuntimeException {
-		Type viv = (Type) n.getViv().accept(this);
-		Type id = (Type) n.getId().accept(this);
-		if(assignOpCompTable[gift(id)][gift(viv)]!=null) {
-			n.setType(Type.VOID);
-		}else throw new TypeMismatchException(n.getOp(), viv, id);
-		return n.getType();
+		Type t1 = (Type) n.getId().accept(this);
+		Type t2 = (Type) n.getViv().accept(this);
+		Type toReturn = this.assignOpCompOp[gift(t1)][gift(t2)];
+		if(toReturn != null) {
+			n.setType(toReturn);
+		}else throw new TypeMismatchException(n.getOp(), t1, t2);
+		return toReturn;
 	}
+
+
 
 	@Override
 	public Object visit(VarNotInit n) throws RuntimeException {
-		n.setType((Type)n.getId().accept(this));
+		n.setType((Type) n.getId().accept(this));
 		return n.getType();
 	}
 
+
+
 	@Override
 	public Object visit(TypeLeaf n) throws RuntimeException {
-		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 	@Override
 	public Object visit(ParTypeLeaf n) throws RuntimeException {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
-	//get int from type
-	private int gift(SymbolTable.Type t){
-		switch(t) {
-		case INT: return 0;
-		case STRING: return 1;
-		case DOUBLE: return 2;
-		case CHAR: return 3;
-		case BOOL: return 4;
-		case VOID: return 5;
-		default: return -1;
-		}
-	}
 	
-	private Tuple lookup(String id) throws NotDefinedElementException {
-		int i=stack.size()-1;
+	private Tuple lookup(String id) throws NotDefinedElementException{
+		List<SymbolTable> list = stack;
 		Tuple toReturn;
-		while(i >= 0 && !stack.get(i).containsKey(id)){
-			i--;
+		int i = list.size() -1;
+		while(i >= 0 && !list.get(i).containsKey(id)) i--;
+		if (i < 0) throw new NotDefinedElementException(id); else toReturn =list.get(i).get(id);
+		return toReturn;
 		}
-		if(i<0) throw new NotDefinedElementException(id);
-		else {
-			toReturn = stack.get(i).get(id);
+	
+	private int gift(SymbolTable.Type t) {
+		int toReturn;
+		switch(t) {
+		case INT: 	 toReturn = 0; break;
+		case STRING: toReturn = 1; break;
+		case DOUBLE: toReturn = 2; break;
+		case CHAR: 	 toReturn = 3; break;
+		case BOOL: 	 toReturn = 4; break;
+		case VOID: 	 toReturn = 5; break;
+		default: 	 toReturn = -1;
 		}
-		
 		return toReturn;
 	}
 	
+	public String getAST() {
+		return ast;
+	}
+	
+	private void astBuilder(String op, Type t) {
+		 this.ast+="<"+op+" type = \""+t+"\">\n";
+	}
+	
+	private void closeTag(String op) {
+		 this.ast+="</"+op+">\n";
+	}
+	
+	private void astBuilderWithSymTbl(String op, String scopeName, Type t ) {
+		 this.ast+="<"+op+" symTbl = \""+ scopeName +"\" type = \""+t+"\">\n";
+	}
+	
+	private void appendValue(Object value) {
+		 this.ast+=value+"\n";
+	}
+	
+	private static final String LT = "&lt;";
+	private static final String GT = "&gt;";
+	private static final String AMP= "&amp;";
+	private static final String QUOT= "&quot;";
+	private static final String APOS= "&apos;";
+	
+	private String replaceEscape(String s) {
+		s = s.replace("<", LT);
+		s = s.replace(">", GT);
+		s = s.replace("&", AMP);
+		s = s.replace("\"", QUOT);
+		s = s.replace("\'", APOS);
+		return s;
+	}
+
 }

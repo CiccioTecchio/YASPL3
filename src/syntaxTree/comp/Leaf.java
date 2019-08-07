@@ -12,7 +12,7 @@ public class Leaf extends Node implements Visitable{
 		super(op);
 		this.value = value;
 	}
-
+	
 	public String getValue() {
 		return value;
 	}

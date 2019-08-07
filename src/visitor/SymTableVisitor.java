@@ -12,9 +12,13 @@ import syntaxTree.utils.*;
 import syntaxTree.varDeclInitOp.*;
 import syntaxTree.wrapper.DeclsWrapper;
 import syntaxTree.wrapper.VarDeclsInitWrapper;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Stack;
+import java.util.logging.FileHandler;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import exception.*;
 import semantic.*;
@@ -24,10 +28,17 @@ public class SymTableVisitor implements Visitor<Object> {
 	
 	private Stack<SymbolTable> stack;
 	private SymbolTable actualScope;
-	public static Logger logger=Logger.getLogger("global");
+	private Logger logger=Logger.getLogger("SymbolTable");
+	private FileHandler fh;
+	private SimpleFormatter formatter;
 	
-	public SymTableVisitor() {
+	public SymTableVisitor(String pathToPrintScope) throws SecurityException, IOException {
 		this.stack = new Stack<SymbolTable>();
+		this.fh = new FileHandler(pathToPrintScope);
+		logger.setUseParentHandlers(false); // remove log message from stdout
+		logger.addHandler(fh);
+		SimpleFormatter formatter = new SimpleFormatter();
+		fh.setFormatter(formatter);
 	}
 	
 	@Override
@@ -47,7 +58,6 @@ public class SymTableVisitor implements Visitor<Object> {
 	public Object visit(Body n) {
 		n.getVd().accept(this);
 		logger.info(this.stack.pop().toString());
-		//this.stack.pop();
 		this.actualScope = this.stack.peek();
 		return null;
 	}
