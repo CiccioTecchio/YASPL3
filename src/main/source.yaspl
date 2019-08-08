@@ -57,5 +57,7 @@ while (i > 0) do{
 }
 "Valore di sommagrande: " + sommagrande ->;
 "Valore di sommapiccola: " + sommapiccola ->;
-
+3 ->;
+true ->;
+sommagrande ->;
 "ciao" ->;

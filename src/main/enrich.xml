@@ -648,6 +648,36 @@ sommapiccola
 
 <WriteOp type = "VOID">
 <ArgsOp type = "VOID">
+<IntConst>
+3
+</IntConst>
+
+</ArgsOp>
+
+</WriteOp>
+
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
+<BoolConst>
+true
+</BoolConst>
+
+</ArgsOp>
+
+</WriteOp>
+
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
+<Id type = "DOUBLE">
+sommagrande
+</Id>
+
+</ArgsOp>
+
+</WriteOp>
+
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
 <StringConst>
 &quot;ciao&quot;
 </StringConst>
