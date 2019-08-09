@@ -113,7 +113,7 @@ public class GenerateCVisitor implements Visitor<String> {
 	public String visit(Programma n) throws RuntimeException {
 		String tr = "#include <stdio.h>\n"
 				+ "#include <stdlib.h>\n"
-				+ "#include<string.h>\n"
+				+ "#include <string.h>\n"
 				+ "#include <unistd.h>\n"
 				+ "\n"
 				+ "typedef int bool;\n"
@@ -322,7 +322,6 @@ public class GenerateCVisitor implements Visitor<String> {
 		String tr="";
 		Expr e = n.getA().getChildList().get(0);
 		String typeOfE = e.getType()+"";
-		//System.out.println(e instanceof AddOp);
 		if(!(e instanceof AddOp)) {
 			tr+="printf(\""+escapeForC(typeOfE)+"\\n\","+e.accept(this)+");\n";
 		}else {
@@ -330,7 +329,6 @@ public class GenerateCVisitor implements Visitor<String> {
 			tr+=e.accept(this)+"\n";
 			tr+="printf(\"%s\\n\", yasplBuffer);\n";
 			tr+="\n";
-			//tr+="printf(\""+escapeForC(typeOfE)+"\","+e.accept(this)+");\n";
 		}
 		 
 		return tr;
@@ -409,73 +407,72 @@ public class GenerateCVisitor implements Visitor<String> {
 		final boolean isE1Bool = n.getE1().getType().toString().equalsIgnoreCase("bool");
 		final boolean isE2Bool = n.getE2().getType().toString().equalsIgnoreCase("bool");
 		
+		if(n.getE1() instanceof AddOp) {
+			tr+=n.getE1().accept(this);
+			if(isE2String) {
+				tr += "strcpy(toParse,"+n.getE2().accept(this)+");\n";
+				tr+= "strcat(yasplBuffer, toParse);\n";
+			}else {
+				if(!isE2Bool) {
+					tr += "sprintf(toParse,\""+escapeForC(n.getE2().getType()+"")+"\","+n.getE2().accept(this)+");\n";
+					tr += "strcat(yasplBuffer, toParse);\n";
+				}else {
+					tr += resultOfStringBool(n.getE2().accept(this)+"");
+				}
+			}
+			
+		}else {
 		if(isE1String && isE2String){
 				tr += "strcpy(yasplBuffer,"+n.getE1().accept(this)+");\n";
 				tr += "strcat(yasplBuffer, "+n.getE2().accept(this)+");\n";
 		}else {
-			if(	  (isE1String && isE2Int) 
-				||(isE1String && isE2Char)
-				||(isE1String && isE2Double)
-				||(isE1String && isE2Bool)
-				){
-				tr += addWhitOneString(n.getE1(), n.getE2(), isE2Bool);
-				/*tr += "strcpy(yasplBuffer,"+n.getE1().accept(this)+");\n";
-				if(!isE2Bool) {
-					tr+="sprintf(toParse,\""+escapeForC(n.getE2().getType()+"")+"\", "+n.getE2().accept(this)+");\n";
-				}else {
-					String s = n.getE2().accept(this)+"";
-					if(s.equalsIgnoreCase("true") || s.equalsIgnoreCase("false")) {
-						tr+="sprintf(toParse,\"%s\", \""+s+"\");\n";
-					}else {
-						tr+="sprintf(toParse,\"%s\", "+s+"? \"true\" : \"false\");\n";
-					}
-				}*/
+			if(isE1String && !(isE2String)){
+				tr +=addWhitOneString(n.getE1(), n.getE2(), isE2Bool, isE1String, isE2Int, isE2Char, isE2Double);
 				tr += "strcat(yasplBuffer, toParse);\n";
 		}
 		 else {
-			 
-			 if((isE2String && isE1Int) 
-				||(isE2String && isE1Char)
-				||(isE2String && isE1Double)
-				||(isE2String && isE1Bool)
-			) {
-				 /*tr += "strcpy(yasplBuffer,"+n.getE2().accept(this)+");\n";
-				 if(!isE1Bool) {
-						tr+="sprintf(toParse,\""+escapeForC(n.getE1().getType()+"")+"\", "+n.getE1().accept(this)+");\n";
-					}else {
-						String s = n.getE1().accept(this)+"";
-						if(s.equalsIgnoreCase("true") || s.equalsIgnoreCase("false")) {
-							tr+="sprintf(toParse,\"%s\", \""+s+"\");\n";
-							
-						}else {
-							tr+="sprintf(toParse,\"%s\", "+s+"? \"true\" : \"false\");\n";
-						}	
-					}*/
-				 tr += addWhitOneString(n.getE2(), n.getE1(), isE1Bool);
+			 if(!(isE1String) && isE2String) {
+				 tr += addWhitOneString(n.getE2(), n.getE1(), isE1Bool, isE2String, isE1Int, isE1Char, isE1Double);
 				 tr += "strcat(toParse, yasplBuffer);\n";
-				 tr += "strcpy(yasplBuffer, toParse);\n;";
-			 }else {
+				 tr += "strcpy(yasplBuffer, toParse);\n";
+			 }
+			 else {
 			 if(!(isE1String && isE2String)) {
 					tr+=n.getE1().accept(this)+" + "+n.getE2().accept(this);
 				}
 			 }
 		}
 		}
+		}
+		
 		return tr;
 	}
 	
-	private String addWhitOneString(Expr e1, Expr e2, boolean b) {
+	private String addWhitOneString(Expr e1, Expr e2, boolean b, 
+									boolean isStringNode, boolean isIntNode,
+									boolean isCharNode, boolean isDoubleNode) {
 		String tr="";
-		tr += "strcpy(yasplBuffer,"+e1.accept(this)+");\n";
-		if(!b) {
-			tr+="sprintf(toParse,\""+escapeForC(e2.getType()+"")+"\", "+e2.accept(this)+");\n";
+		 if((isStringNode && isIntNode) 
+					||(isStringNode && isCharNode)
+					||(isStringNode && isDoubleNode)
+					||(isStringNode && b)
+				) {
+			 tr += "strcpy(yasplBuffer,"+e1.accept(this)+");\n";
+				if(!b) {
+					tr+="sprintf(toParse,\""+escapeForC(e2.getType()+"")+"\", "+e2.accept(this)+");\n";
+				}else {
+					tr+=resultOfStringBool(e2.accept(this)+"");
+				}
+		 }
+		return tr;
+	}
+	
+	private String resultOfStringBool(String s) {
+		String tr="";
+		if(s.equalsIgnoreCase("true") || s.equalsIgnoreCase("false")) {
+			tr+="sprintf(toParse,\"%s\", \""+s+"\");\n";
 		}else {
-			String s = e2.accept(this)+"";
-			if(s.equalsIgnoreCase("true") || s.equalsIgnoreCase("false")) {
-				tr+="sprintf(toParse,\"%s\", \""+s+"\");\n";
-			}else {
-				tr+="sprintf(toParse,\"%s\", "+s+"? \"true\" : \"false\");\n";
-			}
+			tr+="sprintf(toParse,\"%s\", "+s+"? \"true\" : \"false\");\n";
 		}
 		return tr;
 	}

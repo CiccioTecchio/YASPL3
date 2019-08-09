@@ -169,34 +169,6 @@ b
 
 <AssignOp type = "VOID">
 <Id type = "INT">
-d
-</Id>
-
-<AddOp type = "INT">
-<IntConst>
-3
-</IntConst>
-
-<IntConst>
-8
-</IntConst>
-
-</AddOp>
-
-</AssignOp>
-
-<WriteOp type = "VOID">
-<ArgsOp type = "VOID">
-<Id type = "INT">
-d
-</Id>
-
-</ArgsOp>
-
-</WriteOp>
-
-<AssignOp type = "VOID">
-<Id type = "INT">
 f
 </Id>
 
@@ -260,6 +232,68 @@ str2
 </StringConst>
 
 </AssignOp>
+
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
+<AddOp type = "STRING">
+<AddOp type = "STRING">
+<AddOp type = "STRING">
+<AddOp type = "STRING">
+<AddOp type = "STRING">
+<StringConst>
+&quot;Moltiplicazione &quot;
+</StringConst>
+
+<Id type = "DOUBLE">
+c
+</Id>
+
+</AddOp>
+
+<StringConst>
+&quot;: inserisci due numeri positivi&quot;
+</StringConst>
+
+</AddOp>
+
+<BoolConst>
+true
+</BoolConst>
+
+</AddOp>
+
+<StringConst>
+&quot; COCOMOCN &quot;
+</StringConst>
+
+</AddOp>
+
+<CharConst>
+'x'
+</CharConst>
+
+</AddOp>
+
+</ArgsOp>
+
+</WriteOp>
+
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
+<AddOp type = "STRING">
+<StringConst>
+&quot;Stringa&quot;
+</StringConst>
+
+<CharConst>
+'a'
+</CharConst>
+
+</AddOp>
+
+</ArgsOp>
+
+</WriteOp>
 
 <WriteOp type = "VOID">
 <ArgsOp type = "VOID">
