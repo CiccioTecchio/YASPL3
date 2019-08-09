@@ -1,5 +1,7 @@
 package visitor;
 
+import java.util.StringJoiner;
+
 import syntaxTree.Args;
 import syntaxTree.Body;
 import syntaxTree.CompStat;
@@ -117,8 +119,11 @@ public class GenerateCVisitor implements Visitor<String> {
 				+ "typedef int bool;\n"
 				+ "#define false 0\n"
 				+ "#define true 1\n"
+				+ "#define STRING_CONST 256\n"
 				+ "\n"
-				+ "typedef char string[256];\n"
+				+ "typedef char string[STRING_CONST];\n"
+				+ "string yasplBuffer;\n"
+				+ "string toParse;\n"
 				+ "\n";
 		//visita Decls
 		tr+= n.getD().accept(this);
@@ -178,15 +183,7 @@ public class GenerateCVisitor implements Visitor<String> {
 	@Override
 	//TODO AGGIUSTARE
 	public String visit(AddOp n) throws RuntimeException {
-		String typeE1 = n.getE1().getType()+"";
-		String typeE2 = n.getE2().getType()+"";
-		String tr="";
-		if(typeE1.equalsIgnoreCase("string") || typeE2.equalsIgnoreCase("string")) {
-			//System.out.println(resultOfAddOp(n));
-			tr+=resultOfAddOp(n);
-		}else tr+=n.getE1().accept(this)+" + "+n.getE2().accept(this);
-		
-		return tr;
+		return resultOfAddOp(n);
 	}
 
 	@Override
@@ -281,7 +278,9 @@ public class GenerateCVisitor implements Visitor<String> {
 
 	@Override
 	public String visit(AssignOp n) throws RuntimeException {
-		return n.getId().accept(this)+" = "+n.getE().accept(this)+";\n";
+		final boolean typeOfE = n.getE().getType().toString().equalsIgnoreCase("string");
+		return (typeOfE)? "strcpy("+n.getId().accept(this)+", "+n.getE().accept(this)+");\n"
+						: n.getId().accept(this)+" = "+n.getE().accept(this)+";\n";
 	}
 
 	@Override
@@ -319,49 +318,22 @@ public class GenerateCVisitor implements Visitor<String> {
 	}
 
 	@Override
-	//TODO AGGIUSTARE
 	public String visit(WriteOp n) throws RuntimeException {
-		String tr = "printf(";
+		String tr="";
 		Expr e = n.getA().getChildList().get(0);
-		if(e instanceof StringConst) {
-			tr+=n.getA().accept(this);
+		String typeOfE = e.getType()+"";
+		//System.out.println(e instanceof AddOp);
+		if(!(e instanceof AddOp)) {
+			tr+="printf(\""+escapeForC(typeOfE)+"\\n\","+e.accept(this)+");\n";
 		}else {
-			if(e instanceof IntConst) {
-				tr+="\"%d\", "+n.getA().accept(this);
-			}
-			else{
-			if (e instanceof DoubleConst){
-				tr+="\"%f\", "+n.getA().accept(this);
-			}else {
-				if(e instanceof CharConst) {
-				tr+="\"%c\", "+n.getA().accept(this);
-				}
-			else {
-				if(e instanceof BoolConst) {
-					tr+="\""+n.getA().accept(this)+"\"";
-					}
-				else {
-					if(e instanceof IdConst) {
-						tr+="\""+escapeForC(""+e.getType())+"\", "+n.getA().accept(this);
-						}
-					else {
-						if(e instanceof AddOp) {
-							
-							tr+="\""+escapeForC(""+e.getType())+"\", "+e.accept(this);
-						}
-					}
-				}
-			}
-			}
-				
-			}
+			tr+="\n";
+			tr+=e.accept(this)+"\n";
+			tr+="printf(\"%s\\n\", yasplBuffer);\n";
+			tr+="\n";
+			//tr+="printf(\""+escapeForC(typeOfE)+"\","+e.accept(this)+");\n";
 		}
-		
-		//tr+=n.getA().accept(this);
-		
-		return tr+=");\n";
-		
-		
+		 
+		return tr;
 	}
 	@Override
 	public String visit(Leaf n) throws RuntimeException {		
@@ -422,56 +394,90 @@ public class GenerateCVisitor implements Visitor<String> {
 	private String resultOfAddOp(AddOp n) {
 		String tr="";
 		
-		final String typeOfE1 = n.getE1().getType()+"";
-		final String typeOfE2 = n.getE2().getType()+"";
+		final boolean isE1String = n.getE1().getType().toString().equalsIgnoreCase("string");
+		final boolean isE2String = n.getE2().getType().toString().equalsIgnoreCase("string");
 		
-		final boolean e1EqualsInt = typeOfE1.equalsIgnoreCase("int");
-		final boolean e2EqualsInt = typeOfE2.equalsIgnoreCase("int");
+		final boolean isE1Int = n.getE1().getType().toString().equalsIgnoreCase("int");
+		final boolean isE2Int = n.getE2().getType().toString().equalsIgnoreCase("int");
 		
-		final boolean e1EqualsStr = typeOfE1.equalsIgnoreCase("string");
-		final boolean e2EqualsStr = typeOfE2.equalsIgnoreCase("string");
+		final boolean isE1Char = n.getE1().getType().toString().equalsIgnoreCase("char");
+		final boolean isE2Char = n.getE2().getType().toString().equalsIgnoreCase("char");
 		
-		final boolean e1EqualsDbl = typeOfE1.equalsIgnoreCase("double");
-		final boolean e2EqualsDbl = typeOfE2.equalsIgnoreCase("double");
+		final boolean isE1Double = n.getE1().getType().toString().equalsIgnoreCase("double");
+		final boolean isE2Double = n.getE2().getType().toString().equalsIgnoreCase("double");
 		
-		final boolean e1EqualsChr = typeOfE1.equalsIgnoreCase("char");
-		final boolean e2EqualsChr = typeOfE2.equalsIgnoreCase("char");
+		final boolean isE1Bool = n.getE1().getType().toString().equalsIgnoreCase("bool");
+		final boolean isE2Bool = n.getE2().getType().toString().equalsIgnoreCase("bool");
 		
-		final boolean e1EqualsBool = typeOfE1.equalsIgnoreCase("bool");
-		final boolean e2EqualsBool = typeOfE2.equalsIgnoreCase("bool");
-		
-		
-		if((e1EqualsStr && e2EqualsInt)) {
-			tr += "strcat("+n.getE1().accept(this)+",itoa("+n.getE2().accept(this)+"))";
+		if(isE1String && isE2String){
+				tr += "strcpy(yasplBuffer,"+n.getE1().accept(this)+");\n";
+				tr += "strcat(yasplBuffer, "+n.getE2().accept(this)+");\n";
 		}else {
-		if(e2EqualsStr && e1EqualsInt) {
-			tr += "strcat("+n.getE2().accept(this)+",itoa("+n.getE1().accept(this)+"))";
-			
-		}else {
-		if((e1EqualsStr && e2EqualsStr) || (e1EqualsStr && e2EqualsChr)) {
-			tr += "strcat("+n.getE1().accept(this)+", "+n.getE2().accept(this)+")";
-			
-		}else {
-		if(e1EqualsChr && e2EqualsStr) {
-				tr += "strcat("+n.getE2().accept(this)+", "+n.getE1().accept(this)+")";
-				
-		}else {
-		if(e1EqualsStr && e2EqualsBool ) {
-				tr += "strcat("+n.getE1().accept(this)+", \""+n.getE2().accept(this)+"\")";
-				
-		}else {
-			if(e1EqualsBool && e2EqualsStr ) {
-				tr += "strcat("+n.getE2().accept(this)+", \""+n.getE1().accept(this)+"\")";
-				
+			if(	  (isE1String && isE2Int) 
+				||(isE1String && isE2Char)
+				||(isE1String && isE2Double)
+				||(isE1String && isE2Bool)
+				){
+				tr += addWhitOneString(n.getE1(), n.getE2(), isE2Bool);
+				/*tr += "strcpy(yasplBuffer,"+n.getE1().accept(this)+");\n";
+				if(!isE2Bool) {
+					tr+="sprintf(toParse,\""+escapeForC(n.getE2().getType()+"")+"\", "+n.getE2().accept(this)+");\n";
+				}else {
+					String s = n.getE2().accept(this)+"";
+					if(s.equalsIgnoreCase("true") || s.equalsIgnoreCase("false")) {
+						tr+="sprintf(toParse,\"%s\", \""+s+"\");\n";
+					}else {
+						tr+="sprintf(toParse,\"%s\", "+s+"? \"true\" : \"false\");\n";
+					}
+				}*/
+				tr += "strcat(yasplBuffer, toParse);\n";
+		}
+		 else {
+			 
+			 if((isE2String && isE1Int) 
+				||(isE2String && isE1Char)
+				||(isE2String && isE1Double)
+				||(isE2String && isE1Bool)
+			) {
+				 /*tr += "strcpy(yasplBuffer,"+n.getE2().accept(this)+");\n";
+				 if(!isE1Bool) {
+						tr+="sprintf(toParse,\""+escapeForC(n.getE1().getType()+"")+"\", "+n.getE1().accept(this)+");\n";
+					}else {
+						String s = n.getE1().accept(this)+"";
+						if(s.equalsIgnoreCase("true") || s.equalsIgnoreCase("false")) {
+							tr+="sprintf(toParse,\"%s\", \""+s+"\");\n";
+							
+						}else {
+							tr+="sprintf(toParse,\"%s\", "+s+"? \"true\" : \"false\");\n";
+						}	
+					}*/
+				 tr += addWhitOneString(n.getE2(), n.getE1(), isE1Bool);
+				 tr += "strcat(toParse, yasplBuffer);\n";
+				 tr += "strcpy(yasplBuffer, toParse);\n;";
+			 }else {
+			 if(!(isE1String && isE2String)) {
+					tr+=n.getE1().accept(this)+" + "+n.getE2().accept(this);
+				}
+			 }
 		}
 		}
-		}
-		}
-		}
-		}
-		System.out.println(tr);
 		return tr;
 	}
 	
-
+	private String addWhitOneString(Expr e1, Expr e2, boolean b) {
+		String tr="";
+		tr += "strcpy(yasplBuffer,"+e1.accept(this)+");\n";
+		if(!b) {
+			tr+="sprintf(toParse,\""+escapeForC(e2.getType()+"")+"\", "+e2.accept(this)+");\n";
+		}else {
+			String s = e2.accept(this)+"";
+			if(s.equalsIgnoreCase("true") || s.equalsIgnoreCase("false")) {
+				tr+="sprintf(toParse,\"%s\", \""+s+"\");\n";
+			}else {
+				tr+="sprintf(toParse,\"%s\", "+s+"? \"true\" : \"false\");\n";
+			}
+		}
+		return tr;
+	}
+	
 }

@@ -6,49 +6,84 @@
 typedef int bool;
 #define false 0
 #define true 1
+#define STRING_CONST 256
 
-typedef char string[256];
+typedef char string[STRING_CONST];
+string yasplBuffer;
+string toParse;
 
-double sommagrande,sommapiccola;
-int i;
-double x,y,risultato;
-bool grande;
-nullvoidvoid add(){
-int a = 3 + 2;
-}
+int f;
+int d;
+double c;
+char t;
+string str;
+string str2;
+string str3;
+bool b;
 
 int main(void){
-sommagrande = 0;
-sommapiccola = 0;
-printf("Questo programma permette di svolgere una serie di moltiplicazioni");
-printf("accumulando i risultati < 100 in sommagrande e quelli < 100 in sommapiccola");
-i = -1;
-while((i <= 0)){
-printf("Quante moltiplicazioni vuoi svolgere? (inserire intero > 0)");
-null
-}
-while((i > 0)){
-x = -1;
-y = -1;
-while(!(((x > 0) && (y > 0)))){
-printf("%s", strcat(strcat("Moltiplicazione ",itoa(i)), ": inserisci due numeri positivi"));
-null
-}
-moltiplicazione(x,y,risultato,grande);
-if(grande){
-sommagrande = sommagrande + risultato;
-}
-else{
-sommapiccola = sommapiccola + risultato;
-}
-i = i - 1;
+b = false;
 
-}
-printf("%s", );
-printf("%s", );
-printf("%d", 3);
-printf("true");
-printf("%f", sommagrande);
-printf("ciao");
+strcpy(yasplBuffer,"Pippone");
+sprintf(toParse,"%s", b? "true" : "false");
+strcat(toParse, yasplBuffer);
+strcpy(yasplBuffer, toParse);
+;
+printf("%s\n", yasplBuffer);
+
+d = 3 + 8;
+printf("%d\n",d);
+f = 12;
+d = 3;
+c = 13.4;
+t = 's';
+strcpy(str, "ciao");
+strcpy(str2, "Carlo");
+printf("%d\n",f);
+printf("%d\n",d);
+printf("%f\n",c);
+printf("%c\n",t);
+printf("%s\n",str);
+
+strcpy(yasplBuffer,str);
+strcat(yasplBuffer, str2);
+
+printf("%s\n", yasplBuffer);
+
+
+strcpy(yasplBuffer,str);
+sprintf(toParse,"%d", 2);
+strcat(yasplBuffer, toParse);
+
+printf("%s\n", yasplBuffer);
+
+
+strcpy(yasplBuffer,str);
+sprintf(toParse,"%d", f);
+strcat(yasplBuffer, toParse);
+
+printf("%s\n", yasplBuffer);
+
+
+strcpy(yasplBuffer,str);
+sprintf(toParse,"%f", 12.4);
+strcat(yasplBuffer, toParse);
+
+printf("%s\n", yasplBuffer);
+
+
+strcpy(yasplBuffer,str);
+sprintf(toParse,"%s", "true");
+strcat(yasplBuffer, toParse);
+
+printf("%s\n", yasplBuffer);
+
+
+strcpy(yasplBuffer,str);
+sprintf(toParse,"%s", b? "true" : "false");
+strcat(yasplBuffer, toParse);
+
+printf("%s\n", yasplBuffer);
+
 return 0;
 }

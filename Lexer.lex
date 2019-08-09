@@ -48,7 +48,7 @@ import static lexer.LexerSym.*;
 	return new Symbol(LexerSym.EOF);
 %eofval}
 
-id 			= [:jletter:]([:jletter:]|[:jdigit:])*
+id 			= ([:jletter:] | "_" ) ([:jletterdigit:] | [:jletter:] | "_" )*
 digit 		= [0-9]
 intConst 	= {digit}+
 doubleConst = {intConst}("."{intConst})?
