@@ -14,6 +14,9 @@ start
 b = false;
 b + "Pippone"->;
 
+f,str <-;
+f = 3+3;
+
 f = 12;
 d = 3;
 c = 13.4;
@@ -22,6 +25,7 @@ str = "ciao";
 str2 = "Carlo";
 "Moltiplicazione " + c + ": inserisci due numeri positivi"+ true + " COCOMOCN " + 'x' ->;
 "Stringa"+'a'->;
+str = "Mario" +3;
 f ->;
 d ->;
 c ->;

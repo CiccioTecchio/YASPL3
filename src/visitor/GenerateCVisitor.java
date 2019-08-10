@@ -1,7 +1,7 @@
 package visitor;
 
-import java.util.StringJoiner;
-
+import exception.ImpossibleReadException;
+import semantic.SymbolTable.Type;
 import syntaxTree.Args;
 import syntaxTree.Body;
 import syntaxTree.CompStat;
@@ -176,12 +176,15 @@ public class GenerateCVisitor implements Visitor<String> {
 
 	@Override
 	public String visit(Vars n) throws RuntimeException {
-		// TODO Auto-generated method stub
-		return null;
+		String tr ="";
+		for(IdConst id : n.getChildList()) {
+			tr+= id.accept(this)+", ";
+		}
+		tr = tr.substring(0, tr.length()-2);
+		return tr;
 	}
 
 	@Override
-	//TODO AGGIUSTARE
 	public String visit(AddOp n) throws RuntimeException {
 		return resultOfAddOp(n);
 	}
@@ -278,9 +281,17 @@ public class GenerateCVisitor implements Visitor<String> {
 
 	@Override
 	public String visit(AssignOp n) throws RuntimeException {
-		final boolean typeOfE = n.getE().getType().toString().equalsIgnoreCase("string");
-		return (typeOfE)? "strcpy("+n.getId().accept(this)+", "+n.getE().accept(this)+");\n"
-						: n.getId().accept(this)+" = "+n.getE().accept(this)+";\n";
+		final boolean isEString = n.getE().getType().toString().equalsIgnoreCase("string");
+		final boolean isIdString = n.getId().getType().toString().equalsIgnoreCase("string");
+		String tr="";
+		if(n.getE() instanceof AddOp && isIdString) {
+		tr += n.getE().accept(this);
+		tr += "strcpy("+n.getId().accept(this)+", yasplBuffer);\n";
+		}else {
+			tr +=   (isEString)? "strcpy("+n.getId().accept(this)+", "+n.getE().accept(this)+");\n"
+							   : n.getId().accept(this)+" = "+n.getE().accept(this)+";\n";
+		}
+		return tr;
 	}
 
 	@Override
@@ -307,8 +318,19 @@ public class GenerateCVisitor implements Visitor<String> {
 
 	@Override
 	public String visit(ReadOp n) throws RuntimeException {
-		// TODO Auto-generated method stub
-		return null;
+		String tr="";
+		String str =n.getV().accept(this)+"";
+		String[] arr = str.split(",");
+		int i=0;
+		for(IdConst id : n.getV().getChildList()){
+			if(id.getType()!=Type.BOOL) {
+				tr += (id.getType()!=Type.STRING)
+						?"scanf(\""+escapeForC(id.getType()+"")+"\",&"+arr[i].trim()+");\n"
+						:"scanf(\""+escapeForC(id.getType()+"")+"\","+arr[i].trim()+");\n";
+				i++;
+			}else throw new ImpossibleReadException("ReadOp invalid for type bool");
+		}
+		return tr;
 	}
 
 	@Override

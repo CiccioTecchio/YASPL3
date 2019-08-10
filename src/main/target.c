@@ -31,6 +31,9 @@ strcpy(yasplBuffer, toParse);
 
 printf("%s\n", yasplBuffer);
 
+scanf("%d",&f);
+scanf("%s",str);
+f = 3 + 3;
 f = 12;
 d = 3;
 c = 13.4;
@@ -58,6 +61,10 @@ strcat(yasplBuffer, toParse);
 
 printf("%s\n", yasplBuffer);
 
+strcpy(yasplBuffer,"Mario");
+sprintf(toParse,"%d", 3);
+strcat(yasplBuffer, toParse);
+strcpy(str, yasplBuffer);
 printf("%d\n",f);
 printf("%d\n",d);
 printf("%f\n",c);

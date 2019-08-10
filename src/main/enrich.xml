@@ -167,6 +167,36 @@ b
 
 </WriteOp>
 
+<ReadOp type = "VOID">
+<Vars type = "VOID">
+<Id type = "INT">
+f
+</Id>
+<Id type = "STRING">
+str
+</Id>
+</Vars>
+
+</ReadOp>
+
+<AssignOp type = "VOID">
+<Id type = "INT">
+f
+</Id>
+
+<AddOp type = "INT">
+<IntConst>
+3
+</IntConst>
+
+<IntConst>
+3
+</IntConst>
+
+</AddOp>
+
+</AssignOp>
+
 <AssignOp type = "VOID">
 <Id type = "INT">
 f
@@ -294,6 +324,24 @@ true
 </ArgsOp>
 
 </WriteOp>
+
+<AssignOp type = "VOID">
+<Id type = "STRING">
+str
+</Id>
+
+<AddOp type = "STRING">
+<StringConst>
+&quot;Mario&quot;
+</StringConst>
+
+<IntConst>
+3
+</IntConst>
+
+</AddOp>
+
+</AssignOp>
 
 <WriteOp type = "VOID">
 <ArgsOp type = "VOID">
