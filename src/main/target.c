@@ -12,104 +12,73 @@ typedef char string[STRING_CONST];
 string yasplBuffer;
 string toParse;
 
-int f;
-int d;
-double c;
-char t;
-string str;
-string str2;
-string str3;
-bool b;
+double sommagrande,sommapiccola;
+int i;
+double x,y,risultato;
+bool grande;
+void moltiplicazione(double x, double y, double *res, bool *grande){
+double risultato = x * y;
+if((x * y >= 100)){
+grande = true;
+}
+else{
+grande = false;
+}
+res = risultato;
+}
 
 int main(void){
-b = false;
+sommagrande = 0;
+sommapiccola = 0;
+printf("%s\n","Questo programma permette di svolgere una serie di moltiplicazioni");
+printf("%s\n","accumulando i risultati < 100 in sommagrande e quelli < 100 in sommapiccola");
+i = -1;
+while((i <= 0)){
+printf("%s\n","Quante moltiplicazioni vuoi svolgere? (inserire intero > 0)");
+scanf("%d",&i);
 
-strcpy(yasplBuffer,"Pippone");
-sprintf(toParse,"%s", b? "true" : "false");
-strcat(toParse, yasplBuffer);
-strcpy(yasplBuffer, toParse);
-
-printf("%s\n", yasplBuffer);
-
-scanf("%d",&f);
-scanf("%s",str);
-f = 3 + 3;
-f = 12;
-d = 3;
-c = 13.4;
-t = 's';
-strcpy(str, "ciao");
-strcpy(str2, "Carlo");
+}
+while((i > 0)){
+x = -1;
+y = -1;
+while(!(((x > 0) && (y > 0)))){
 
 strcpy(yasplBuffer,"Moltiplicazione ");
-sprintf(toParse,"%f", c);
+sprintf(toParse,"%d", i);
 strcat(yasplBuffer, toParse);
 strcpy(toParse,": inserisci due numeri positivi");
 strcat(yasplBuffer, toParse);
-sprintf(toParse,"%s", "true");
-strcpy(toParse," COCOMOCN ");
-strcat(yasplBuffer, toParse);
-sprintf(toParse,"%c",'x');
+
+printf("%s\n", yasplBuffer);
+
+scanf("%lf",&x);
+scanf("%lf",&y);
+
+}
+moltiplicazione(x,y,risultato,grande);
+if(grande){
+sommagrande = sommagrande + risultato;
+}
+else{
+sommapiccola = sommapiccola + risultato;
+}
+i = i - 1;
+
+}
+
+strcpy(yasplBuffer,"Valore di sommagrande: ");
+sprintf(toParse,"%lf", sommagrande);
 strcat(yasplBuffer, toParse);
 
 printf("%s\n", yasplBuffer);
 
 
-strcpy(yasplBuffer,"Stringa");
-sprintf(toParse,"%c", 'a');
+strcpy(yasplBuffer,"Valore di sommapiccola: ");
+sprintf(toParse,"%lf", sommapiccola);
 strcat(yasplBuffer, toParse);
 
 printf("%s\n", yasplBuffer);
 
-strcpy(yasplBuffer,"Mario");
-sprintf(toParse,"%d", 3);
-strcat(yasplBuffer, toParse);
-strcpy(str, yasplBuffer);
-printf("%d\n",f);
-printf("%d\n",d);
-printf("%f\n",c);
-printf("%c\n",t);
-printf("%s\n",str);
-
-strcpy(yasplBuffer,str);
-strcat(yasplBuffer, str2);
-
-printf("%s\n", yasplBuffer);
-
-
-strcpy(yasplBuffer,str);
-sprintf(toParse,"%d", 2);
-strcat(yasplBuffer, toParse);
-
-printf("%s\n", yasplBuffer);
-
-
-strcpy(yasplBuffer,str);
-sprintf(toParse,"%d", f);
-strcat(yasplBuffer, toParse);
-
-printf("%s\n", yasplBuffer);
-
-
-strcpy(yasplBuffer,str);
-sprintf(toParse,"%f", 12.4);
-strcat(yasplBuffer, toParse);
-
-printf("%s\n", yasplBuffer);
-
-
-strcpy(yasplBuffer,str);
-sprintf(toParse,"%s", "true");
-strcat(yasplBuffer, toParse);
-
-printf("%s\n", yasplBuffer);
-
-
-strcpy(yasplBuffer,str);
-sprintf(toParse,"%s", b? "true" : "false");
-strcat(yasplBuffer, toParse);
-
-printf("%s\n", yasplBuffer);
-
+printf("%s\n","ciao");
 return 0;
 }

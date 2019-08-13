@@ -19,9 +19,10 @@ def moltiplicazione(in double x, in double y, out double res, out bool grande)
 
 
 start 
-"Ciao"+2->;
+
 sommagrande = 0;
 sommapiccola = 0;
+
 "Questo programma permette di svolgere una serie di moltiplicazioni" ->;
 "accumulando i risultati < 100 in sommagrande e quelli < 100 in sommapiccola" ->; 
 

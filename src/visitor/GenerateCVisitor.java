@@ -1,5 +1,7 @@
 package visitor;
 
+import java.util.ArrayList;
+
 import exception.ImpossibleReadException;
 import semantic.SymbolTable.Type;
 import syntaxTree.Args;
@@ -55,6 +57,7 @@ import syntaxTree.wrapper.VarDeclsInitWrapper;
 
 public class GenerateCVisitor implements Visitor<String> {
 
+	
 	public GenerateCVisitor() {
 	}
 	
@@ -91,22 +94,30 @@ public class GenerateCVisitor implements Visitor<String> {
 
 	@Override
 	public String visit(DefDeclNoPar n) throws RuntimeException {
-		String tr = "void";
-		tr+= "void "+n.getId().accept(this)+"(){\n";
+		String tr = "void ";
+		tr+= n.getId().accept(this)+"(){\n";
 		tr+= n.getB().accept(this);
 		return tr+="}\n";
 	}
 
 	@Override
 	public String visit(DefDeclPar n) throws RuntimeException {
-		// TODO Auto-generated method stub
-		return null;
+		String tr="void ";
+		tr+=n.getId().accept(this)+"(";
+		tr+=n.getPd().accept(this);
+		tr += "){\n";
+		tr+=n.getB().accept(this)+"}\n";
+		return tr;
 	}
 
 	@Override
 	public String visit(ParDecls n) throws RuntimeException {
-		// TODO Auto-generated method stub
-		return null;
+		String tr="";
+		for(ParDeclSon pds: n.getChildList()) {
+			tr+=pds.accept(this)+", ";
+		}
+		tr=tr.substring(0, tr.length()-2);
+		return tr;
 	}
 
 	@Override
@@ -296,7 +307,9 @@ public class GenerateCVisitor implements Visitor<String> {
 
 	@Override
 	public String visit(CallOp n) throws RuntimeException {
-		return n.getId().accept(this)+"("+n.getA().accept(this)+");\n";
+		return (n.getA() == null)?
+				n.getId().accept(this)+"();\n":
+				n.getId().accept(this)+"("+n.getA().accept(this)+");\n";
 	}
 
 	@Override
@@ -343,16 +356,21 @@ public class GenerateCVisitor implements Visitor<String> {
 	public String visit(WriteOp n) throws RuntimeException {
 		String tr="";
 		Expr e = n.getA().getChildList().get(0);
+		final boolean isEInt = e.getType().toString().equalsIgnoreCase("int");
+		final boolean isEChar = e.getType().toString().equalsIgnoreCase("char");
+		final boolean isEDouble = e.getType().toString().equalsIgnoreCase("double");
+		final boolean isEBool = e.getType().toString().equalsIgnoreCase("bool");
+		final boolean isPrimitive = isEInt || isEChar || isEDouble || isEBool;
 		String typeOfE = e.getType()+"";
-		if(!(e instanceof AddOp)) {
+		
+		if(!(e instanceof AddOp) || isPrimitive) {
 			tr+="printf(\""+escapeForC(typeOfE)+"\\n\","+e.accept(this)+");\n";
 		}else {
 			tr+="\n";
 			tr+=e.accept(this)+"\n";
 			tr+="printf(\"%s\\n\", yasplBuffer);\n";
 			tr+="\n";
-		}
-		 
+		}		 
 		return tr;
 	}
 	@Override
@@ -363,7 +381,11 @@ public class GenerateCVisitor implements Visitor<String> {
 	@Override
 	public String visit(ParDeclSon n) throws RuntimeException {
 		// TODO Auto-generated method stub
-		return null;
+		String tr="";
+		if(n.getParType().accept(this).toString().equalsIgnoreCase("in"))
+			tr+=n.getTypeLeaf().accept(this)+" "+n.getId().accept(this);
+		else tr+= n.getTypeLeaf().accept(this)+" *"+n.getId().accept(this);
+		return tr;
 	}
 
 	@Override
@@ -386,8 +408,7 @@ public class GenerateCVisitor implements Visitor<String> {
 
 	@Override
 	public String visit(ParTypeLeaf n) throws RuntimeException {
-		// TODO Auto-generated method stub
-		return null;
+		return n.getValue();
 	}
 	
 	private String escapeForC(String type) {
@@ -399,7 +420,7 @@ public class GenerateCVisitor implements Visitor<String> {
 				tr="%d";
 			}else {
 				if(type.equalsIgnoreCase("double")) {
-					tr="%f";
+					tr="%lf";
 				}
 				else {
 					if(type.equalsIgnoreCase("char")) {
