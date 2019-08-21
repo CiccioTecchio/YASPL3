@@ -17,14 +17,13 @@ def moltiplicazione(in double x, in double y, out double res, out bool grande)
 	res = risultato;
 }
 
-
 start 
 
 sommagrande = 0;
 sommapiccola = 0;
 
 "Questo programma permette di svolgere una serie di moltiplicazioni" ->;
-"accumulando i risultati < 100 in sommagrande e quelli < 100 in sommapiccola" ->; 
+"accumulando i risultati > 100 in sommagrande e quelli < 100 in sommapiccola" ->; 
 
 i = -1;
 while (i <= 0) do{

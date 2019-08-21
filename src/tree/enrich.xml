@@ -286,7 +286,7 @@ sommapiccola
 <WriteOp type = "VOID">
 <ArgsOp type = "VOID">
 <StringConst>
-&quot;accumulando i risultati &amp;lt; 100 in sommagrande e quelli &amp;lt; 100 in sommapiccola&quot;
+&quot;accumulando i risultati &amp;gt; 100 in sommagrande e quelli &amp;lt; 100 in sommapiccola&quot;
 </StringConst>
 
 </ArgsOp>

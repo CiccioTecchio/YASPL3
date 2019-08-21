@@ -25,7 +25,7 @@ public class Main {
 			FileWriter fw = new FileWriter(args[1]);
 			fw.write(tpv.visit(p));
 			fw.close();
-			SymTableVisitor sym = new SymTableVisitor("src/main/scopes.log");
+			SymTableVisitor sym = new SymTableVisitor("src/tree/scopes.log");
 			sym.visit(p);
 			TypeCheckerVisitor tcv = new TypeCheckerVisitor();
 			tcv.visit(p);

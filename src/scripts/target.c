@@ -19,19 +19,19 @@ bool grande;
 void moltiplicazione(double x, double y, double *res, bool *grande){
 double risultato = x * y;
 if((x * y >= 100)){
-grande = true;
+*grande = true;
 }
 else{
-grande = false;
+*grande = false;
 }
-res = risultato;
+*res = risultato;
 }
 
 int main(void){
 sommagrande = 0;
 sommapiccola = 0;
 printf("%s\n","Questo programma permette di svolgere una serie di moltiplicazioni");
-printf("%s\n","accumulando i risultati < 100 in sommagrande e quelli < 100 in sommapiccola");
+printf("%s\n","accumulando i risultati > 100 in sommagrande e quelli < 100 in sommapiccola");
 i = -1;
 while((i <= 0)){
 printf("%s\n","Quante moltiplicazioni vuoi svolgere? (inserire intero > 0)");
@@ -55,7 +55,7 @@ scanf("%lf",&x);
 scanf("%lf",&y);
 
 }
-moltiplicazione(x,y,risultato,grande);
+moltiplicazione(x,y,&risultato,&grande);
 if(grande){
 sommagrande = sommagrande + risultato;
 }

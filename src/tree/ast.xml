@@ -193,7 +193,7 @@ sommapiccola
 <WriteOp>
 <ArgsOp>
 <StringConst>
-&quot;accumulando i risultati &amp;lt; 100 in sommagrande e quelli &amp;lt; 100 in sommapiccola&quot;
+&quot;accumulando i risultati &amp;gt; 100 in sommagrande e quelli &amp;lt; 100 in sommapiccola&quot;
 </StringConst>
 </ArgsOp>
 </WriteOp>

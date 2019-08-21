@@ -1,6 +1,7 @@
 package visitor;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 import exception.ImpossibleReadException;
 import semantic.SymbolTable.Type;
@@ -57,15 +58,29 @@ import syntaxTree.wrapper.VarDeclsInitWrapper;
 
 public class GenerateCVisitor implements Visitor<String> {
 
+	private TreeMap<String, ArrayList<TreeMap<String, String>>> paramMap;
+	private String toCall;
+	private boolean isFunctionBody;
 	
 	public GenerateCVisitor() {
+		paramMap = new TreeMap<>();
+		toCall = "";
+		isFunctionBody = false;
 	}
 	
 	@Override
 	public String visit(Args n) throws RuntimeException {
 		String tr="";
+		ArrayList<TreeMap<String, String>> listOfParam = paramMap.get(this.toCall);
+		int i=0;
+		TreeMap<String, String> entry;
 		for(Expr e: n.getChildList()) {
-			tr+=e.accept(this)+",";
+			entry = listOfParam.get(i);
+			tr+=(entry.get(entry.firstKey()).equalsIgnoreCase("in"))?
+				 e.accept(this)+",":
+				"&"+e.accept(this)+",";
+			i++;
+			
 		}
 		return tr = tr.substring(0, tr.length()-1);
 		
@@ -103,10 +118,16 @@ public class GenerateCVisitor implements Visitor<String> {
 	@Override
 	public String visit(DefDeclPar n) throws RuntimeException {
 		String tr="void ";
-		tr+=n.getId().accept(this)+"(";
+		String id =n.getId().accept(this)+"";
+		tr+=id+"(";
+		ArrayList<TreeMap<String, String>> listOfPar = new ArrayList<>();
+		this.toCall = id;
+		this.paramMap.put(id, listOfPar);
 		tr+=n.getPd().accept(this);
 		tr += "){\n";
+		this.isFunctionBody = true;
 		tr+=n.getB().accept(this)+"}\n";
+		this.isFunctionBody = false;
 		return tr;
 	}
 
@@ -267,7 +288,29 @@ public class GenerateCVisitor implements Visitor<String> {
 
 	@Override
 	public String visit(IdConst n) throws RuntimeException {
-		return ""+n.getId().accept(this);
+		String tr="";
+		String id = n.getId().accept(this)+"";
+		if(isFunctionBody) {
+			ArrayList<TreeMap<String, String>> listOfParam = this.paramMap.get(toCall);
+			int len = listOfParam.size();
+			TreeMap<String, String> entry = listOfParam.get(0);
+			//TODO da aggiustare
+			 for(int i=0; i<len; i++) {
+				entry = listOfParam.get(i);
+				String key = entry.firstKey();
+				String value = entry.get(key);
+				boolean isOut = (value.equalsIgnoreCase("OUT") || value.equalsIgnoreCase("INOUT"));
+				if(entry.containsKey(id) && isOut) {
+					tr="*"+id;
+					break;
+				}else {
+					tr=id;
+				}
+			}
+		}else {
+			tr=id;
+		}
+		return tr;
 	}
 
 	@Override
@@ -382,9 +425,15 @@ public class GenerateCVisitor implements Visitor<String> {
 	public String visit(ParDeclSon n) throws RuntimeException {
 		// TODO Auto-generated method stub
 		String tr="";
-		if(n.getParType().accept(this).toString().equalsIgnoreCase("in"))
-			tr+=n.getTypeLeaf().accept(this)+" "+n.getId().accept(this);
+		String id = n.getId().accept(this)+"";
+		String parType = n.getParType().accept(this)+"";
+		if(parType.equalsIgnoreCase("in"))
+			tr+=n.getTypeLeaf().accept(this)+" "+id;
 		else tr+= n.getTypeLeaf().accept(this)+" *"+n.getId().accept(this);
+		ArrayList<TreeMap<String, String>> paramList = this.paramMap.get(toCall);
+		TreeMap<String, String> tmp = new TreeMap<>();
+		tmp.put(id, parType);
+		paramList.add(tmp);
 		return tr;
 	}
 
