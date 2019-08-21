@@ -1,0 +1,21 @@
+head
+int input, fattoriale;
+
+def calcola(){
+    int i = 1;
+    while( i <= input ) do {
+        fattoriale = i*fattoriale;
+        i = i + 1;
+    }
+}
+
+start
+fattoriale = 1;
+"Inserisci un intero positivo per calcolare il fattoriale" ->;
+input<-;
+if(input >=1) then {
+    calcola();    
+    "Il fattoriale è "+fattoriale->;
+}else {
+    "Devi inserire un intero positivo!" ->;
+}

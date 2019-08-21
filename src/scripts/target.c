@@ -12,73 +12,107 @@ typedef char string[STRING_CONST];
 string yasplBuffer;
 string toParse;
 
-double sommagrande,sommapiccola;
-int i;
-double x,y,risultato;
-bool grande;
-void moltiplicazione(double x, double y, double *res, bool *grande){
-double risultato = x * y;
-if((x * y >= 100)){
-*grande = true;
+double op1,op2,res;
+int choise;
+string menu;
+void resetResTo0(double *res){
+*res = 0;
 }
-else{
-*grande = false;
+void resetResTo1(double *res){
+*res = 1;
 }
-*res = risultato;
+void addizione(double op1, double op2, double *res){
+*res = op1 + op2;
+}
+void sottrazione(double op1, double op2, double *res){
+*res = op1 - op2;
+}
+void moltiplicazione(double op1, double op2, double *res){
+*res = op1 * op2;
+}
+void divisione(double op1, double op2, double *res){
+*res = op1 / op2;
+}
+void quadrato(double op, double *res){
+*res = op * op;
+}
+void printMenu(){
+
+strcpy(yasplBuffer,"Scegli l'operazione da svolgere\n");
+strcat(yasplBuffer, "1. Addizione\n");
+strcpy(toParse,"2. Sottrazione\n");
+strcat(yasplBuffer, toParse);
+strcpy(toParse,"3. Moltiplicazione\n");
+strcat(yasplBuffer, toParse);
+strcpy(toParse,"4. Divisione\n");
+strcat(yasplBuffer, toParse);
+strcpy(toParse,"5. Quadrato\n");
+strcat(yasplBuffer, toParse);
+strcpy(toParse,"0. esci");
+strcat(yasplBuffer, toParse);
+
+printf("%s\n", yasplBuffer);
+
+}
+void readOps(){
+printf("%s\n","Inserisci due numeri");
+scanf("%lf",&op1);
+scanf("%lf",&op2);
 }
 
 int main(void){
-sommagrande = 0;
-sommapiccola = 0;
-printf("%s\n","Questo programma permette di svolgere una serie di moltiplicazioni");
-printf("%s\n","accumulando i risultati > 100 in sommagrande e quelli < 100 in sommapiccola");
-i = -1;
-while((i <= 0)){
-printf("%s\n","Quante moltiplicazioni vuoi svolgere? (inserire intero > 0)");
-scanf("%d",&i);
-
-}
-while((i > 0)){
-x = -1;
-y = -1;
-while(!(((x > 0) && (y > 0)))){
-
-strcpy(yasplBuffer,"Moltiplicazione ");
-sprintf(toParse,"%d", i);
-strcat(yasplBuffer, toParse);
-strcpy(toParse,": inserisci due numeri positivi");
-strcat(yasplBuffer, toParse);
-
-printf("%s\n", yasplBuffer);
-
-scanf("%lf",&x);
-scanf("%lf",&y);
-
-}
-moltiplicazione(x,y,&risultato,&grande);
-if(grande){
-sommagrande = sommagrande + risultato;
+printMenu();
+scanf("%d",&choise);
+while(!(choise == 0)){
+if(choise == 1){
+readOps();
+resetResTo0(&res);
+addizione(op1,op2,&res);
+printf("%lf\n",res);
 }
 else{
-sommapiccola = sommapiccola + risultato;
+if(choise == 2){
+readOps();
+resetResTo0(&res);
+sottrazione(op1,op2,&res);
+printf("%lf\n",res);
 }
-i = i - 1;
+else{
+if(choise == 3){
+readOps();
+resetResTo1(&res);
+moltiplicazione(op1,op2,&res);
+printf("%lf\n",res);
+}
+else{
+if(choise == 4){
+readOps();
+resetResTo1(&res);
+divisione(op1,op2,&res);
+printf("%lf\n",res);
+}
+else{
+if(choise == 5){
+printf("%s\n","Inserisci un numero");
+scanf("%lf",&op1);
+resetResTo1(&res);
+quadrato(op1,&res);
+printf("%lf\n",res);
+}
+else{
+if((choise < 0 || choise > 5)){
+printMenu();
+scanf("%d",&choise);
+}
+}
+}
+}
+}
+}
+printMenu();
+scanf("%d",&choise);
 
 }
-
-strcpy(yasplBuffer,"Valore di sommagrande: ");
-sprintf(toParse,"%lf", sommagrande);
-strcat(yasplBuffer, toParse);
-
-printf("%s\n", yasplBuffer);
-
-
-strcpy(yasplBuffer,"Valore di sommapiccola: ");
-sprintf(toParse,"%lf", sommapiccola);
-strcat(yasplBuffer, toParse);
-
-printf("%s\n", yasplBuffer);
-
-printf("%s\n","ciao");
+printf("%s\n","Finito");
 return 0;
 }

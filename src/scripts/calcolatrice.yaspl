@@ -1,0 +1,99 @@
+head
+
+double op1, op2, res;
+int choise;
+string menu;
+
+def resetResTo0(inout double res){
+    res=0;
+}
+def resetResTo1(inout double res){
+    res=1;
+}
+
+def addizione(in double op1, in double op2, out double res){
+    res = op1+op2;
+}
+
+def sottrazione(in double op1, in double op2, out double res){
+    res = op1-op2;
+}
+
+def moltiplicazione(in double op1, in double op2, out double res){
+    res = op1*op2;
+}
+
+def divisione(in double op1, in double op2, out double res){
+    res = op1/op2;
+}
+
+def quadrato(in double op, out double res){
+    res = op*op;
+}
+
+def printMenu(){
+"Scegli l'operazione da svolgere\n"+
+"1. Addizione\n"+
+"2. Sottrazione\n"+
+"3. Moltiplicazione\n"+
+"4. Divisione\n"+
+"5. Quadrato\n"+
+"0. esci" ->;
+}
+
+def readOps(){
+"Inserisci due numeri"->;
+op1,op2<-;
+}
+
+
+start
+
+printMenu();
+choise <-;
+while(not(choise == 0) ) do {
+    if(choise == 1) then {
+        readOps();
+        resetResTo0(res);
+        addizione(op1,op2,res);
+        res->;
+    }else {
+        if(choise == 2) then {
+        readOps();
+        resetResTo0(res);
+        sottrazione(op1,op2,res);
+        res->;
+    } else {
+        if(choise == 3) then {
+            readOps();
+            resetResTo1(res);
+            moltiplicazione(op1, op2, res);
+            res ->;
+        } else {
+            if(choise == 4) then {
+                readOps();
+                resetResTo1(res);
+                divisione(op1, op2, res);
+                res->;
+            }else{
+                if(choise == 5) then {
+                    "Inserisci un numero"->;
+                    op1<-;
+                    resetResTo1(res);
+                    quadrato(op1, res);
+                    res->;
+                } else {
+                    if(choise < 0 or choise > 5) then {
+                        "Scelta non valida, inserisci un intero compreso fra 0 e 5"->;
+                        printMenu();
+                        choise <-;
+                    }
+                }
+            }
+        }
+    }
+    }
+    printMenu();
+    choise<-;
+}
+"Finito"->;

@@ -8,14 +8,21 @@ DOUBLE
 <VarDeclsInit type = "VOID">
 <VarNotInit>
 <Id type = "DOUBLE">
-sommagrande
+op1
 </Id>
 
 </VarNotInit>
 
 <VarNotInit>
 <Id type = "DOUBLE">
-sommapiccola
+op2
+</Id>
+
+</VarNotInit>
+
+<VarNotInit>
+<Id type = "DOUBLE">
+res
 </Id>
 
 </VarNotInit>
@@ -32,7 +39,7 @@ INT
 <VarDeclsInit type = "VOID">
 <VarNotInit>
 <Id type = "INT">
-i
+choise
 </Id>
 
 </VarNotInit>
@@ -42,52 +49,243 @@ i
 </VarDecl>
 
 <VarDecl type = "VOID">
+<Type>
+STRING
+</Type>
+
+<VarDeclsInit type = "VOID">
+<VarNotInit>
+<Id type = "STRING">
+menu
+</Id>
+
+</VarNotInit>
+
+</VarDeclsInit>
+
+</VarDecl>
+
+<DefDecl symTbl = "resetResTo0" type = "VOID">
+<Id type = "VOID">
+resetResTo0
+</Id>
+
+<ParDeclsOp>
+<ParDeclSon>
+<ParType>
+INOUT
+</ParType>
 <Type>
 DOUBLE
 </Type>
+<Id>
+res
+</Id>
+</ParDeclSon>
+</ParDeclsOp>
 
-<VarDeclsInit type = "VOID">
-<VarNotInit>
+<Body type = "VOID">
+<VarDecls type = "VOID">
+</VarDecls>
+
+<Statements>
+<AssignOp type = "VOID">
 <Id type = "DOUBLE">
-x
+res
 </Id>
 
-</VarNotInit>
+<IntConst>
+0
+</IntConst>
 
-<VarNotInit>
-<Id type = "DOUBLE">
-y
+</AssignOp>
+
+</Statements>
+
+</Body>
+
+</DefDecl>
+
+<DefDecl symTbl = "resetResTo1" type = "VOID">
+<Id type = "VOID">
+resetResTo1
 </Id>
 
-</VarNotInit>
-
-<VarNotInit>
-<Id type = "DOUBLE">
-risultato
-</Id>
-
-</VarNotInit>
-
-</VarDeclsInit>
-
-</VarDecl>
-
-<VarDecl type = "VOID">
+<ParDeclsOp>
+<ParDeclSon>
+<ParType>
+INOUT
+</ParType>
 <Type>
-BOOL
+DOUBLE
 </Type>
+<Id>
+res
+</Id>
+</ParDeclSon>
+</ParDeclsOp>
 
-<VarDeclsInit type = "VOID">
-<VarNotInit>
-<Id type = "BOOL">
-grande
+<Body type = "VOID">
+<VarDecls type = "VOID">
+</VarDecls>
+
+<Statements>
+<AssignOp type = "VOID">
+<Id type = "DOUBLE">
+res
 </Id>
 
-</VarNotInit>
+<IntConst>
+1
+</IntConst>
 
-</VarDeclsInit>
+</AssignOp>
 
-</VarDecl>
+</Statements>
+
+</Body>
+
+</DefDecl>
+
+<DefDecl symTbl = "addizione" type = "VOID">
+<Id type = "VOID">
+addizione
+</Id>
+
+<ParDeclsOp>
+<ParDeclSon>
+<ParType>
+IN
+</ParType>
+<Type>
+DOUBLE
+</Type>
+<Id>
+op1
+</Id>
+</ParDeclSon>
+<ParDeclSon>
+<ParType>
+IN
+</ParType>
+<Type>
+DOUBLE
+</Type>
+<Id>
+op2
+</Id>
+</ParDeclSon>
+<ParDeclSon>
+<ParType>
+OUT
+</ParType>
+<Type>
+DOUBLE
+</Type>
+<Id>
+res
+</Id>
+</ParDeclSon>
+</ParDeclsOp>
+
+<Body type = "VOID">
+<VarDecls type = "VOID">
+</VarDecls>
+
+<Statements>
+<AssignOp type = "VOID">
+<Id type = "DOUBLE">
+res
+</Id>
+
+<AddOp type = "DOUBLE">
+<Id type = "DOUBLE">
+op1
+</Id>
+
+<Id type = "DOUBLE">
+op2
+</Id>
+
+</AddOp>
+
+</AssignOp>
+
+</Statements>
+
+</Body>
+
+</DefDecl>
+
+<DefDecl symTbl = "sottrazione" type = "VOID">
+<Id type = "VOID">
+sottrazione
+</Id>
+
+<ParDeclsOp>
+<ParDeclSon>
+<ParType>
+IN
+</ParType>
+<Type>
+DOUBLE
+</Type>
+<Id>
+op1
+</Id>
+</ParDeclSon>
+<ParDeclSon>
+<ParType>
+IN
+</ParType>
+<Type>
+DOUBLE
+</Type>
+<Id>
+op2
+</Id>
+</ParDeclSon>
+<ParDeclSon>
+<ParType>
+OUT
+</ParType>
+<Type>
+DOUBLE
+</Type>
+<Id>
+res
+</Id>
+</ParDeclSon>
+</ParDeclsOp>
+
+<Body type = "VOID">
+<VarDecls type = "VOID">
+</VarDecls>
+
+<Statements>
+<AssignOp type = "VOID">
+<Id type = "DOUBLE">
+res
+</Id>
+
+<SubOp type = "DOUBLE">
+<Id type = "DOUBLE">
+op1
+</Id>
+
+<Id type = "DOUBLE">
+op2
+</Id>
+
+</SubOp>
+
+</AssignOp>
+
+</Statements>
+
+</Body>
+
+</DefDecl>
 
 <DefDecl symTbl = "moltiplicazione" type = "VOID">
 <Id type = "VOID">
@@ -103,7 +301,7 @@ IN
 DOUBLE
 </Type>
 <Id>
-x
+op1
 </Id>
 </ParDeclSon>
 <ParDeclSon>
@@ -114,7 +312,7 @@ IN
 DOUBLE
 </Type>
 <Id>
-y
+op2
 </Id>
 </ParDeclSon>
 <ParDeclSon>
@@ -126,121 +324,267 @@ DOUBLE
 </Type>
 <Id>
 res
-</Id>
-</ParDeclSon>
-<ParDeclSon>
-<ParType>
-OUT
-</ParType>
-<Type>
-BOOL
-</Type>
-<Id>
-grande
 </Id>
 </ParDeclSon>
 </ParDeclsOp>
 
 <Body type = "VOID">
 <VarDecls type = "VOID">
-<VarDecl type = "VOID">
-<Type>
-DOUBLE
-</Type>
-
-<VarDeclsInit type = "VOID">
-<VarInit>
-<Id type = "DOUBLE">
-risultato
-</Id>
-
-<VarInitValue type = "DOUBLE">
-<MultOp type = "DOUBLE">
-<Id type = "DOUBLE">
-x
-</Id>
-
-<Id type = "DOUBLE">
-y
-</Id>
-
-</MultOp>
-</VarInitValue>
-
-</VarInit>
-
-</VarDeclsInit>
-
-</VarDecl>
-
 </VarDecls>
 
 <Statements>
-<IfThenElseOp type = "VOID">
-<GeOp type = "BOOL">
-<MultOp type = "DOUBLE">
-<Id type = "DOUBLE">
-x
-</Id>
-
-<Id type = "DOUBLE">
-y
-</Id>
-
-</MultOp>
-
-<IntConst>
-100
-</IntConst>
-
-</GeOp>
-
-<CompStat type = "VOID">
-<Statements>
-<AssignOp type = "VOID">
-<Id type = "BOOL">
-grande
-</Id>
-
-<BoolConst>
-true
-</BoolConst>
-
-</AssignOp>
-
-</Statements>
-
-</CompStat>
-
-<CompStat type = "VOID">
-<Statements>
-<AssignOp type = "VOID">
-<Id type = "BOOL">
-grande
-</Id>
-
-<BoolConst>
-false
-</BoolConst>
-
-</AssignOp>
-
-</Statements>
-
-</CompStat>
-
-</IfThenElseOp>
-
 <AssignOp type = "VOID">
 <Id type = "DOUBLE">
 res
 </Id>
 
+<MultOp type = "DOUBLE">
 <Id type = "DOUBLE">
-risultato
+op1
 </Id>
 
+<Id type = "DOUBLE">
+op2
+</Id>
+
+</MultOp>
+
 </AssignOp>
+
+</Statements>
+
+</Body>
+
+</DefDecl>
+
+<DefDecl symTbl = "divisione" type = "VOID">
+<Id type = "VOID">
+divisione
+</Id>
+
+<ParDeclsOp>
+<ParDeclSon>
+<ParType>
+IN
+</ParType>
+<Type>
+DOUBLE
+</Type>
+<Id>
+op1
+</Id>
+</ParDeclSon>
+<ParDeclSon>
+<ParType>
+IN
+</ParType>
+<Type>
+DOUBLE
+</Type>
+<Id>
+op2
+</Id>
+</ParDeclSon>
+<ParDeclSon>
+<ParType>
+OUT
+</ParType>
+<Type>
+DOUBLE
+</Type>
+<Id>
+res
+</Id>
+</ParDeclSon>
+</ParDeclsOp>
+
+<Body type = "VOID">
+<VarDecls type = "VOID">
+</VarDecls>
+
+<Statements>
+<AssignOp type = "VOID">
+<Id type = "DOUBLE">
+res
+</Id>
+
+<DivOp type = "DOUBLE">
+<Id type = "DOUBLE">
+op1
+</Id>
+
+<Id type = "DOUBLE">
+op2
+</Id>
+
+</DivOp>
+
+</AssignOp>
+
+</Statements>
+
+</Body>
+
+</DefDecl>
+
+<DefDecl symTbl = "quadrato" type = "VOID">
+<Id type = "VOID">
+quadrato
+</Id>
+
+<ParDeclsOp>
+<ParDeclSon>
+<ParType>
+IN
+</ParType>
+<Type>
+DOUBLE
+</Type>
+<Id>
+op
+</Id>
+</ParDeclSon>
+<ParDeclSon>
+<ParType>
+OUT
+</ParType>
+<Type>
+DOUBLE
+</Type>
+<Id>
+res
+</Id>
+</ParDeclSon>
+</ParDeclsOp>
+
+<Body type = "VOID">
+<VarDecls type = "VOID">
+</VarDecls>
+
+<Statements>
+<AssignOp type = "VOID">
+<Id type = "DOUBLE">
+res
+</Id>
+
+<MultOp type = "DOUBLE">
+<Id type = "DOUBLE">
+op
+</Id>
+
+<Id type = "DOUBLE">
+op
+</Id>
+
+</MultOp>
+
+</AssignOp>
+
+</Statements>
+
+</Body>
+
+</DefDecl>
+
+<DefDecl symTbl = "printMenu" type = "VOID">
+<Id type = "VOID">
+printMenu
+</Id>
+
+<Body type = "VOID">
+<VarDecls type = "VOID">
+</VarDecls>
+
+<Statements>
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
+<AddOp type = "STRING">
+<AddOp type = "STRING">
+<AddOp type = "STRING">
+<AddOp type = "STRING">
+<AddOp type = "STRING">
+<AddOp type = "STRING">
+<StringConst>
+&quot;Scegli l&apos;operazione da svolgere\n&quot;
+</StringConst>
+
+<StringConst>
+&quot;1. Addizione\n&quot;
+</StringConst>
+
+</AddOp>
+
+<StringConst>
+&quot;2. Sottrazione\n&quot;
+</StringConst>
+
+</AddOp>
+
+<StringConst>
+&quot;3. Moltiplicazione\n&quot;
+</StringConst>
+
+</AddOp>
+
+<StringConst>
+&quot;4. Divisione\n&quot;
+</StringConst>
+
+</AddOp>
+
+<StringConst>
+&quot;5. Quadrato\n&quot;
+</StringConst>
+
+</AddOp>
+
+<StringConst>
+&quot;0. esci&quot;
+</StringConst>
+
+</AddOp>
+
+</ArgsOp>
+
+</WriteOp>
+
+</Statements>
+
+</Body>
+
+</DefDecl>
+
+<DefDecl symTbl = "readOps" type = "VOID">
+<Id type = "VOID">
+readOps
+</Id>
+
+<Body type = "VOID">
+<VarDecls type = "VOID">
+</VarDecls>
+
+<Statements>
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
+<StringConst>
+&quot;Inserisci due numeri&quot;
+</StringConst>
+
+</ArgsOp>
+
+</WriteOp>
+
+<ReadOp type = "VOID">
+<Vars type = "VOID">
+<Id type = "DOUBLE">
+op1
+</Id>
+<Id type = "DOUBLE">
+op2
+</Id>
+</Vars>
+
+</ReadOp>
 
 </Statements>
 
@@ -251,215 +595,219 @@ risultato
 </Decls>
 
 <Statements>
-<AssignOp type = "VOID">
-<Id type = "DOUBLE">
-sommagrande
+<CallOp type = "VOID">
+<Id type = "VOID">
+printMenu
 </Id>
 
-<IntConst>
-0
-</IntConst>
-
-</AssignOp>
-
-<AssignOp type = "VOID">
-<Id type = "DOUBLE">
-sommapiccola
-</Id>
-
-<IntConst>
-0
-</IntConst>
-
-</AssignOp>
-
-<WriteOp type = "VOID">
-<ArgsOp type = "VOID">
-<StringConst>
-&quot;Questo programma permette di svolgere una serie di moltiplicazioni&quot;
-</StringConst>
-
-</ArgsOp>
-
-</WriteOp>
-
-<WriteOp type = "VOID">
-<ArgsOp type = "VOID">
-<StringConst>
-&quot;accumulando i risultati &amp;gt; 100 in sommagrande e quelli &amp;lt; 100 in sommapiccola&quot;
-</StringConst>
-
-</ArgsOp>
-
-</WriteOp>
-
-<AssignOp type = "VOID">
-<Id type = "INT">
-i
-</Id>
-
-<UminusOp type = "INT">
-<IntConst>
-1
-</IntConst>
-
-</UminusOp>
-
-</AssignOp>
-
-<WhileOp type = "VOID">
-<LeOp type = "BOOL">
-<Id type = "INT">
-i
-</Id>
-
-<IntConst>
-0
-</IntConst>
-
-</LeOp>
-
-<CompStat type = "VOID">
-<Statements>
-<WriteOp type = "VOID">
-<ArgsOp type = "VOID">
-<StringConst>
-&quot;Quante moltiplicazioni vuoi svolgere? (inserire intero &amp;gt; 0)&quot;
-</StringConst>
-
-</ArgsOp>
-
-</WriteOp>
+</CallOp>
 
 <ReadOp type = "VOID">
 <Vars type = "VOID">
 <Id type = "INT">
-i
+choise
 </Id>
 </Vars>
 
 </ReadOp>
 
-</Statements>
-
-</CompStat>
-
-</WhileOp>
-
-<WhileOp type = "VOID">
-<GtOp type = "BOOL">
-<Id type = "INT">
-i
-</Id>
-
-<IntConst>
-0
-</IntConst>
-
-</GtOp>
-
-<CompStat type = "VOID">
-<Statements>
-<AssignOp type = "VOID">
-<Id type = "DOUBLE">
-x
-</Id>
-
-<UminusOp type = "INT">
-<IntConst>
-1
-</IntConst>
-
-</UminusOp>
-
-</AssignOp>
-
-<AssignOp type = "VOID">
-<Id type = "DOUBLE">
-y
-</Id>
-
-<UminusOp type = "INT">
-<IntConst>
-1
-</IntConst>
-
-</UminusOp>
-
-</AssignOp>
-
 <WhileOp type = "VOID">
 <NotOp type = "BOOL">
-<AndOp type = "BOOL">
-<GtOp type = "BOOL">
-<Id type = "DOUBLE">
-x
+<EqOp type = "BOOL">
+<Id type = "INT">
+choise
 </Id>
 
 <IntConst>
 0
 </IntConst>
 
-</GtOp>
-
-<GtOp type = "BOOL">
-<Id type = "DOUBLE">
-y
-</Id>
-
-<IntConst>
-0
-</IntConst>
-
-</GtOp>
-
-</AndOp>
+</EqOp>
 
 </NotOp>
 
 <CompStat type = "VOID">
 <Statements>
-<WriteOp type = "VOID">
-<ArgsOp type = "VOID">
-<AddOp type = "STRING">
-<AddOp type = "STRING">
-<StringConst>
-&quot;Moltiplicazione &quot;
-</StringConst>
-
+<IfThenElseOp type = "VOID">
+<EqOp type = "BOOL">
 <Id type = "INT">
-i
+choise
 </Id>
 
-</AddOp>
+<IntConst>
+1
+</IntConst>
 
-<StringConst>
-&quot;: inserisci due numeri positivi&quot;
-</StringConst>
+</EqOp>
 
-</AddOp>
+<CompStat type = "VOID">
+<Statements>
+<CallOp type = "VOID">
+<Id type = "VOID">
+readOps
+</Id>
+
+</CallOp>
+
+<CallOpWithArgs type = "VOID">
+<Id type = "VOID">
+resetResTo0
+</Id>
+
+<ArgsOp type = "VOID">
+<Id type = "DOUBLE">
+res
+</Id>
+
+</ArgsOp>
+
+</CallOpWithArgs>
+
+<CallOpWithArgs type = "VOID">
+<Id type = "VOID">
+addizione
+</Id>
+
+<ArgsOp type = "VOID">
+<Id type = "DOUBLE">
+op1
+</Id>
+
+<Id type = "DOUBLE">
+op2
+</Id>
+
+<Id type = "DOUBLE">
+res
+</Id>
+
+</ArgsOp>
+
+</CallOpWithArgs>
+
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
+<Id type = "DOUBLE">
+res
+</Id>
 
 </ArgsOp>
 
 </WriteOp>
 
-<ReadOp type = "VOID">
-<Vars type = "VOID">
-<Id type = "DOUBLE">
-x
-</Id>
-<Id type = "DOUBLE">
-y
-</Id>
-</Vars>
+</Statements>
 
-</ReadOp>
+</CompStat>
+
+<CompStat type = "VOID">
+<Statements>
+<IfThenElseOp type = "VOID">
+<EqOp type = "BOOL">
+<Id type = "INT">
+choise
+</Id>
+
+<IntConst>
+2
+</IntConst>
+
+</EqOp>
+
+<CompStat type = "VOID">
+<Statements>
+<CallOp type = "VOID">
+<Id type = "VOID">
+readOps
+</Id>
+
+</CallOp>
+
+<CallOpWithArgs type = "VOID">
+<Id type = "VOID">
+resetResTo0
+</Id>
+
+<ArgsOp type = "VOID">
+<Id type = "DOUBLE">
+res
+</Id>
+
+</ArgsOp>
+
+</CallOpWithArgs>
+
+<CallOpWithArgs type = "VOID">
+<Id type = "VOID">
+sottrazione
+</Id>
+
+<ArgsOp type = "VOID">
+<Id type = "DOUBLE">
+op1
+</Id>
+
+<Id type = "DOUBLE">
+op2
+</Id>
+
+<Id type = "DOUBLE">
+res
+</Id>
+
+</ArgsOp>
+
+</CallOpWithArgs>
+
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
+<Id type = "DOUBLE">
+res
+</Id>
+
+</ArgsOp>
+
+</WriteOp>
 
 </Statements>
 
 </CompStat>
 
-</WhileOp>
+<CompStat type = "VOID">
+<Statements>
+<IfThenElseOp type = "VOID">
+<EqOp type = "BOOL">
+<Id type = "INT">
+choise
+</Id>
+
+<IntConst>
+3
+</IntConst>
+
+</EqOp>
+
+<CompStat type = "VOID">
+<Statements>
+<CallOp type = "VOID">
+<Id type = "VOID">
+readOps
+</Id>
+
+</CallOp>
+
+<CallOpWithArgs type = "VOID">
+<Id type = "VOID">
+resetResTo1
+</Id>
+
+<ArgsOp type = "VOID">
+<Id type = "DOUBLE">
+res
+</Id>
+
+</ArgsOp>
+
+</CallOpWithArgs>
 
 <CallOpWithArgs type = "VOID">
 <Id type = "VOID">
@@ -468,49 +816,30 @@ moltiplicazione
 
 <ArgsOp type = "VOID">
 <Id type = "DOUBLE">
-x
+op1
 </Id>
 
 <Id type = "DOUBLE">
-y
+op2
 </Id>
 
 <Id type = "DOUBLE">
-risultato
-</Id>
-
-<Id type = "BOOL">
-grande
+res
 </Id>
 
 </ArgsOp>
 
 </CallOpWithArgs>
 
-<IfThenElseOp type = "VOID">
-<Id type = "BOOL">
-grande
-</Id>
-
-<CompStat type = "VOID">
-<Statements>
-<AssignOp type = "VOID">
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
 <Id type = "DOUBLE">
-sommagrande
+res
 </Id>
 
-<AddOp type = "DOUBLE">
-<Id type = "DOUBLE">
-sommagrande
-</Id>
+</ArgsOp>
 
-<Id type = "DOUBLE">
-risultato
-</Id>
-
-</AddOp>
-
-</AssignOp>
+</WriteOp>
 
 </Statements>
 
@@ -518,23 +847,209 @@ risultato
 
 <CompStat type = "VOID">
 <Statements>
-<AssignOp type = "VOID">
-<Id type = "DOUBLE">
-sommapiccola
+<IfThenElseOp type = "VOID">
+<EqOp type = "BOOL">
+<Id type = "INT">
+choise
 </Id>
 
-<AddOp type = "DOUBLE">
+<IntConst>
+4
+</IntConst>
+
+</EqOp>
+
+<CompStat type = "VOID">
+<Statements>
+<CallOp type = "VOID">
+<Id type = "VOID">
+readOps
+</Id>
+
+</CallOp>
+
+<CallOpWithArgs type = "VOID">
+<Id type = "VOID">
+resetResTo1
+</Id>
+
+<ArgsOp type = "VOID">
 <Id type = "DOUBLE">
-sommapiccola
+res
+</Id>
+
+</ArgsOp>
+
+</CallOpWithArgs>
+
+<CallOpWithArgs type = "VOID">
+<Id type = "VOID">
+divisione
+</Id>
+
+<ArgsOp type = "VOID">
+<Id type = "DOUBLE">
+op1
 </Id>
 
 <Id type = "DOUBLE">
-risultato
+op2
 </Id>
 
-</AddOp>
+<Id type = "DOUBLE">
+res
+</Id>
 
-</AssignOp>
+</ArgsOp>
+
+</CallOpWithArgs>
+
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
+<Id type = "DOUBLE">
+res
+</Id>
+
+</ArgsOp>
+
+</WriteOp>
+
+</Statements>
+
+</CompStat>
+
+<CompStat type = "VOID">
+<Statements>
+<IfThenElseOp type = "VOID">
+<EqOp type = "BOOL">
+<Id type = "INT">
+choise
+</Id>
+
+<IntConst>
+5
+</IntConst>
+
+</EqOp>
+
+<CompStat type = "VOID">
+<Statements>
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
+<StringConst>
+&quot;Inserisci un numero&quot;
+</StringConst>
+
+</ArgsOp>
+
+</WriteOp>
+
+<ReadOp type = "VOID">
+<Vars type = "VOID">
+<Id type = "DOUBLE">
+op1
+</Id>
+</Vars>
+
+</ReadOp>
+
+<CallOpWithArgs type = "VOID">
+<Id type = "VOID">
+resetResTo1
+</Id>
+
+<ArgsOp type = "VOID">
+<Id type = "DOUBLE">
+res
+</Id>
+
+</ArgsOp>
+
+</CallOpWithArgs>
+
+<CallOpWithArgs type = "VOID">
+<Id type = "VOID">
+quadrato
+</Id>
+
+<ArgsOp type = "VOID">
+<Id type = "DOUBLE">
+op1
+</Id>
+
+<Id type = "DOUBLE">
+res
+</Id>
+
+</ArgsOp>
+
+</CallOpWithArgs>
+
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
+<Id type = "DOUBLE">
+res
+</Id>
+
+</ArgsOp>
+
+</WriteOp>
+
+</Statements>
+
+</CompStat>
+
+<CompStat type = "VOID">
+<Statements>
+<IfThenOp type = "VOID">
+<OrOp type = "BOOL">
+<LtOp type = "BOOL">
+<Id type = "INT">
+choise
+</Id>
+
+<IntConst>
+0
+</IntConst>
+
+</LtOp>
+
+<GtOp type = "BOOL">
+<Id type = "INT">
+choise
+</Id>
+
+<IntConst>
+5
+</IntConst>
+
+</GtOp>
+
+</OrOp>
+
+<CompStat type = "VOID">
+<Statements>
+<CallOp type = "VOID">
+<Id type = "VOID">
+printMenu
+</Id>
+
+</CallOp>
+
+<ReadOp type = "VOID">
+<Vars type = "VOID">
+<Id type = "INT">
+choise
+</Id>
+</Vars>
+
+</ReadOp>
+
+</Statements>
+
+</CompStat>
+
+</IfThenOp>
 
 </Statements>
 
@@ -542,23 +1057,45 @@ risultato
 
 </IfThenElseOp>
 
-<AssignOp type = "VOID">
-<Id type = "INT">
-i
+</Statements>
+
+</CompStat>
+
+</IfThenElseOp>
+
+</Statements>
+
+</CompStat>
+
+</IfThenElseOp>
+
+</Statements>
+
+</CompStat>
+
+</IfThenElseOp>
+
+</Statements>
+
+</CompStat>
+
+</IfThenElseOp>
+
+<CallOp type = "VOID">
+<Id type = "VOID">
+printMenu
 </Id>
 
-<SubOp type = "INT">
+</CallOp>
+
+<ReadOp type = "VOID">
+<Vars type = "VOID">
 <Id type = "INT">
-i
+choise
 </Id>
+</Vars>
 
-<IntConst>
-1
-</IntConst>
-
-</SubOp>
-
-</AssignOp>
+</ReadOp>
 
 </Statements>
 
@@ -568,42 +1105,8 @@ i
 
 <WriteOp type = "VOID">
 <ArgsOp type = "VOID">
-<AddOp type = "STRING">
 <StringConst>
-&quot;Valore di sommagrande: &quot;
-</StringConst>
-
-<Id type = "DOUBLE">
-sommagrande
-</Id>
-
-</AddOp>
-
-</ArgsOp>
-
-</WriteOp>
-
-<WriteOp type = "VOID">
-<ArgsOp type = "VOID">
-<AddOp type = "STRING">
-<StringConst>
-&quot;Valore di sommapiccola: &quot;
-</StringConst>
-
-<Id type = "DOUBLE">
-sommapiccola
-</Id>
-
-</AddOp>
-
-</ArgsOp>
-
-</WriteOp>
-
-<WriteOp type = "VOID">
-<ArgsOp type = "VOID">
-<StringConst>
-&quot;ciao&quot;
+&quot;Finito&quot;
 </StringConst>
 
 </ArgsOp>

@@ -71,11 +71,13 @@ public class GenerateCVisitor implements Visitor<String> {
 	@Override
 	public String visit(Args n) throws RuntimeException {
 		String tr="";
+		System.out.println(toCall);
 		ArrayList<TreeMap<String, String>> listOfParam = paramMap.get(this.toCall);
 		int i=0;
 		TreeMap<String, String> entry;
 		for(Expr e: n.getChildList()) {
 			entry = listOfParam.get(i);
+			
 			tr+=(entry.get(entry.firstKey()).equalsIgnoreCase("in"))?
 				 e.accept(this)+",":
 				"&"+e.accept(this)+",";
@@ -258,27 +260,27 @@ public class GenerateCVisitor implements Visitor<String> {
 
 	@Override
 	public String visit(EqOp n) throws RuntimeException {
-		return "("+n.getE1().accept(this)+" == "+n.getE2().accept(this)+")";
+		return n.getE1().accept(this)+" == "+n.getE2().accept(this);
 	}
 
 	@Override
 	public String visit(GeOp n) throws RuntimeException {
-		return "("+n.getE1().accept(this)+" >= "+n.getE2().accept(this)+")";
+		return n.getE1().accept(this)+" >= "+n.getE2().accept(this);
 	}
 
 	@Override
 	public String visit(GtOp n) throws RuntimeException {
-		return "("+n.getE1().accept(this)+" > "+n.getE2().accept(this)+")";
+		return n.getE1().accept(this)+" > "+n.getE2().accept(this);
 	}
 
 	@Override
 	public String visit(LeOp n) throws RuntimeException {
-		return "("+n.getE1().accept(this)+" <= "+n.getE2().accept(this)+")";
+		return n.getE1().accept(this)+" <= "+n.getE2().accept(this);
 	}
 
 	@Override
 	public String visit(LtOp n) throws RuntimeException {
-		return "("+n.getE1().accept(this)+" < "+n.getE2().accept(this)+")";
+		return n.getE1().accept(this)+" < "+n.getE2().accept(this);
 	}
 
 	@Override
@@ -350,9 +352,10 @@ public class GenerateCVisitor implements Visitor<String> {
 
 	@Override
 	public String visit(CallOp n) throws RuntimeException {
+		this.toCall = n.getId().accept(this)+"";
 		return (n.getA() == null)?
-				n.getId().accept(this)+"();\n":
-				n.getId().accept(this)+"("+n.getA().accept(this)+");\n";
+				toCall+"();\n":
+				toCall+"("+n.getA().accept(this)+");\n";
 	}
 
 	@Override
