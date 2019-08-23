@@ -71,7 +71,6 @@ public class GenerateCVisitor implements Visitor<String> {
 	@Override
 	public String visit(Args n) throws RuntimeException {
 		String tr="";
-		System.out.println(toCall);
 		ArrayList<TreeMap<String, String>> listOfParam = paramMap.get(this.toCall);
 		int i=0;
 		TreeMap<String, String> entry;
@@ -501,7 +500,6 @@ public class GenerateCVisitor implements Visitor<String> {
 		
 		final boolean isE1Bool = n.getE1().getType().toString().equalsIgnoreCase("bool");
 		final boolean isE2Bool = n.getE2().getType().toString().equalsIgnoreCase("bool");
-		
 		if(n.getE1() instanceof AddOp) {
 			tr+=n.getE1().accept(this);
 			if(isE2String) {

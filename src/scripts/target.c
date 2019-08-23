@@ -12,107 +12,52 @@ typedef char string[STRING_CONST];
 string yasplBuffer;
 string toParse;
 
-double op1,op2,res;
-int choise;
-string menu;
-void resetResTo0(double *res){
-*res = 0;
-}
-void resetResTo1(double *res){
-*res = 1;
-}
-void addizione(double op1, double op2, double *res){
-*res = op1 + op2;
-}
-void sottrazione(double op1, double op2, double *res){
-*res = op1 - op2;
-}
-void moltiplicazione(double op1, double op2, double *res){
-*res = op1 * op2;
-}
-void divisione(double op1, double op2, double *res){
-*res = op1 / op2;
-}
-void quadrato(double op, double *res){
-*res = op * op;
-}
-void printMenu(){
-
-strcpy(yasplBuffer,"Scegli l'operazione da svolgere\n");
-strcat(yasplBuffer, "1. Addizione\n");
-strcpy(toParse,"2. Sottrazione\n");
-strcat(yasplBuffer, toParse);
-strcpy(toParse,"3. Moltiplicazione\n");
-strcat(yasplBuffer, toParse);
-strcpy(toParse,"4. Divisione\n");
-strcat(yasplBuffer, toParse);
-strcpy(toParse,"5. Quadrato\n");
-strcat(yasplBuffer, toParse);
-strcpy(toParse,"0. esci");
-strcat(yasplBuffer, toParse);
-
-printf("%s\n", yasplBuffer);
+int num,res,sum = 0;
+bool flag = false;
+void fibonacci(int num){
+int i = 1,a = -1,b = 1;
+while(i <= num){
+res = a + b;
+a = b;
+b = res;
+i = i + 1;
+printf("%d\n",res);
 
 }
-void readOps(){
-printf("%s\n","Inserisci due numeri");
-scanf("%lf",&op1);
-scanf("%lf",&op2);
+}
+void sommaFibonacci(int num, int *sum){
+int i = 1,a = -1,b = 1;
+while(i <= num){
+res = a + b;
+a = b;
+b = res;
+i = i + 1;
+*sum = *sum + res;
+
+}
+}
+void checkInput(int x, bool *flag){
+if(x >= 0){
+*flag = true;
+}
+else{
+*flag = false;
+}
 }
 
 int main(void){
-printMenu();
-scanf("%d",&choise);
-while(!(choise == 0)){
-if(choise == 1){
-readOps();
-resetResTo0(&res);
-addizione(op1,op2,&res);
-printf("%lf\n",res);
+printf("%s\n","Quanti numeri di Fibonacci vuoi vedere");
+scanf("%d",&num);
+checkInput(num,&flag);
+if(flag == true){
+printf("%s\n","Questa è la sequenza");
+fibonacci(num);
+printf("%s\n","La somma della sequenza è");
+sommaFibonacci(num,&sum);
+printf("%d\n",sum);
 }
 else{
-if(choise == 2){
-readOps();
-resetResTo0(&res);
-sottrazione(op1,op2,&res);
-printf("%lf\n",res);
+printf("%s\n","Inserisci un intero positivo");
 }
-else{
-if(choise == 3){
-readOps();
-resetResTo1(&res);
-moltiplicazione(op1,op2,&res);
-printf("%lf\n",res);
-}
-else{
-if(choise == 4){
-readOps();
-resetResTo1(&res);
-divisione(op1,op2,&res);
-printf("%lf\n",res);
-}
-else{
-if(choise == 5){
-printf("%s\n","Inserisci un numero");
-scanf("%lf",&op1);
-resetResTo1(&res);
-quadrato(op1,&res);
-printf("%lf\n",res);
-}
-else{
-if((choise < 0 || choise > 5)){
-printMenu();
-scanf("%d",&choise);
-}
-}
-}
-}
-}
-}
-printMenu();
-scanf("%d",&choise);
-
-}
-printf("%s\n","Finito");
 return 0;
 }
