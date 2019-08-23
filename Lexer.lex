@@ -54,6 +54,9 @@ intConst 	= {digit}+
 doubleConst = {intConst}("."{intConst})?
 any			= .
 stringConst = \"~\"
+singleLineComment = "//"~"\n"
+multilineComment = "/*"~"*/"
+comment 	= {singleLineComment} | {multilineComment}
 charConst	= '({any})?'
 whitespace = [ \r\n\t\f]
 
@@ -83,6 +86,7 @@ whitespace = [ \r\n\t\f]
 {doubleConst}	{ return new Symbol(LexerSym.DOUBLE_CONST, yytext()); }
 {stringConst}	{ return new Symbol(LexerSym.STRING_CONST, yytext()); }
 {charConst}		{ return new Symbol(LexerSym.CHAR_CONST, yytext()); }
+{comment}		{ /*IGNORE*/ }
 "true"			{ return new Symbol(LexerSym.TRUE); }
 "false"			{ return new Symbol(LexerSym.FALSE); }
 "="				{ return new Symbol(LexerSym.ASSIGN); }
