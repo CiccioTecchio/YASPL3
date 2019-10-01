@@ -56,6 +56,7 @@ public interface LexerSym {
   public static final int INOUT 	= 44;
   public static final int INT 		= 45;
   public static final int UMINUS 	= 46;
+  public static final int MOD	 	= 47;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -103,7 +104,8 @@ public interface LexerSym {
   "OUT",
   "INOUT",
   "INT",
-  "UMINUS"
+  "UMINUS",
+  "EOF"
   };
 
 }

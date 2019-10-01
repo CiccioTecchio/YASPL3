@@ -12,13 +12,13 @@ typedef char string[STRING_CONST];
 string yasplBuffer;
 string toParse;
 
-int c = 3;
-string ciao = "ciao";
-string ciao2 = "ciao2";
-bool b;
+int a;
+int b;
 
 int main(void){
-b = strcmp(ciao, ciao2)==0;
-printf("%s\n", b? "true": "false");
+printf("%s\n","Calcolo il resto fra due numeri\nInserisci due numeri");
+scanf("%d",&a);
+scanf("%d",&b);
+printf("%d\n",a % b);
 return 0;
 }

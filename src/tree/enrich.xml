@@ -6,18 +6,12 @@ INT
 </Type>
 
 <VarDeclsInit type = "VOID">
-<VarInit>
+<VarNotInit>
 <Id type = "INT">
-c
+a
 </Id>
 
-<VarInitValue type = "INT">
-<IntConst>
-3
-</IntConst>
-</VarInitValue>
-
-</VarInit>
+</VarNotInit>
 
 </VarDeclsInit>
 
@@ -25,58 +19,12 @@ c
 
 <VarDecl type = "VOID">
 <Type>
-STRING
-</Type>
-
-<VarDeclsInit type = "VOID">
-<VarInit>
-<Id type = "STRING">
-ciao
-</Id>
-
-<VarInitValue type = "STRING">
-<StringConst>
-&quot;ciao&quot;
-</StringConst>
-</VarInitValue>
-
-</VarInit>
-
-</VarDeclsInit>
-
-</VarDecl>
-
-<VarDecl type = "VOID">
-<Type>
-STRING
-</Type>
-
-<VarDeclsInit type = "VOID">
-<VarInit>
-<Id type = "STRING">
-ciao2
-</Id>
-
-<VarInitValue type = "STRING">
-<StringConst>
-&quot;ciao&quot;
-</StringConst>
-</VarInitValue>
-
-</VarInit>
-
-</VarDeclsInit>
-
-</VarDecl>
-
-<VarDecl type = "VOID">
-<Type>
-BOOL
+INT
 </Type>
 
 <VarDeclsInit type = "VOID">
 <VarNotInit>
-<Id type = "BOOL">
+<Id type = "INT">
 b
 </Id>
 
@@ -89,29 +37,40 @@ b
 </Decls>
 
 <Statements>
-<AssignOp type = "VOID">
-<Id type = "BOOL">
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
+<StringConst>
+&quot;Calcolo il resto fra due numeri\nInserisci due numeri&quot;
+</StringConst>
+
+</ArgsOp>
+
+</WriteOp>
+
+<ReadOp type = "VOID">
+<Vars type = "VOID">
+<Id type = "INT">
+a
+</Id>
+<Id type = "INT">
 b
 </Id>
+</Vars>
 
-<EqOp type = "BOOL">
-<Id type = "STRING">
-ciao
-</Id>
-
-<Id type = "STRING">
-ciao2
-</Id>
-
-</EqOp>
-
-</AssignOp>
+</ReadOp>
 
 <WriteOp type = "VOID">
 <ArgsOp type = "VOID">
-<Id type = "BOOL">
+<ModOp type = "INT">
+<Id type = "INT">
+a
+</Id>
+
+<Id type = "INT">
 b
 </Id>
+
+</ModOp>
 
 </ArgsOp>
 

@@ -20,6 +20,7 @@ import syntaxTree.VarInitValue;
 import syntaxTree.Vars;
 import syntaxTree.arithOp.AddOp;
 import syntaxTree.arithOp.DivOp;
+import syntaxTree.arithOp.ModOp;
 import syntaxTree.arithOp.MultOp;
 import syntaxTree.arithOp.SubOp;
 import syntaxTree.arithOp.UminusOp;
@@ -227,6 +228,11 @@ public class GenerateCVisitor implements Visitor<String> {
 		return n.getE1().accept(this)+" / "+n.getE2().accept(this);
 	}
 
+	@Override
+	public String visit(ModOp n) throws RuntimeException {
+		return n.getE1().accept(this)+" % "+n.getE2().accept(this);
+	}
+	
 	@Override
 	public String visit(MultOp n) throws RuntimeException {
 		return n.getE1().accept(this)+" * "+n.getE2().accept(this);

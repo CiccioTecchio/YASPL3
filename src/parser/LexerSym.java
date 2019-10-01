@@ -40,6 +40,7 @@ public interface LexerSym {
   public static final int INT_CONST = 22;
   public static final int TRUE = 26;
   public static final int error = 1;
+  public static final int MOD = 47;
   public static final int START = 3;
   public static final int EQ = 38;
   public static final int HEAD = 2;
@@ -102,7 +103,8 @@ public interface LexerSym {
   "OUT",
   "INOUT",
   "INT",
-  "UMINUS"
+  "UMINUS",
+  "MOD"
   };
 
   /* non terminals */

@@ -33,6 +33,7 @@ public interface Visitor<E> {
 	E visit(MultOp n) throws RuntimeException;
 	E visit(SubOp n) throws RuntimeException;
 	E visit(UminusOp n) throws RuntimeException;
+	E visit(ModOp n) throws RuntimeException;
 
 	E visit(AndOp n) throws RuntimeException;
 	E visit(NotOp n) throws RuntimeException;

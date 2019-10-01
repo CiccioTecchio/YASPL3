@@ -16,6 +16,7 @@ import syntaxTree.VarInitValue;
 import syntaxTree.Vars;
 import syntaxTree.arithOp.AddOp;
 import syntaxTree.arithOp.DivOp;
+import syntaxTree.arithOp.ModOp;
 import syntaxTree.arithOp.MultOp;
 import syntaxTree.arithOp.SubOp;
 import syntaxTree.arithOp.UminusOp;
@@ -198,6 +199,14 @@ public class EnrichASTVisitor implements Visitor<String> {
 
 	@Override
 	public String visit(SubOp n) throws RuntimeException {
+		String tr = astBuilder(n.getOp(), n.getType());
+		tr += appendValue(n.getE1().accept(this));
+		tr += appendValue(n.getE2().accept(this));
+		return tr += closeTag(n.getOp());
+	}
+	
+	@Override
+	public String visit(ModOp n) throws RuntimeException {
 		String tr = astBuilder(n.getOp(), n.getType());
 		tr += appendValue(n.getE1().accept(this));
 		tr += appendValue(n.getE2().accept(this));

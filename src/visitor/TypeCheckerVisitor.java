@@ -45,6 +45,13 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 			{null, null, null, null, null, null},	//riga char
 			{null, null, null, null, null, null},	//riga bool
 	};
+	private SymbolTable.Type[][] modOpCompOp = { // it's sub, mult and divOp
+			{Type.INT, null, null, null, null, null},	//riga interi
+			{null, null, null, null, null, null},	//riga stringa
+			{null, null, null, null, null, null},	//riga double
+			{null, null, null, null, null, null},	//riga char
+			{null, null, null, null, null, null},	//riga bool
+	};
 	
 	private SymbolTable.Type[][] eqOpCompOp = {
 			{Type.BOOL, null, Type.BOOL, null, null, null},	//riga interi
@@ -282,6 +289,17 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		Type t1 = (Type) n.getE1().accept(this);
 		Type t2 = (Type) n.getE2().accept(this);
 		Type toReturn = this.arithOpCompOp[gift(t1)][gift(t2)];
+		if(toReturn == null) {
+			throw new TypeMismatchException(n.getOp(), t1, t2);
+		}else
+		n.setType(toReturn);
+		return toReturn;
+	}
+	
+	public Object visit(ModOp n) throws RuntimeException {
+		Type t1 = (Type) n.getE1().accept(this);
+		Type t2 = (Type) n.getE2().accept(this);
+		Type toReturn = this.modOpCompOp[gift(t1)][gift(t2)];
 		if(toReturn == null) {
 			throw new TypeMismatchException(n.getOp(), t1, t2);
 		}else

@@ -61,7 +61,7 @@ terminal OUT;
 terminal INOUT;
 terminal INT;
 terminal UMINUS; /*is the Symbol '-'  used for unary Internal*/ 
-
+terminal MOD;
 
 /*List of non teminals*/  
 non terminal	Programma			Programma; 
@@ -85,7 +85,7 @@ non terminal	Expr				Expr;
 
 precedence nonassoc  ELSE; 
 precedence left PLUS,MINUS,OR;
-precedence left TIMES,DIV,AND;
+precedence left TIMES,DIV,AND, MOD;
 precedence nonassoc GT, GE, LT, LE, EQ; 
 precedence left UMINUS, NOT, COMMA;	
 
@@ -163,6 +163,7 @@ Expr		::=	Expr:e1 MINUS Expr:e2		{: RESULT = new SubOp("SubOp", e1, e2); :}
 			|	Expr:e1 PLUS Expr:e2 		{: RESULT = new AddOp("AddOp", e1, e2); :}
 			|	Expr:e1 TIMES Expr:e2		{: RESULT = new MultOp("MultOp", e1, e2); :}	
 			|	Expr:e1 DIV Expr:e2			{: RESULT = new DivOp("DivOp", e1, e2); :}
+			|	Expr:e1 MOD Expr:e2			{: RESULT = new ModOp("ModOp", e1, e2); :}
 			|	Expr:e1 AND Expr:e2			{: RESULT = new AndOp("AndOp", e1, e2); :}	
 			|	Expr:e1 OR Expr:e2			{: RESULT = new OrOp("OrOp", e1, e2); :}
 			|	Expr:e1 GT Expr:e2			{: RESULT = new GtOp("GtOp", e1, e2); :}
