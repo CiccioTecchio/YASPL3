@@ -259,7 +259,15 @@ public class GenerateCVisitor implements Visitor<String> {
 
 	@Override
 	public String visit(EqOp n) throws RuntimeException {
-		return n.getE1().accept(this)+" == "+n.getE2().accept(this);
+		final boolean E1 = n.getE1().getType().toString().equalsIgnoreCase("STRING");
+		final boolean E2 = n.getE2().getType().toString().equalsIgnoreCase("STRING");
+		String tr = "";
+		if(E1 == true && E2 == true) {
+			tr = "strcmp("+n.getE1().accept(this)+", "+n.getE2().accept(this)+")==0";
+		}else {
+			tr = n.getE1().accept(this)+" == "+n.getE2().accept(this);
+		}
+		return tr;
 	}
 
 	@Override
@@ -407,15 +415,19 @@ public class GenerateCVisitor implements Visitor<String> {
 		final boolean isEBool = e.getType().toString().equalsIgnoreCase("bool");
 		final boolean isPrimitive = isEInt || isEChar || isEDouble || isEBool;
 		String typeOfE = e.getType()+"";
-		
-		if(!(e instanceof AddOp) || isPrimitive) {
-			tr+="printf(\""+escapeForC(typeOfE)+"\\n\","+e.accept(this)+");\n";
-		}else {
-			tr+="\n";
-			tr+=e.accept(this)+"\n";
-			tr+="printf(\"%s\\n\", yasplBuffer);\n";
-			tr+="\n";
-		}		 
+		if(isEBool) {
+			tr+="printf(\"%s"+"\\n\", "+e.accept(this)+"? \"true\": \"false\");\n";
+		}
+		else {
+			if(!(e instanceof AddOp) || isPrimitive) {
+				tr+="printf(\""+escapeForC(typeOfE)+"\\n\","+e.accept(this)+");\n";
+			}else {
+				tr+="\n";
+				tr+=e.accept(this)+"\n";
+				tr+="printf(\"%s\\n\", yasplBuffer);\n";
+				tr+="\n";
+		}	
+		}
 		return tr;
 	}
 	@Override
