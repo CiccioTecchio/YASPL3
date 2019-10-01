@@ -450,7 +450,6 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 			else  if(t instanceof ParTuple) n.setType(((ParTuple) t).getType());
 			else n.setType(((VarTuple) t).getType());
 		}
-		//System.out.println(n.getType());
 		return n.getType();
 	}
 
@@ -574,6 +573,16 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(WhileOp n) throws RuntimeException {
+		Type expr = (Type) n.getE().accept(this);
+		n.getCs().accept(this);
+		if(expr == Type.BOOL) {
+			n.setType(Type.VOID);
+		}else throw new TypeMismatchException(n.getOp(), expr);
+		return Type.VOID;
+	}
+	
+	@Override
+	public Object visit(DoWhileOp n) throws RuntimeException {
 		Type expr = (Type) n.getE().accept(this);
 		n.getCs().accept(this);
 		if(expr == Type.BOOL) {

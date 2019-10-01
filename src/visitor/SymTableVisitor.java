@@ -346,6 +346,11 @@ public class SymTableVisitor implements Visitor<Object> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public Object visit(DoWhileOp n) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public Object visit(WriteOp n) {

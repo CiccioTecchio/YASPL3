@@ -150,6 +150,7 @@ Stat		::= Vars:vars READ SEMI											{: RESULT = new ReadOp("ReadOp", vars); 
 			|	IF LPAR Expr:e RPAR THEN Comp_stat:cs1 ELSE Comp_stat:cs2	{: RESULT = new IfThenElseOp("IfThenElseOp", e, cs1, cs2); :}
 			|	IF LPAR Expr:e RPAR THEN Comp_stat:cs 						{: RESULT = new IfThenOp("IfThenOp", e, cs); :}
 			|	WHILE LPAR Expr:e RPAR DO Comp_stat:cs						{: RESULT = new WhileOp("WhileOp", e, cs); :}
+			|	DO Comp_stat:cs WHILE LPAR Expr:e RPAR	SEMI				{: RESULT = new DoWhileOp("DoWhileOp", cs, e); :}
 			;
 			
 Args		::=	Expr:e COMMA Args:arg		{: RESULT = arg.addChild(e); :}

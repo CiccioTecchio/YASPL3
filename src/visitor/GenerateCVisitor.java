@@ -46,6 +46,7 @@ import syntaxTree.relOp.LeOp;
 import syntaxTree.relOp.LtOp;
 import syntaxTree.statOp.AssignOp;
 import syntaxTree.statOp.CallOp;
+import syntaxTree.statOp.DoWhileOp;
 import syntaxTree.statOp.IfThenElseOp;
 import syntaxTree.statOp.IfThenOp;
 import syntaxTree.statOp.ReadOp;
@@ -409,6 +410,10 @@ public class GenerateCVisitor implements Visitor<String> {
 	public String visit(WhileOp n) throws RuntimeException {
 		return "while("+n.getE().accept(this)+"){\n"
 				+ n.getCs().accept(this)+"\n}\n";
+	}
+	
+	public String visit(DoWhileOp n) throws RuntimeException{
+		return "do {\n"+n.getCs().accept(this)+"} while("+n.getE().accept(this)+");\n";
 	}
 
 	@Override

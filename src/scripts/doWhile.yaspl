@@ -1,0 +1,8 @@
+head
+int i;
+start
+i = 10;
+do {
+i ->;
+i = i - 1;
+}while(i>=0);

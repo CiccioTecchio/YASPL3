@@ -8,24 +8,7 @@ INT
 <VarDeclsInit type = "VOID">
 <VarNotInit>
 <Id type = "INT">
-a
-</Id>
-
-</VarNotInit>
-
-</VarDeclsInit>
-
-</VarDecl>
-
-<VarDecl type = "VOID">
-<Type>
-INT
-</Type>
-
-<VarDeclsInit type = "VOID">
-<VarNotInit>
-<Id type = "INT">
-b
+i
 </Id>
 
 </VarNotInit>
@@ -37,44 +20,64 @@ b
 </Decls>
 
 <Statements>
+<AssignOp type = "VOID">
+<Id type = "INT">
+i
+</Id>
+
+<IntConst>
+10
+</IntConst>
+
+</AssignOp>
+
+<DoWhileOp type = "VOID">
+<CompStat type = "VOID">
+<Statements>
 <WriteOp type = "VOID">
 <ArgsOp type = "VOID">
-<StringConst>
-&quot;Calcolo il resto fra due numeri\nInserisci due numeri&quot;
-</StringConst>
+<Id type = "INT">
+i
+</Id>
 
 </ArgsOp>
 
 </WriteOp>
 
-<ReadOp type = "VOID">
-<Vars type = "VOID">
+<AssignOp type = "VOID">
 <Id type = "INT">
-a
-</Id>
-<Id type = "INT">
-b
-</Id>
-</Vars>
-
-</ReadOp>
-
-<WriteOp type = "VOID">
-<ArgsOp type = "VOID">
-<ModOp type = "INT">
-<Id type = "INT">
-a
+i
 </Id>
 
+<SubOp type = "INT">
 <Id type = "INT">
-b
+i
 </Id>
 
-</ModOp>
+<IntConst>
+1
+</IntConst>
 
-</ArgsOp>
+</SubOp>
 
-</WriteOp>
+</AssignOp>
+
+</Statements>
+
+</CompStat>
+
+<GeOp type = "BOOL">
+<Id type = "INT">
+i
+</Id>
+
+<IntConst>
+0
+</IntConst>
+
+</GeOp>
+
+</DoWhileOp>
 
 </Statements>
 

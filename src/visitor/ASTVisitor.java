@@ -323,6 +323,14 @@ public class ASTVisitor implements Visitor<String> {
 		toReturn += "</"+n.getOp()+">\n";
 		return toReturn;
 	}
+	@Override
+	public String visit(DoWhileOp n) {
+		String toReturn = "<"+n.getOp()+">\n";
+		toReturn += n.getCs().accept(this);
+		toReturn += n.getE().accept(this);
+		toReturn += "</"+n.getOp()+">\n";
+		return toReturn;
+	}
 
 	@Override
 	public String visit(WriteOp n) {

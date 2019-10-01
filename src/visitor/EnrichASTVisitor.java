@@ -42,6 +42,7 @@ import syntaxTree.relOp.LeOp;
 import syntaxTree.relOp.LtOp;
 import syntaxTree.statOp.AssignOp;
 import syntaxTree.statOp.CallOp;
+import syntaxTree.statOp.DoWhileOp;
 import syntaxTree.statOp.IfThenElseOp;
 import syntaxTree.statOp.IfThenOp;
 import syntaxTree.statOp.ReadOp;
@@ -372,6 +373,14 @@ public class EnrichASTVisitor implements Visitor<String> {
 		String tr = astBuilder(n.getOp(), n.getType());
 		tr += appendValue(n.getE().accept(this));
 		tr += appendValue(n.getCs().accept(this));
+		return tr += closeTag(n.getOp());
+	}
+	
+	@Override
+	public String visit(DoWhileOp n) throws RuntimeException {
+		String tr = astBuilder(n.getOp(), n.getType());
+		tr += appendValue(n.getCs().accept(this));
+		tr += appendValue(n.getE().accept(this));
 		return tr += closeTag(n.getOp());
 	}
 
