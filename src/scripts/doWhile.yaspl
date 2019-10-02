@@ -2,7 +2,8 @@ head
 int i;
 start
 i = 10;
+i++;
 do {
 i ->;
-i = i - 1;
+i--;
 }while(i>=0);

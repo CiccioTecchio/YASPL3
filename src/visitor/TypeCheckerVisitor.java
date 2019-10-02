@@ -45,7 +45,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 			{null, null, null, null, null, null},	//riga char
 			{null, null, null, null, null, null},	//riga bool
 	};
-	private SymbolTable.Type[][] modOpCompOp = { // it's sub, mult and divOp
+	private SymbolTable.Type[][] modOpCompOp = { 
 			{Type.INT, null, null, null, null, null},	//riga interi
 			{null, null, null, null, null, null},	//riga stringa
 			{null, null, null, null, null, null},	//riga double
@@ -80,6 +80,11 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 	private SymbolTable.Type[] uminusOpCompOp = {
 			Type.INT, null, Type.DOUBLE, null, Type.BOOL,  null
 	};	
+	
+	//incDecCompOP
+	private SymbolTable.Type[] incDecCompOP = {
+			Type.INT, null, Type.DOUBLE, null, null,  null
+	};
 	
 	public TypeCheckerVisitor() {
 		this.stack = new Stack<>();
@@ -308,6 +313,28 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 	}
 
 
+	@Override
+	public Object visit(PostFixIncrement n) throws RuntimeException {
+		Type t = (Type) n.getId().accept(this);
+		Type toReturn = this.incDecCompOP[gift(t)];
+		if(toReturn == null) {
+			throw new TypeMismatchException(n.getOp(), t);
+		}else
+		n.setType(toReturn);
+		return toReturn;
+	}
+	
+	@Override
+	public Object visit(PostFixDecrement n) throws RuntimeException {
+		Type t = (Type) n.getId().accept(this);
+		Type toReturn = this.incDecCompOP[gift(t)];
+		if(toReturn == null) {
+			throw new TypeMismatchException(n.getOp(), t);
+		}else
+		n.setType(toReturn);
+		return toReturn;
+	}
+	
 
 	@Override
 	public Object visit(UminusOp n) throws RuntimeException {

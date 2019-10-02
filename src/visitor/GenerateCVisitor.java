@@ -22,6 +22,8 @@ import syntaxTree.arithOp.AddOp;
 import syntaxTree.arithOp.DivOp;
 import syntaxTree.arithOp.ModOp;
 import syntaxTree.arithOp.MultOp;
+import syntaxTree.arithOp.PostFixDecrement;
+import syntaxTree.arithOp.PostFixIncrement;
 import syntaxTree.arithOp.SubOp;
 import syntaxTree.arithOp.UminusOp;
 import syntaxTree.comp.Leaf;
@@ -244,6 +246,17 @@ public class GenerateCVisitor implements Visitor<String> {
 		return n.getE1().accept(this)+" - "+n.getE2().accept(this);
 	}
 
+	@Override
+	public String visit(PostFixIncrement n) throws RuntimeException{
+		return n.getId().accept(this)+"++;\n";
+	}
+	
+	@Override
+	public String visit(PostFixDecrement n) throws RuntimeException{
+		return n.getId().accept(this)+"--;\n";
+	}
+	
+	
 	@Override
 	public String visit(UminusOp n) throws RuntimeException {
 		return "-"+n.getE().accept(this);

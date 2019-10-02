@@ -221,6 +221,18 @@ public class SymTableVisitor implements Visitor<Object> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public Object visit(PostFixIncrement n) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public Object visit(PostFixDecrement n) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public Object visit(UminusOp n) {

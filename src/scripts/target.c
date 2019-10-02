@@ -16,9 +16,10 @@ int i;
 
 int main(void){
 i = 10;
+i++;
 do {
 printf("%d\n",i);
-i = i - 1;
+i--;
 } while(i >= 0);
 return 0;
 }

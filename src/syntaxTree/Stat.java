@@ -24,7 +24,7 @@ public abstract class Stat extends Internal{
 	public Stat(String op, IdConst id, Args a) {
 		super(op, id, a);
 	}
-	//CallOp
+	//CallOp increment and decrement
 	public Stat(String op, IdConst id) {
 		super(op, id);
 	}

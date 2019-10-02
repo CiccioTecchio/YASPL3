@@ -81,8 +81,8 @@ non terminal	Stat				Stat;
 non terminal	Args				Args;
 non terminal	CompStat			Comp_stat;
 non terminal	Expr				Expr;
-/*List of precedences*/ 
 
+/*List of precedences*/ 
 precedence nonassoc  ELSE; 
 precedence left PLUS,MINUS,OR;
 precedence left TIMES,DIV,AND, MOD;
@@ -151,6 +151,8 @@ Stat		::= Vars:vars READ SEMI											{: RESULT = new ReadOp("ReadOp", vars); 
 			|	IF LPAR Expr:e RPAR THEN Comp_stat:cs 						{: RESULT = new IfThenOp("IfThenOp", e, cs); :}
 			|	WHILE LPAR Expr:e RPAR DO Comp_stat:cs						{: RESULT = new WhileOp("WhileOp", e, cs); :}
 			|	DO Comp_stat:cs WHILE LPAR Expr:e RPAR	SEMI				{: RESULT = new DoWhileOp("DoWhileOp", cs, e); :}
+			|	ID:id PLUS PLUS	SEMI										{: RESULT = new PostFixIncrement("PostFixIncrement", new IdConst("Id", new Leaf("Value", id))); :}
+			|	ID:id MINUS MINUS SEMI										{: RESULT = new PostFixDecrement("PostFixDecrement", new IdConst("Id", new Leaf("Value", id))); :}
 			;
 			
 Args		::=	Expr:e COMMA Args:arg		{: RESULT = arg.addChild(e); :}

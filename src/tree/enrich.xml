@@ -31,6 +31,13 @@ i
 
 </AssignOp>
 
+<PostFixIncrement type = "INT">
+<Id type = "INT">
+i
+</Id>
+
+</PostFixIncrement>
+
 <DoWhileOp type = "VOID">
 <CompStat type = "VOID">
 <Statements>
@@ -44,23 +51,12 @@ i
 
 </WriteOp>
 
-<AssignOp type = "VOID">
+<PostFixDecrement type = "INT">
 <Id type = "INT">
 i
 </Id>
 
-<SubOp type = "INT">
-<Id type = "INT">
-i
-</Id>
-
-<IntConst>
-1
-</IntConst>
-
-</SubOp>
-
-</AssignOp>
+</PostFixDecrement>
 
 </Statements>
 
