@@ -10,6 +10,7 @@ public interface LexerSym {
   /* terminals */
   public static final int CHAR_CONST = 25;
   public static final int LGPAR = 14;
+  public static final int SQRT = 48;
   public static final int CHAR = 8;
   public static final int GE = 35;
   public static final int UMINUS = 46;
@@ -104,7 +105,8 @@ public interface LexerSym {
   "INOUT",
   "INT",
   "UMINUS",
-  "MOD"
+  "MOD",
+  "SQRT"
   };
 
   /* non terminals */

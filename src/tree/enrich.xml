@@ -518,6 +518,83 @@ res
 
 </DefDecl>
 
+<DefDecl symTbl = "radiceQuadrata" type = "VOID">
+<Id type = "VOID">
+radiceQuadrata
+</Id>
+
+<ParDeclsOp>
+<ParDeclSon>
+<ParType>
+IN
+</ParType>
+<Type>
+INT
+</Type>
+<Id>
+num
+</Id>
+</ParDeclSon>
+</ParDeclsOp>
+
+<Body type = "VOID">
+<VarDecls type = "VOID">
+<VarDecl type = "VOID">
+<Type>
+DOUBLE
+</Type>
+
+<VarDeclsInit type = "VOID">
+<VarInit>
+<Id type = "DOUBLE">
+res
+</Id>
+
+<VarInitValue type = "INT">
+<IntConst>
+0
+</IntConst>
+</VarInitValue>
+
+</VarInit>
+
+</VarDeclsInit>
+
+</VarDecl>
+
+</VarDecls>
+
+<Statements>
+<AssignOp type = "VOID">
+<Id type = "DOUBLE">
+res
+</Id>
+
+<SqrtOp type = "INT">
+<Id type = "INT">
+num
+</Id>
+
+</SqrtOp>
+
+</AssignOp>
+
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
+<Id type = "DOUBLE">
+res
+</Id>
+
+</ArgsOp>
+
+</WriteOp>
+
+</Statements>
+
+</Body>
+
+</DefDecl>
+
 <DefDecl symTbl = "menu" type = "VOID">
 <Id type = "VOID">
 menu
@@ -530,6 +607,7 @@ menu
 <Statements>
 <WriteOp type = "VOID">
 <ArgsOp type = "VOID">
+<AddOp type = "STRING">
 <AddOp type = "STRING">
 <AddOp type = "STRING">
 <AddOp type = "STRING">
@@ -559,6 +637,12 @@ menu
 
 <StringConst>
 &quot;4. Successione di Fibonacci\n&quot;
+</StringConst>
+
+</AddOp>
+
+<StringConst>
+&quot;5. Radice quadrata di un intero&quot;
 </StringConst>
 
 </AddOp>
@@ -853,7 +937,7 @@ res
 
 <CompStat type = "VOID">
 <Statements>
-<IfThenOp type = "VOID">
+<IfThenElseOp type = "VOID">
 <EqOp type = "BOOL">
 <Id type = "INT">
 opt
@@ -950,7 +1034,66 @@ n1
 
 </CompStat>
 
+<CompStat type = "VOID">
+<Statements>
+<IfThenOp type = "VOID">
+<EqOp type = "BOOL">
+<Id type = "INT">
+opt
+</Id>
+
+<IntConst>
+5
+</IntConst>
+
+</EqOp>
+
+<CompStat type = "VOID">
+<Statements>
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
+<StringConst>
+&quot;Inserisci un numero&quot;
+</StringConst>
+
+</ArgsOp>
+
+</WriteOp>
+
+<ReadOp type = "VOID">
+<Vars type = "VOID">
+<Id type = "INT">
+n1
+</Id>
+</Vars>
+
+</ReadOp>
+
+<CallOpWithArgs type = "VOID">
+<Id type = "VOID">
+radiceQuadrata
+</Id>
+
+<ArgsOp type = "VOID">
+<Id type = "INT">
+n1
+</Id>
+
+</ArgsOp>
+
+</CallOpWithArgs>
+
+</Statements>
+
+</CompStat>
+
 </IfThenOp>
+
+</Statements>
+
+</CompStat>
+
+</IfThenElseOp>
 
 </Statements>
 

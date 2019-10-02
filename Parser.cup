@@ -61,6 +61,7 @@ terminal INOUT;
 terminal INT;
 terminal UMINUS; /*is the Symbol '-'  used for unary Internal*/ 
 terminal MOD;
+terminal SQRT;
 
 /*List of non teminals*/  
 non terminal	Programma			Programma; 
@@ -168,6 +169,7 @@ Expr		::=	Expr:e1 MINUS Expr:e2		{: RESULT = new SubOp("SubOp", e1, e2); :}
 			|	Expr:e1 TIMES Expr:e2		{: RESULT = new MultOp("MultOp", e1, e2); :}	
 			|	Expr:e1 DIV Expr:e2			{: RESULT = new DivOp("DivOp", e1, e2); :}
 			|	Expr:e1 MOD Expr:e2			{: RESULT = new ModOp("ModOp", e1, e2); :}
+			|	SQRT LPAR Expr:e RPAR		{: RESULT = new SqrtOp("SqrtOp", e); :}
 			|	Expr:e1 TIMES TIMES Expr:e2	{: RESULT = new PowOp("PowOp", e1, e2); :}
 			|	Expr:e1 AND Expr:e2			{: RESULT = new AndOp("AndOp", e1, e2); :}	
 			|	Expr:e1 OR Expr:e2			{: RESULT = new OrOp("OrOp", e1, e2); :}

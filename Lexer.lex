@@ -106,5 +106,6 @@ whitespace = [ \r\n\t\f]
 "in"			{ return new Symbol(LexerSym.IN); }
 "out"			{ return new Symbol(LexerSym.OUT); }
 "inout"			{ return new Symbol(LexerSym.INOUT); }
+"sqrt"			{ return new Symbol(LexerSym.SQRT); }
 {id}			{ return new Symbol(LexerSym.ID, yytext()); }
 [^]				{  throw new Error("Illegal character <"+yytext()+"> at line "+yyline+", column "+yycolumn);}

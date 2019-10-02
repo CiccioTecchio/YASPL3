@@ -38,12 +38,19 @@ def fibonacci(in int num){
   }
 }
 
+def radiceQuadrata(in int num){
+double res =0;
+res = sqrt(num);
+res->;
+}
+
 def menu(){
     "Scegli un opzione:\n"+
     "1. Somma fra due interi\n"+
     "2. Moltiplicazione fra due interi\n"+
     "3. Elevazione a potenza\n"+
     "4. Successione di Fibonacci\n"+
+    "5. Radice quadrata di un intero"+
     "0. Esci"->;
 }
 
@@ -87,6 +94,13 @@ while(not(opt==0))do{
                  "Inserisci un intero positivo"->;
              }
         }
+    else{
+        if(opt == 5) then{
+            "Inserisci un numero"->;
+            n1<-;
+            radiceQuadrata(n1);
+        }
+    }
 
         }
     }

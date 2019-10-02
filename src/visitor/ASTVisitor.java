@@ -189,6 +189,14 @@ public class ASTVisitor implements Visitor<String> {
 		toReturn += "</"+n.getOp()+">\n";
 		return toReturn;
 	}
+	
+	@Override
+	public String visit(SqrtOp n) {
+		String toReturn = "<"+n.getOp()+">\n";
+		toReturn += n.getE().accept(this);
+		toReturn += "</"+n.getOp()+">\n";
+		return toReturn;
+	}
 
 	@Override
 	public String visit(UminusOp n) {

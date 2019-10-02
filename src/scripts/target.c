@@ -42,6 +42,12 @@ printf("%d\n",res);
 
 }
 }
+void radiceQuadrata(int num){
+    double c =4;
+double res = 0;
+res = sqrt(num);
+printf("%lf\n",res);
+}
 void menu(){
 
 strcpy(yasplBuffer,"Scegli un opzione:\n");
@@ -51,6 +57,8 @@ strcat(yasplBuffer, toParse);
 strcpy(toParse,"3. Elevazione a potenza\n");
 strcat(yasplBuffer, toParse);
 strcpy(toParse,"4. Successione di Fibonacci\n");
+strcat(yasplBuffer, toParse);
+strcpy(toParse,"5. Radice quadrata di un intero");
 strcat(yasplBuffer, toParse);
 strcpy(toParse,"0. Esci");
 strcat(yasplBuffer, toParse);
@@ -97,6 +105,13 @@ fibonacci(n1);
 }
 else{
 printf("%s\n","Inserisci un intero positivo");
+}
+}
+else{
+if(opt == 5){
+printf("%s\n","Inserisci un numero");
+scanf("%d",&n1);
+radiceQuadrata(n1);
 }
 }
 }

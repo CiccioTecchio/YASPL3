@@ -23,6 +23,7 @@ import syntaxTree.arithOp.DivOp;
 import syntaxTree.arithOp.ModOp;
 import syntaxTree.arithOp.MultOp;
 import syntaxTree.arithOp.PowOp;
+import syntaxTree.arithOp.SqrtOp;
 import syntaxTree.arithOp.SubOp;
 import syntaxTree.arithOp.UminusOp;
 import syntaxTree.components.Leaf;
@@ -249,6 +250,10 @@ public class GenerateCVisitor implements Visitor<String> {
 		return "pow("+n.getBase().accept(this)+", "+n.getEsp().accept(this)+")";
 	}
 
+	public String visit(SqrtOp n ) throws RuntimeException{
+		return "sqrt("+n.getE().accept(this)+")";
+	}
+	
 	@Override
 	public String visit(SubOp n) throws RuntimeException {
 		return n.getE1().accept(this)+" - "+n.getE2().accept(this);
@@ -457,8 +462,8 @@ public class GenerateCVisitor implements Visitor<String> {
 		final boolean isEBool = e.getType().toString().equalsIgnoreCase("bool");
 		final boolean isPrimitive = isEInt || isEChar || isEDouble || isEBool;
 		String typeOfE = e.getType()+"";
-		if(e instanceof PowOp) {
-			tr+="printf(\"%f\\n\","+e.accept(this)+");\n";
+		if(e instanceof PowOp || e instanceof SqrtOp) {
+			tr+="printf(\"%lf\\n\","+e.accept(this)+");\n";
 		}else {
 		if(isEBool) {
 			tr+="printf(\"%s"+"\\n\", "+e.accept(this)+"? \"true\": \"false\");\n";

@@ -38,7 +38,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 	};
 	
 	
-	private SymbolTable.Type[][] arithOpCompOp = { // it's sub, mult and divOp
+	private SymbolTable.Type[][] arithOpCompOp = { // it's sub, mult, divOp, pow
 			{Type.INT, null, Type.DOUBLE, null, null, null},	//riga interi
 			{null, null, null, null, null, null},	//riga stringa
 			{Type.DOUBLE, null, Type.DOUBLE, null, null, null},	//riga double
@@ -81,7 +81,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 			Type.INT, null, Type.DOUBLE, null, Type.BOOL,  null
 	};	
 	
-	//incDecCompOP
+	//incDecCompOP it's used also for sqrt
 	private SymbolTable.Type[] incDecCompOP = {
 			Type.INT, null, Type.DOUBLE, null, null,  null
 	};
@@ -294,6 +294,17 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		Type toReturn = this.arithOpCompOp[gift(t1)][gift(t2)];
 		if(toReturn == null) {
 			throw new TypeMismatchException(n.getOp(), t1, t2);
+		}else
+		n.setType(toReturn);
+		return toReturn;
+	}
+	
+	@Override
+	public Object visit(SqrtOp n) throws RuntimeException {
+		Type t1 = (Type) n.getE().accept(this);
+		Type toReturn = this.incDecCompOP[gift(t1)];
+		if(toReturn == null) {
+			throw new TypeMismatchException(n.getOp(), t1);
 		}else
 		n.setType(toReturn);
 		return toReturn;
