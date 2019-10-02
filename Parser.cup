@@ -1,6 +1,5 @@
 package parser;
 
-
 import java_cup.runtime.*;
 import syntaxTree.*;  
 import syntaxTree.arithOp.*;
@@ -169,6 +168,7 @@ Expr		::=	Expr:e1 MINUS Expr:e2		{: RESULT = new SubOp("SubOp", e1, e2); :}
 			|	Expr:e1 TIMES Expr:e2		{: RESULT = new MultOp("MultOp", e1, e2); :}	
 			|	Expr:e1 DIV Expr:e2			{: RESULT = new DivOp("DivOp", e1, e2); :}
 			|	Expr:e1 MOD Expr:e2			{: RESULT = new ModOp("ModOp", e1, e2); :}
+			|	Expr:e1 TIMES TIMES Expr:e2	{: RESULT = new PowOp("PowOp", e1, e2); :}
 			|	Expr:e1 AND Expr:e2			{: RESULT = new AndOp("AndOp", e1, e2); :}	
 			|	Expr:e1 OR Expr:e2			{: RESULT = new OrOp("OrOp", e1, e2); :}
 			|	Expr:e1 GT Expr:e2			{: RESULT = new GtOp("GtOp", e1, e2); :}

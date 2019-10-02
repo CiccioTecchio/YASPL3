@@ -34,6 +34,7 @@ public interface Visitor<E> {
 	E visit(SubOp n) throws RuntimeException;
 	E visit(UminusOp n) throws RuntimeException;
 	E visit(ModOp n) throws RuntimeException;
+	E visit(PowOp n) throws RuntimeException;
 
 	E visit(PostFixIncrement n) throws RuntimeException;
 	E visit(PostFixDecrement n) throws RuntimeException;

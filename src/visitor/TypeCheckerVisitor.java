@@ -287,6 +287,17 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		return toReturn;
 	}
 
+	@Override
+	public Object visit(PowOp n) throws RuntimeException {
+		Type t1 = (Type) n.getBase().accept(this);
+		Type t2 = (Type) n.getEsp().accept(this);
+		Type toReturn = this.arithOpCompOp[gift(t1)][gift(t2)];
+		if(toReturn == null) {
+			throw new TypeMismatchException(n.getOp(), t1, t2);
+		}else
+		n.setType(toReturn);
+		return toReturn;
+	}
 
 
 	@Override

@@ -1,7 +1,7 @@
 head
 int i;
 start
-i = 10;
+i <-;
 ++i;
 do {
 --i;

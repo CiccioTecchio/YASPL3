@@ -22,6 +22,7 @@ import syntaxTree.arithOp.AddOp;
 import syntaxTree.arithOp.DivOp;
 import syntaxTree.arithOp.ModOp;
 import syntaxTree.arithOp.MultOp;
+import syntaxTree.arithOp.PowOp;
 import syntaxTree.arithOp.SubOp;
 import syntaxTree.arithOp.UminusOp;
 import syntaxTree.components.Leaf;
@@ -154,6 +155,7 @@ public class GenerateCVisitor implements Visitor<String> {
 				+ "#include <stdlib.h>\n"
 				+ "#include <string.h>\n"
 				+ "#include <unistd.h>\n"
+				+ "#include <math.h>\n"
 				+ "\n"
 				+ "typedef int bool;\n"
 				+ "#define false 0\n"
@@ -241,6 +243,10 @@ public class GenerateCVisitor implements Visitor<String> {
 	@Override
 	public String visit(MultOp n) throws RuntimeException {
 		return n.getE1().accept(this)+" * "+n.getE2().accept(this);
+	}
+	
+	public String visit(PowOp n) throws RuntimeException{
+		return "pow("+n.getBase().accept(this)+", "+n.getEsp().accept(this)+")";
 	}
 
 	@Override
@@ -451,6 +457,9 @@ public class GenerateCVisitor implements Visitor<String> {
 		final boolean isEBool = e.getType().toString().equalsIgnoreCase("bool");
 		final boolean isPrimitive = isEInt || isEChar || isEDouble || isEBool;
 		String typeOfE = e.getType()+"";
+		if(e instanceof PowOp) {
+			tr+="printf(\"%f\\n\","+e.accept(this)+");\n";
+		}else {
 		if(isEBool) {
 			tr+="printf(\"%s"+"\\n\", "+e.accept(this)+"? \"true\": \"false\");\n";
 		}
@@ -463,6 +472,7 @@ public class GenerateCVisitor implements Visitor<String> {
 				tr+="printf(\"%s\\n\", yasplBuffer);\n";
 				tr+="\n";
 		}	
+		}
 		}
 		return tr;
 	}

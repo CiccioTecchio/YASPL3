@@ -17,12 +17,13 @@ def moltiplicazione (in int op1, in int op2, out int res){
 }
 
 def potenza (in int b, in int e, out int res){
-    int i = 1;
+    /*int i = 1;
     res = 1;
     while(i<=e)do{
         res = res * b;
         i = i +1;
-    }
+    }*/
+    res = b ** e;
 }
 
 def fibonacci(in int num){
@@ -51,43 +52,46 @@ def menu(){
 start
 menu();
 opt<-;
-while(not(opt == 0))do{
-    if(opt == 1) then{
+while(not(opt==0))do{
+    if(opt == 1) then {
         "Inserisci due interi"->;
-        n1,n2<-;
-        somma(n1, n2, res);
-        n1+" + "+n2+" = "+res->;
+        n1,n2 <-;
+        somma(n1,n2,res);
+        res->;
     }
     else{
-        if(opt == 2)then{
+        if(opt == 2) then {
         "Inserisci due interi"->;
-        n1,n2<-;
-        moltiplicazione(n1, n2, res);
-        n1+" * "+n2+" = "+res->;
+        n1,n2 <-;
+        moltiplicazione(n1,n2,res);
+        res->;
         }
     else{
-        if(opt == 3)then{
-        "Inserisci basa ed esponente"->;
-        n1,n2<-;
+        if(opt == 3) then {
+        "Inserisci la base"->;
+        n1<-;
+        "Inserisci l'esponente"->;
+        n2<-;
         potenza(n1, n2, res);
-        n1+" ^ "+n2+" = "+res->;
+        res->;
         }
-    else {
-        if( opt == 4)then{
-            "Inserisci il numero per vedere la successione di Fibonacci"->;
-            n1<-;
-            if(n1 >= 0) then{
-            "Questa è la sequenza:"->;
-            fibonacci(n1);
-            } else {
-                "Inserisci numero positivo"->;
-            }
+
+    else{
+        if(opt == 4) then {
+             "Inserisci il numero per vedere la successione di Fibonacci"->;
+             n1<-;
+             if(n1 >= 0) then{
+                 "Sequenza"->;
+                fibonacci(n1);
+             }else{
+                 "Inserisci un intero positivo"->;
+             }
+        }
+
         }
     }
-    
     }
-    }
-    
     menu();
     opt<-;
 }
+//fibonacci(n1);

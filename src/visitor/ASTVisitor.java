@@ -180,6 +180,15 @@ public class ASTVisitor implements Visitor<String> {
 		toReturn += "</"+n.getOp()+">\n";
 		return toReturn;
 	}
+	
+	@Override
+	public String visit(PowOp n) {
+		String toReturn = "<"+n.getOp()+">\n";
+		toReturn += n.getBase().accept(this);
+		toReturn += n.getEsp().accept(this);
+		toReturn += "</"+n.getOp()+">\n";
+		return toReturn;
+	}
 
 	@Override
 	public String visit(UminusOp n) {
