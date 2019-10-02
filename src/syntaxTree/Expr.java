@@ -1,7 +1,7 @@
 package syntaxTree;
 
-import syntaxTree.comp.Internal;
-import syntaxTree.comp.Leaf;
+import syntaxTree.components.Internal;
+import syntaxTree.components.Leaf;
 import syntaxTree.leaf.IdConst;
 import visitor.Visitable;
 import visitor.Visitor;

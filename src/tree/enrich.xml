@@ -41,6 +41,13 @@ i
 <DoWhileOp type = "VOID">
 <CompStat type = "VOID">
 <Statements>
+<PreFixDecrement type = "INT">
+<Id type = "INT">
+i
+</Id>
+
+</PreFixDecrement>
+
 <WriteOp type = "VOID">
 <ArgsOp type = "VOID">
 <Id type = "INT">
@@ -50,13 +57,6 @@ i
 </ArgsOp>
 
 </WriteOp>
-
-<PostFixDecrement type = "INT">
-<Id type = "INT">
-i
-</Id>
-
-</PostFixDecrement>
 
 </Statements>
 

@@ -2,8 +2,9 @@ head
 int i;
 start
 i = 10;
-i++;
+++i;
 do {
+--i;
 i ->;
-i--;
+
 }while(i>=0);

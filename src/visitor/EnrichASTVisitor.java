@@ -18,11 +18,9 @@ import syntaxTree.arithOp.AddOp;
 import syntaxTree.arithOp.DivOp;
 import syntaxTree.arithOp.ModOp;
 import syntaxTree.arithOp.MultOp;
-import syntaxTree.arithOp.PostFixDecrement;
-import syntaxTree.arithOp.PostFixIncrement;
 import syntaxTree.arithOp.SubOp;
 import syntaxTree.arithOp.UminusOp;
-import syntaxTree.comp.Leaf;
+import syntaxTree.components.Leaf;
 import syntaxTree.declsOp.DefDeclNoPar;
 import syntaxTree.declsOp.DefDeclPar;
 import syntaxTree.declsOp.VarDecl;
@@ -47,6 +45,10 @@ import syntaxTree.statOp.CallOp;
 import syntaxTree.statOp.DoWhileOp;
 import syntaxTree.statOp.IfThenElseOp;
 import syntaxTree.statOp.IfThenOp;
+import syntaxTree.statOp.PostFixDecrement;
+import syntaxTree.statOp.PostFixIncrement;
+import syntaxTree.statOp.PreFixDecrement;
+import syntaxTree.statOp.PreFixIncrement;
 import syntaxTree.statOp.ReadOp;
 import syntaxTree.statOp.WhileOp;
 import syntaxTree.statOp.WriteOp;
@@ -225,6 +227,20 @@ public class EnrichASTVisitor implements Visitor<String> {
 	
 	@Override
 	public String visit(PostFixDecrement n) throws RuntimeException {
+		String tr = astBuilder(n.getOp(), n.getType());
+		tr += appendValue(n.getId().accept(this));
+		return tr += closeTag(n.getOp());
+	}
+	
+	@Override
+	public String visit(PreFixIncrement n) throws RuntimeException {
+		String tr = astBuilder(n.getOp(), n.getType());
+		tr += appendValue(n.getId().accept(this));
+		return tr += closeTag(n.getOp());
+	}
+	
+	@Override
+	public String visit(PreFixDecrement n) throws RuntimeException {
 		String tr = astBuilder(n.getOp(), n.getType());
 		tr += appendValue(n.getId().accept(this));
 		return tr += closeTag(n.getOp());

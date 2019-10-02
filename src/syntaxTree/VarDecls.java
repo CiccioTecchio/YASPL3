@@ -1,7 +1,8 @@
 package syntaxTree;
 
 import java.util.ArrayList;
-import syntaxTree.comp.Internal;
+
+import syntaxTree.components.Internal;
 import syntaxTree.declsOp.VarDecl;
 import visitor.Visitable;
 import visitor.Visitor;

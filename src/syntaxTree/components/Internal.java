@@ -1,8 +1,8 @@
-package syntaxTree.comp;
+package syntaxTree.components;
 
 import java.util.ArrayList;
 
-import syntaxTree.comp.Node;
+import syntaxTree.components.Node;
 
 public class Internal extends Node {
 	

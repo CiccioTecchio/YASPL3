@@ -2,7 +2,7 @@ package visitor;
 
 import syntaxTree.*;  
 import syntaxTree.arithOp.*;
-import syntaxTree.comp.*;
+import syntaxTree.components.*;
 import syntaxTree.declsOp.*;
 import syntaxTree.leaf.*;
 import syntaxTree.logicOp.*;
@@ -37,6 +37,8 @@ public interface Visitor<E> {
 
 	E visit(PostFixIncrement n) throws RuntimeException;
 	E visit(PostFixDecrement n) throws RuntimeException;
+	E visit(PreFixIncrement n) throws RuntimeException;
+	E visit(PreFixDecrement n) throws RuntimeException;
 	
 	E visit(AndOp n) throws RuntimeException;
 	E visit(NotOp n) throws RuntimeException;

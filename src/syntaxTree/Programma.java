@@ -1,7 +1,7 @@
 package syntaxTree;
 
-import syntaxTree.comp.Internal;
-import syntaxTree.comp.Node;
+import syntaxTree.components.Internal;
+import syntaxTree.components.Node;
 import visitor.Visitable;
 import visitor.Visitor;
 

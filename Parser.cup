@@ -4,7 +4,7 @@ package parser;
 import java_cup.runtime.*;
 import syntaxTree.*;  
 import syntaxTree.arithOp.*;
-import syntaxTree.comp.*;
+import syntaxTree.components.*;
 import syntaxTree.logicOp.*;
 import syntaxTree.relOp.*;
 import syntaxTree.statOp.*;
@@ -153,6 +153,8 @@ Stat		::= Vars:vars READ SEMI											{: RESULT = new ReadOp("ReadOp", vars); 
 			|	DO Comp_stat:cs WHILE LPAR Expr:e RPAR	SEMI				{: RESULT = new DoWhileOp("DoWhileOp", cs, e); :}
 			|	ID:id PLUS PLUS	SEMI										{: RESULT = new PostFixIncrement("PostFixIncrement", new IdConst("Id", new Leaf("Value", id))); :}
 			|	ID:id MINUS MINUS SEMI										{: RESULT = new PostFixDecrement("PostFixDecrement", new IdConst("Id", new Leaf("Value", id))); :}
+			|	PLUS PLUS ID:id SEMI										{: RESULT = new PreFixIncrement("PostFixIncrement", new IdConst("Id", new Leaf("Value", id))); :}
+			|	MINUS MINUS ID:id SEMI										{: RESULT = new PreFixDecrement("PreFixDecrement", new IdConst("Id", new Leaf("Value", id))); :}
 			;
 			
 Args		::=	Expr:e COMMA Args:arg		{: RESULT = arg.addChild(e); :}

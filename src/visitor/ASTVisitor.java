@@ -2,7 +2,7 @@ package visitor;
 
 import syntaxTree.*;
 import syntaxTree.arithOp.*;
-import syntaxTree.comp.*;
+import syntaxTree.components.*;
 import syntaxTree.declsOp.*;
 import syntaxTree.leaf.*;
 import syntaxTree.logicOp.*;
@@ -270,6 +270,22 @@ public class ASTVisitor implements Visitor<String> {
 	
 	@Override
 	public String visit(PostFixDecrement n) throws RuntimeException {
+		String toReturn = "<"+n.getOp()+">\n";
+		toReturn += n.getId().accept(this);
+		toReturn += "</"+n.getOp()+">\n";
+		return toReturn;
+	}
+	
+	@Override
+	public String visit(PreFixIncrement n) throws RuntimeException {
+		String toReturn = "<"+n.getOp()+">\n";
+		toReturn += n.getId().accept(this);
+		toReturn += "</"+n.getOp()+">\n";
+		return toReturn;
+	}
+	
+	@Override
+	public String visit(PreFixDecrement n) throws RuntimeException {
 		String toReturn = "<"+n.getOp()+">\n";
 		toReturn += n.getId().accept(this);
 		toReturn += "</"+n.getOp()+">\n";

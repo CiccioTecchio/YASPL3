@@ -1,7 +1,7 @@
 package syntaxTree.utils;
 
-import syntaxTree.comp.Internal;
-import syntaxTree.comp.Leaf;
+import syntaxTree.components.Internal;
+import syntaxTree.components.Leaf;
 import syntaxTree.leaf.IdConst;
 import syntaxTree.leaf.ParTypeLeaf;
 import syntaxTree.leaf.TypeLeaf;

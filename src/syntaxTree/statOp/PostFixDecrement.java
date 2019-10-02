@@ -1,16 +1,16 @@
-package syntaxTree.arithOp;
+package syntaxTree.statOp;
 
 import syntaxTree.Stat;
 import syntaxTree.leaf.IdConst;
 import visitor.Visitable;
 import visitor.Visitor;
 
-public class PostFixIncrement extends Stat implements Visitable {
+public class PostFixDecrement extends Stat implements Visitable {
 
 	private String op;
 	private IdConst id;
 	
-	public PostFixIncrement(String op, IdConst id) {
+	public PostFixDecrement(String op, IdConst id) {
 	super(op, id);
 	this.op = op;
 	this.id = id;
@@ -18,6 +18,7 @@ public class PostFixIncrement extends Stat implements Visitable {
 	
 	@Override
 	public Object accept(Visitor<?> visitor) {
+		// TODO Auto-generated method stub
 		return visitor.visit(this);
 	}
 

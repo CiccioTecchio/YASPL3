@@ -28,6 +28,11 @@ i
 <DoWhileOp>
 <CompStat>
 <Statements>
+<PreFixDecrement>
+<Id>
+i
+</Id>
+</PreFixDecrement>
 <WriteOp>
 <ArgsOp>
 <Id>
@@ -35,11 +40,6 @@ i
 </Id>
 </ArgsOp>
 </WriteOp>
-<PostFixDecrement>
-<Id>
-i
-</Id>
-</PostFixDecrement>
 </Statements>
 </CompStat>
 <GeOp>

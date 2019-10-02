@@ -2,7 +2,7 @@ package visitor;
 
 import syntaxTree.*;
 import syntaxTree.arithOp.*;
-import syntaxTree.comp.*;
+import syntaxTree.components.*;
 import syntaxTree.declsOp.*;
 import syntaxTree.leaf.*;
 import syntaxTree.logicOp.*;
@@ -230,6 +230,17 @@ public class SymTableVisitor implements Visitor<Object> {
 	
 	@Override
 	public Object visit(PostFixDecrement n) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Object visit(PreFixIncrement n) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public Object visit(PreFixDecrement n) {
 		// TODO Auto-generated method stub
 		return null;
 	}

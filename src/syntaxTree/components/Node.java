@@ -1,4 +1,4 @@
-package syntaxTree.comp;
+package syntaxTree.components;
 
 import semantic.SymbolTable;
 import semantic.Tuple;

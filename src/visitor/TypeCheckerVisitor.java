@@ -2,7 +2,7 @@ package visitor;
 
 import syntaxTree.*;
 import syntaxTree.arithOp.*;
-import syntaxTree.comp.*;
+import syntaxTree.components.*;
 import syntaxTree.declsOp.*;
 import syntaxTree.leaf.*;
 import syntaxTree.logicOp.*;
@@ -326,6 +326,28 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 	
 	@Override
 	public Object visit(PostFixDecrement n) throws RuntimeException {
+		Type t = (Type) n.getId().accept(this);
+		Type toReturn = this.incDecCompOP[gift(t)];
+		if(toReturn == null) {
+			throw new TypeMismatchException(n.getOp(), t);
+		}else
+		n.setType(toReturn);
+		return toReturn;
+	}
+	
+	@Override
+	public Object visit(PreFixIncrement n) throws RuntimeException {
+		Type t = (Type) n.getId().accept(this);
+		Type toReturn = this.incDecCompOP[gift(t)];
+		if(toReturn == null) {
+			throw new TypeMismatchException(n.getOp(), t);
+		}else
+		n.setType(toReturn);
+		return toReturn;
+	}
+	
+	@Override
+	public Object visit(PreFixDecrement n) throws RuntimeException {
 		Type t = (Type) n.getId().accept(this);
 		Type toReturn = this.incDecCompOP[gift(t)];
 		if(toReturn == null) {
