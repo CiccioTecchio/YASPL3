@@ -50,7 +50,7 @@ def menu(){
     "2. Moltiplicazione fra due interi\n"+
     "3. Elevazione a potenza\n"+
     "4. Successione di Fibonacci\n"+
-    "5. Radice quadrata di un intero"+
+    "5. Radice quadrata di un intero\n"+
     "0. Esci"->;
 }
 

@@ -62,7 +62,9 @@ public class SymTableVisitor implements Visitor<Object> {
 	@Override
 	public Object visit(Body n) {
 		n.getVd().accept(this);
-		if(pathToPrintScope != null) logger.info(this.stack.pop().toString());
+		if(pathToPrintScope != null) 
+			logger.info(this.stack.pop().toString());
+		else this.stack.pop();
 		this.actualScope = this.stack.peek();
 		return null;
 	}
@@ -165,7 +167,9 @@ public class SymTableVisitor implements Visitor<Object> {
 		this.actualScope = this.stack.peek();
 		n.setSym(actualScope);
 		n.getD().accept(this);
-		if(pathToPrintScope != null)logger.info(this.stack.peek().toString());
+		if(pathToPrintScope != null)
+			logger.info(this.stack.peek().toString());
+		else this.stack.peek();
 		return null;
 	}
 

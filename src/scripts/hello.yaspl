@@ -1,0 +1,6 @@
+head
+int x;
+start
+"Hello"->;
+3+2->;
+/*x<-;*/
