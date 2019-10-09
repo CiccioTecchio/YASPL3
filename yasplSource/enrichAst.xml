@@ -96,6 +96,29 @@ INT
 </Type>
 
 <VarDeclsInit type = "VOID">
+<VarInit>
+<Id type = "INT">
+n
+</Id>
+
+<VarInitValue type = "INT">
+<IntConst>
+10
+</IntConst>
+</VarInitValue>
+
+</VarInit>
+
+</VarDeclsInit>
+
+</VarDecl>
+
+<VarDecl type = "VOID">
+<Type>
+INT
+</Type>
+
+<VarDeclsInit type = "VOID">
 <VarNotInit>
 <Id type = "INT">
 x

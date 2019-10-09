@@ -5,5 +5,6 @@ start
 i->;
 while(i < 10)do{
 int i = 10; /*se va in loop vuol dire che funzia*/
+int n = 10;
 int x;
 }

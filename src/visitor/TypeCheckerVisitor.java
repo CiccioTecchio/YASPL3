@@ -554,10 +554,13 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 
 
 
-	@Override
+	@Override//aggiunta scope WhileOp
 	public Object visit(WhileOp n) throws RuntimeException {
+		this.stack.push(n.getSym());
 		Type expr = (Type) n.getE().accept(this);
 		n.getBody().accept(this);
+		this.stack.pop();
+		this.actualScope = this.stack.peek();
 		if(expr == Type.BOOL) {
 			n.setType(Type.VOID);
 		}else throw new TypeMismatchException(n.getOp(), expr);

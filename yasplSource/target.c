@@ -19,6 +19,7 @@ int main(void){
 printf("%d\n",i);
 while(i < 10){
 int i = 10;
+int n = 10;
 int x;
 
 }
