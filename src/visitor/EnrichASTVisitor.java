@@ -362,7 +362,7 @@ public class EnrichASTVisitor implements Visitor<String> {
 	public String visit(WhileOp n) throws RuntimeException {
 		String tr = astBuilder(n.getOp(), n.getType());
 		tr += appendValue(n.getE().accept(this));
-		tr += appendValue(n.getCs().accept(this));
+		tr += appendValue(n.getBody().accept(this));
 		return tr += closeTag(n.getOp());
 	}
 

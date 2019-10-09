@@ -37,6 +37,11 @@ public abstract class Stat extends Internal{
 		super(op, e, cs);
 	}
 	
+	//IfThenOp && WhileOp with scope
+		public Stat(String op, Expr e, Body b) {
+			super(op, e, b);
+		}
+	
 	public abstract Object accept(Visitor<?> visitor);
 	
 	

@@ -557,7 +557,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 	@Override
 	public Object visit(WhileOp n) throws RuntimeException {
 		Type expr = (Type) n.getE().accept(this);
-		n.getCs().accept(this);
+		n.getBody().accept(this);
 		if(expr == Type.BOOL) {
 			n.setType(Type.VOID);
 		}else throw new TypeMismatchException(n.getOp(), expr);

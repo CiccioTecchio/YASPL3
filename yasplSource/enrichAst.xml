@@ -1,0 +1,121 @@
+<Programma symTbl = "Globale" type = "VOID">
+<Decls type = "VOID">
+<VarDecl type = "VOID">
+<Type>
+INT
+</Type>
+
+<VarDeclsInit type = "VOID">
+<VarInit>
+<Id type = "INT">
+i
+</Id>
+
+<VarInitValue type = "INT">
+<IntConst>
+0
+</IntConst>
+</VarInitValue>
+
+</VarInit>
+
+</VarDeclsInit>
+
+</VarDecl>
+
+<VarDecl type = "VOID">
+<Type>
+INT
+</Type>
+
+<VarDeclsInit type = "VOID">
+<VarNotInit>
+<Id type = "INT">
+x
+</Id>
+
+</VarNotInit>
+
+</VarDeclsInit>
+
+</VarDecl>
+
+</Decls>
+
+<Statements>
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
+<Id type = "INT">
+i
+</Id>
+
+</ArgsOp>
+
+</WriteOp>
+
+<WhileOp type = "VOID">
+<LtOp type = "BOOL">
+<Id type = "INT">
+i
+</Id>
+
+<IntConst>
+10
+</IntConst>
+
+</LtOp>
+
+<Body type = "VOID">
+<VarDecls type = "VOID">
+<VarDecl type = "VOID">
+<Type>
+INT
+</Type>
+
+<VarDeclsInit type = "VOID">
+<VarInit>
+<Id type = "INT">
+i
+</Id>
+
+<VarInitValue type = "INT">
+<IntConst>
+10
+</IntConst>
+</VarInitValue>
+
+</VarInit>
+
+</VarDeclsInit>
+
+</VarDecl>
+
+<VarDecl type = "VOID">
+<Type>
+INT
+</Type>
+
+<VarDeclsInit type = "VOID">
+<VarNotInit>
+<Id type = "INT">
+x
+</Id>
+
+</VarNotInit>
+
+</VarDeclsInit>
+
+</VarDecl>
+
+</VarDecls>
+
+<Statements>
+</Statements>
+
+</Body>
+
+</WhileOp>
+
+</Statements>
+
+</Programma>

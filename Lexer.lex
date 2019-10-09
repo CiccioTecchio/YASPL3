@@ -4,8 +4,8 @@ package lexer;
 import java_cup.runtime.*;
 import java.io.IOException;
 
-import lexer.LexerSym;
-import static lexer.LexerSym.*;
+import parser.LexerSym;
+import static parser.LexerSym.*;
 
 %%
 

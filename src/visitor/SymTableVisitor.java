@@ -31,14 +31,21 @@ public class SymTableVisitor implements Visitor<Object> {
 	private Logger logger=Logger.getLogger("SymbolTable");
 	private FileHandler fh;
 	private SimpleFormatter formatter;
+	private String pathToPrintScope;
 	
 	public SymTableVisitor(String pathToPrintScope) throws SecurityException, IOException {
 		this.stack = new Stack<SymbolTable>();
-		this.fh = new FileHandler(pathToPrintScope);
+		this.pathToPrintScope = pathToPrintScope;
+		this.fh = new FileHandler(this.pathToPrintScope);
 		logger.setUseParentHandlers(false); // remove log message from stdout
 		logger.addHandler(fh);
 		SimpleFormatter formatter = new SimpleFormatter();
 		fh.setFormatter(formatter);
+	}
+	
+	public SymTableVisitor() {
+		this.stack = new Stack<SymbolTable>();
+		this.pathToPrintScope = "";
 	}
 	
 	@Override
@@ -57,7 +64,11 @@ public class SymTableVisitor implements Visitor<Object> {
 	@Override
 	public Object visit(Body n) {
 		n.getVd().accept(this);
-		logger.info(this.stack.pop().toString());
+		if(pathToPrintScope.equals("")) {
+			this.stack.pop();
+		}else {
+			logger.info(this.stack.pop().toString());
+		}
 		this.actualScope = this.stack.peek();
 		return null;
 	}
@@ -160,12 +171,21 @@ public class SymTableVisitor implements Visitor<Object> {
 		this.actualScope = this.stack.peek();
 		n.setSym(actualScope);
 		n.getD().accept(this);
-		logger.info(this.stack.peek().toString());
-		return null;
+		n.getS().accept(this);
+		if(pathToPrintScope.equals("")) {
+			this.stack.peek();
+		}else {
+			logger.info(this.stack.peek().toString());
+		}
+		return n;
 	}
 
 	@Override
 	public Object visit(Statements n) {
+		ArrayList<Stat> list = n.getChildList();
+		for(Stat s: list) {
+			s.accept(this);
+		}
 		return null;
 	}
 
@@ -337,8 +357,13 @@ public class SymTableVisitor implements Visitor<Object> {
 	}
 
 	@Override
+	//esempio aggiunta scope
 	public Object visit(WhileOp n) {
-		// TODO Auto-generated method stub
+		n.getE().accept(this);
+		this.stack.push(new SymbolTable("WhileScope - hashCode: "+n.hashCode()));
+		this.actualScope = this.stack.peek();
+		n.setSym(actualScope);
+		n.getBody().accept(this);
 		return null;
 	}
 

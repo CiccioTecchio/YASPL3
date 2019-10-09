@@ -2,7 +2,6 @@ package visitor;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
-
 import exception.ImpossibleReadException;
 import semantic.SymbolTable.Type;
 import syntaxTree.Args;
@@ -394,7 +393,7 @@ public class GenerateCVisitor implements Visitor<String> {
 	@Override
 	public String visit(WhileOp n) throws RuntimeException {
 		return "while("+n.getE().accept(this)+"){\n"
-				+ n.getCs().accept(this)+"\n}\n";
+				+ n.getBody().accept(this)+"\n}\n";
 	}
 
 	@Override
