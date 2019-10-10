@@ -11,6 +11,7 @@ import lexer.LexerLex;
 import parser.ParserCup;
 import syntaxTree.Programma;
 import visitor.ASTVisitor;
+import visitor.CodeVisitor;
 import visitor.EnrichASTVisitor;
 import visitor.GenerateCVisitor;
 import visitor.SymTableVisitor;
@@ -61,6 +62,7 @@ public class Cli {
 			    fw.close();
 			}
 			GenerateCVisitor genC = new GenerateCVisitor();
+			//CodeVisitor genC = new CodeVisitor();
 		    fw = new FileWriter("yasplSource/target.c");
 		    fw.write(genC.visit(p));
 		    fw.close();

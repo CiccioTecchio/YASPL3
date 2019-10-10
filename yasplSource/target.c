@@ -12,16 +12,9 @@ typedef char string[STRING_CONST];
 string yasplBuffer;
 string toParse;
 
-int i = 0;
-int x;
+int z;
+int y;
 
 int main(void){
-printf("%d\n",i);
-while(i < 10){
-int i = 10;
-int n = 10;
-int x;
-
-}
 return 0;
 }

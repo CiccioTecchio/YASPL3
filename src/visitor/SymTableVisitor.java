@@ -15,6 +15,8 @@ import syntaxTree.wrapper.VarDeclsInitWrapper;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.Stack;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
@@ -50,6 +52,9 @@ public class SymTableVisitor implements Visitor<Object> {
 	
 	@Override
 	public Object visit(Args n) {
+		for(Expr e : n.getChildList()) {
+			e.accept(this);
+		}
 		return null;
 	}
 
@@ -64,6 +69,7 @@ public class SymTableVisitor implements Visitor<Object> {
 	@Override
 	public Object visit(Body n) {
 		n.getVd().accept(this);
+		this.unusedTuple();
 		if(pathToPrintScope.equals("")) {
 			this.stack.pop();
 		}else {
@@ -84,26 +90,22 @@ public class SymTableVisitor implements Visitor<Object> {
 	}
 	
 	@Override
-	public Object visit(ParDeclSon n) throws AlreadyDeclaredException {
+	public Object visit(ParDeclSon n){
+		String id = (String)n.getId().accept(this);
+		checkAlreadyDeclared(id);
 		ParType x = this.getValueOfParTypeLeaf((String)n.getParType().accept(this));
 		ParTuple t = new ParTuple(Kind.VARDECL, x, this.getValueOfLeaf(n.getTypeLeaf()));
-		String id = (String)n.getId().accept(this);
-		if(!this.actualScope.containsKey(id))
 		this.actualScope.put(id, t);
-		else throw new AlreadyDeclaredException("Variabile "+ id+ " già dichiarata");
 		return t;
 	}
 	
 	@Override
-	public Object visit(VarDecl n)throws AlreadyDeclaredException  {
+	public Object visit(VarDecl n){
 		ArrayList<String> idList = (ArrayList<String>) n.getVdi().accept(this);
 		for(String s: idList) {
-			if(!this.actualScope.containsKey(s)) {
+			checkAlreadyDeclared(s);
 			VarTuple t = new VarTuple(Kind.VARDECL, this.getValueOfLeaf(n.getT()));
 			this.actualScope.put(s, t);
-			} else {
-				throw new AlreadyDeclaredException("Variabile "+ s + " già dichiarata");
-			}
 		}
 		return null;
 	}
@@ -120,23 +122,20 @@ public class SymTableVisitor implements Visitor<Object> {
 	@Override
 	public Object visit(TypeLeaf n) {
 		// TODO Auto-generated method stub
-		return null;
+		return n.getValue();
 	}
 
 	@Override
 	public Object visit(DefDeclNoPar n) {
 		DefTuple t = new DefTuple(Kind.DEFDECL);
 		String defName = (String)n.getId().accept(this);
-		if(this.actualScope.containsKey(defName)) {
-			throw new AlreadyDeclaredException("Funzione "+ defName + " già dichiarata");
-		}else {
+		this.checkAlreadyDeclared(defName);
 		this.actualScope.put(defName, t);
 		SymbolTable sc = new SymbolTable(defName);
 		this.stack.push(sc);
 		this.actualScope = this.stack.peek();
 		n.setSym(actualScope);
 		n.getB().accept(this);
-		}
 		return null;
 	}
 
@@ -144,9 +143,7 @@ public class SymTableVisitor implements Visitor<Object> {
 	public Object visit(DefDeclPar n) {
 		DefTuple t = new DefTuple(Kind.DEFDECL);
 		String defName = (String)n.getId().accept(this);
-		if(this.actualScope.containsKey(defName)) {
-			throw new AlreadyDeclaredException("Funzione "+ defName + " già dichiarata");
-		}else {
+		this.checkAlreadyDeclared(defName);
 		this.actualScope.put(defName, t);
 		SymbolTable sc = new SymbolTable(defName);
 		this.stack.push(sc);
@@ -154,14 +151,13 @@ public class SymTableVisitor implements Visitor<Object> {
 		n.setSym(actualScope);
 		t.setParArray((ArrayList<ParTuple>) n.getPd().accept(this));
 		n.getB().accept(this);
-		}
 		return null;
 	}
 
 	
 	@Override
 	public Object visit(CompStat n) {
-		// TODO Auto-generated method stub
+		n.getS().accept(this);
 		return null;
 	}
 
@@ -172,11 +168,13 @@ public class SymTableVisitor implements Visitor<Object> {
 		n.setSym(actualScope);
 		n.getD().accept(this);
 		n.getS().accept(this);
+		this.unusedTuple();
 		if(pathToPrintScope.equals("")) {
 			this.stack.peek();
 		}else {
 			logger.info(this.stack.peek().toString());
 		}
+		this.stack.pop();
 		return n;
 	}
 
@@ -203,91 +201,154 @@ public class SymTableVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(VarInitValue n) {
-		// TODO Auto-generated method stub
+		n.getE().accept(this);
 		return null;
 	}
 
 	@Override
 	public Object visit(Vars n) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<String> list = new ArrayList<>();
+		for(IdConst id: n.getChildList()) {
+			list.add(0, (String)id.accept(this));
+		}
+		return list;
 	}
 
 	@Override
 	public Object visit(AddOp n) {
-		// TODO Auto-generated method stub
+		
+		if(checkDx(n.getE1())) {
+			n.getE1().accept(this);
+		}
+		if(checkDx(n.getE2())) {
+			n.getE2().accept(this);
+		}
 		return null;
 	}
 
 	@Override
 	public Object visit(DivOp n) {
-		// TODO Auto-generated method stub
+		if(checkDx(n.getE1())) {
+			n.getE1().accept(this);
+		}
+		if(checkDx(n.getE2())) {
+			n.getE2().accept(this);
+		}
 		return null;
 	}
 
 	@Override
 	public Object visit(MultOp n) {
-		// TODO Auto-generated method stub
+		if(checkDx(n.getE1())) {
+			n.getE1().accept(this);
+		}
+		if(checkDx(n.getE2())) {
+			n.getE2().accept(this);
+		}
 		return null;
 	}
 
 	@Override
 	public Object visit(SubOp n) {
-		// TODO Auto-generated method stub
+		if(checkDx(n.getE1())) {
+			n.getE1().accept(this);
+		}
+		if(checkDx(n.getE2())) {
+			n.getE2().accept(this);
+		}
 		return null;
 	}
 
 	@Override
 	public Object visit(UminusOp n) {
-		// TODO Auto-generated method stub
+		if(checkDx(n.getE())) {
+			n.getE().accept(this);
+		}
 		return null;
 	}
 
 	@Override
 	public Object visit(AndOp n) {
-		// TODO Auto-generated method stub
+		if(checkDx(n.getE1())) {
+			n.getE1().accept(this);
+		}
+		if(checkDx(n.getE2())) {
+			n.getE2().accept(this);
+		}
 		return null;
 	}
 
 	@Override
 	public Object visit(NotOp n) {
-		// TODO Auto-generated method stub
+		if(checkDx(n.getE())) {
+			n.getE().accept(this);
+		}
 		return null;
 	}
 
 	@Override
 	public Object visit(OrOp n) {
-		// TODO Auto-generated method stub
+		if(checkDx(n.getE1())) {
+			n.getE1().accept(this);
+		}
+		if(checkDx(n.getE2())) {
+			n.getE2().accept(this);
+		}
 		return null;
 	}
 
 	@Override
 	public Object visit(EqOp n) {
-		// TODO Auto-generated method stub
+		if(checkDx(n.getE1())) {
+			n.getE1().accept(this);
+		}
+		if(checkDx(n.getE2())) {
+			n.getE2().accept(this);
+		}
 		return null;
 	}
 
 	@Override
 	public Object visit(GeOp n) {
-		// TODO Auto-generated method stub
+		if(checkDx(n.getE1())) {
+			n.getE1().accept(this);
+		}
+		if(checkDx(n.getE2())) {
+			n.getE2().accept(this);
+		}
 		return null;
 	}
 
 	@Override
 	public Object visit(GtOp n) {
-		// TODO Auto-generated method stub
+		if(checkDx(n.getE1())) {
+			n.getE1().accept(this);
+		}
+		if(checkDx(n.getE2())) {
+			n.getE2().accept(this);
+		}
 		return null;
 	}
 
 	@Override
 	public Object visit(LeOp n) {
-		// TODO Auto-generated method stub
+		if(checkDx(n.getE1())) {
+			n.getE1().accept(this);
+		}
+		if(checkDx(n.getE2())) {
+			n.getE2().accept(this);
+		}
 		return null;
 	}
 
 	@Override
 	public Object visit(LtOp n) {
-		// TODO Auto-generated method stub
+		if(checkDx(n.getE1())) {
+			n.getE1().accept(this);
+		}
+		if(checkDx(n.getE2())) {
+			n.getE2().accept(this);
+		}
 		return null;
 	}
 
@@ -328,31 +389,41 @@ public class SymTableVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(AssignOp n) {
-		// TODO Auto-generated method stub
+		checkNotDeclared((String)n.getId().accept(this));
+		n.getE().accept(this);
 		return null;
 	}
 
 	@Override
 	public Object visit(CallOp n) {
-		// TODO Auto-generated method stub
+		checkNotDeclared((String)n.getId().accept(this));
+		if(n.getA() != null) {
+			n.getA().accept(this);
+		}
 		return null;
 	}
 
 	@Override
 	public Object visit(IfThenElseOp n) {
-		// TODO Auto-generated method stub
+		n.getE().accept(this);
+		n.getCs1().accept(this);
+		n.getCs2().accept(this);
 		return null;
 	}
 
 	@Override
 	public Object visit(IfThenOp n) {
-		// TODO Auto-generated method stub
+		n.getE().accept(this);
+		n.getCs().accept(this);
 		return null;
 	}
 
 	@Override
 	public Object visit(ReadOp n) {
-		// TODO Auto-generated method stub
+		ArrayList<String> list = (ArrayList<String>) n.getV().accept(this);
+		for(String s: list) {
+			checkNotDeclared(s);
+		}
 		return null;
 	}
 
@@ -369,7 +440,7 @@ public class SymTableVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(WriteOp n) {
-		// TODO Auto-generated method stub
+		n.getA().accept(this);
 		return null;
 	}
 
@@ -382,6 +453,7 @@ public class SymTableVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(VarInit n) {
+		n.getViv().accept(this);
 		return n.getId().accept(this);
 	}
 
@@ -416,5 +488,45 @@ public class SymTableVisitor implements Visitor<Object> {
 		default: return null;
 		}
 	}
+	
+	private void checkAlreadyDeclared(String id) throws AlreadyDeclaredException {
+		if(this.actualScope.containsKey(id)) {
+			throw new AlreadyDeclaredException(String.format("%s già dichiarata in %s",
+															  id,
+															  this.actualScope.getScopeName()
+												));
+		}
+	}
+	
+	private void checkNotDeclared(String id) throws NotDeclaredException {
+		if(!this.actualScope.containsKey(id)) {
+			throw new NotDeclaredException(String.format("%s NON dichiarata in %s",
+															  id,
+															  this.actualScope.getScopeName()
+												));
+		}
+	}
+	
+	private boolean checkDx(Expr e) {
+		boolean isId = true;
+		if(e instanceof IdConst) {
+			String id = ""+e.accept(this);
+			checkNotDeclared(id);
+			this.actualScope.get(id).setIsUsed(true);
+			isId = false;
+		}
+		return isId;
+	}
 
+	private void unusedTuple() {
+		Set<Entry<String,Tuple>> set =this.actualScope.entrySet();
+		for(Entry<String, Tuple> t: set) {
+			String id = t.getKey();
+			try {
+				if(!this.actualScope.get(id).getIsUsed())
+				throw new DeclaredButNeverUserdException(String.format("warning! variable %s declared but never used\n", id)); 
+			}catch(DeclaredButNeverUserdException e) {}
+		}
+	}
+	
 }

@@ -6,18 +6,12 @@ INT
 </Type>
 
 <VarDeclsInit type = "VOID">
-<VarInit>
+<VarNotInit>
 <Id type = "INT">
-i
+z
 </Id>
 
-<VarInitValue type = "INT">
-<IntConst>
-0
-</IntConst>
-</VarInitValue>
-
-</VarInit>
+</VarNotInit>
 
 </VarDeclsInit>
 
@@ -31,7 +25,7 @@ INT
 <VarDeclsInit type = "VOID">
 <VarNotInit>
 <Id type = "INT">
-x
+y
 </Id>
 
 </VarNotInit>
@@ -43,102 +37,6 @@ x
 </Decls>
 
 <Statements>
-<WriteOp type = "VOID">
-<ArgsOp type = "VOID">
-<Id type = "INT">
-i
-</Id>
-
-</ArgsOp>
-
-</WriteOp>
-
-<WhileOp type = "VOID">
-<LtOp type = "BOOL">
-<Id type = "INT">
-i
-</Id>
-
-<IntConst>
-10
-</IntConst>
-
-</LtOp>
-
-<Body type = "VOID">
-<VarDecls type = "VOID">
-<VarDecl type = "VOID">
-<Type>
-INT
-</Type>
-
-<VarDeclsInit type = "VOID">
-<VarInit>
-<Id type = "INT">
-i
-</Id>
-
-<VarInitValue type = "INT">
-<IntConst>
-10
-</IntConst>
-</VarInitValue>
-
-</VarInit>
-
-</VarDeclsInit>
-
-</VarDecl>
-
-<VarDecl type = "VOID">
-<Type>
-INT
-</Type>
-
-<VarDeclsInit type = "VOID">
-<VarInit>
-<Id type = "INT">
-n
-</Id>
-
-<VarInitValue type = "INT">
-<IntConst>
-10
-</IntConst>
-</VarInitValue>
-
-</VarInit>
-
-</VarDeclsInit>
-
-</VarDecl>
-
-<VarDecl type = "VOID">
-<Type>
-INT
-</Type>
-
-<VarDeclsInit type = "VOID">
-<VarNotInit>
-<Id type = "INT">
-x
-</Id>
-
-</VarNotInit>
-
-</VarDeclsInit>
-
-</VarDecl>
-
-</VarDecls>
-
-<Statements>
-</Statements>
-
-</Body>
-
-</WhileOp>
-
 </Statements>
 
 </Programma>
