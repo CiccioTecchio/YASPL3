@@ -7,11 +7,11 @@ import semantic.SymbolTable.Type;
 public class Tuple {
 	
 	private Kind kind;
-	private boolean isUsed;
+	//private boolean isUsed;
 	
 	public Tuple(Kind kind) {
 		this.kind = kind;
-		this.isUsed = false;
+		//this.isUsed = false;
 	}
 	
 	public Kind getKind() {
@@ -21,7 +21,7 @@ public class Tuple {
 	public void setKind(Kind kind) {
 		this.kind = kind;
 	}
-
+/*
 	public boolean getIsUsed() {
 		return isUsed;
 	}
@@ -29,6 +29,6 @@ public class Tuple {
 	public void setIsUsed(boolean isUsed) {
 		this.isUsed = isUsed;
 	}
-	
+*/	
 
 }

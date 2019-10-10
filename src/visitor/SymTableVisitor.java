@@ -523,7 +523,7 @@ public class SymTableVisitor implements Visitor<Object> {
 		if(e instanceof IdConst) {
 			String id = ""+e.accept(this);
 			checkNotDeclared(id);
-			this.actualScope.get(id).setIsUsed(true);
+			//this.actualScope.get(id).setIsUsed(true);
 			tr = false;
 		}
 		return tr;

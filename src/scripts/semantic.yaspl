@@ -10,8 +10,11 @@ while(h < 10) do{
     int cc;
     int h = 11;
     k = 33;
+    while( k < 0) do{
+        int cc;
+    }
 }
-cc->;
+
 }
 
 start
