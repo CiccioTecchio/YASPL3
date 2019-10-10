@@ -53,7 +53,7 @@ public class Cli {
 				SymTableVisitor sym = new SymTableVisitor();
 				sym.visit(p);
 			}
-			TypeCheckerVisitor tcv = new TypeCheckerVisitor();
+			/*TypeCheckerVisitor tcv = new TypeCheckerVisitor();
 			tcv.visit(p);
 			if(enrich) {
 				EnrichASTVisitor eAST = new EnrichASTVisitor();
@@ -77,7 +77,7 @@ public class Cli {
                 
             }
             reader.close();
-		    process.destroy();
+		    process.destroy();*/
 		} catch (FileNotFoundException e) {
 			System.out.println(HELP);
 			e.printStackTrace();

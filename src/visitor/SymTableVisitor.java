@@ -53,7 +53,7 @@ public class SymTableVisitor implements Visitor<Object> {
 	@Override
 	public Object visit(Args n) {
 		for(Expr e : n.getChildList()) {
-			e.accept(this);
+			if(checkDx(e))e.accept(this);
 		}
 		return null;
 	}
@@ -69,7 +69,8 @@ public class SymTableVisitor implements Visitor<Object> {
 	@Override
 	public Object visit(Body n) {
 		n.getVd().accept(this);
-		this.unusedTuple();
+		n.getS().accept(this);
+		//this.unusedTuple();
 		if(pathToPrintScope.equals("")) {
 			this.stack.pop();
 		}else {
@@ -168,13 +169,13 @@ public class SymTableVisitor implements Visitor<Object> {
 		n.setSym(actualScope);
 		n.getD().accept(this);
 		n.getS().accept(this);
-		this.unusedTuple();
+		//this.unusedTuple();
 		if(pathToPrintScope.equals("")) {
 			this.stack.peek();
 		}else {
 			logger.info(this.stack.peek().toString());
 		}
-		this.stack.pop();
+		//this.stack.pop();
 		return n;
 	}
 
@@ -201,6 +202,7 @@ public class SymTableVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(VarInitValue n) {
+		if(checkDx(n.getE())) n.getE().accept(this);
 		n.getE().accept(this);
 		return null;
 	}
@@ -390,7 +392,7 @@ public class SymTableVisitor implements Visitor<Object> {
 	@Override
 	public Object visit(AssignOp n) {
 		checkNotDeclared((String)n.getId().accept(this));
-		n.getE().accept(this);
+		if(checkDx(n.getE()))n.getE().accept(this);
 		return null;
 	}
 
@@ -405,7 +407,7 @@ public class SymTableVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(IfThenElseOp n) {
-		n.getE().accept(this);
+		if(checkDx(n.getE())) n.getE().accept(this);
 		n.getCs1().accept(this);
 		n.getCs2().accept(this);
 		return null;
@@ -413,6 +415,7 @@ public class SymTableVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(IfThenOp n) {
+		if(checkDx(n.getE())) n.getE().accept(this);
 		n.getE().accept(this);
 		n.getCs().accept(this);
 		return null;
@@ -430,7 +433,7 @@ public class SymTableVisitor implements Visitor<Object> {
 	@Override
 	//esempio aggiunta scope
 	public Object visit(WhileOp n) {
-		n.getE().accept(this);
+		if(checkDx(n.getE())) n.getE().accept(this);
 		this.stack.push(new SymbolTable("WhileScope - hashCode: "+n.hashCode()));
 		this.actualScope = this.stack.peek();
 		n.setSym(actualScope);
@@ -499,7 +502,15 @@ public class SymTableVisitor implements Visitor<Object> {
 	}
 	
 	private void checkNotDeclared(String id) throws NotDeclaredException {
-		if(!this.actualScope.containsKey(id)) {
+		int i = this.stack.indexOf(actualScope);
+		boolean find = false;
+		
+		while(!find && i>=0) {
+			SymbolTable app = this.stack.elementAt(i);
+			find = app.containsKey(id);
+			i--;
+		}
+		if(!find) {
 			throw new NotDeclaredException(String.format("%s NON dichiarata in %s",
 															  id,
 															  this.actualScope.getScopeName()
@@ -508,17 +519,17 @@ public class SymTableVisitor implements Visitor<Object> {
 	}
 	
 	private boolean checkDx(Expr e) {
-		boolean isId = true;
+		boolean tr = true;
 		if(e instanceof IdConst) {
 			String id = ""+e.accept(this);
 			checkNotDeclared(id);
 			this.actualScope.get(id).setIsUsed(true);
-			isId = false;
+			tr = false;
 		}
-		return isId;
+		return tr;
 	}
 
-	private void unusedTuple() {
+	/*private void unusedTuple() {
 		Set<Entry<String,Tuple>> set =this.actualScope.entrySet();
 		for(Entry<String, Tuple> t: set) {
 			String id = t.getKey();
@@ -527,6 +538,6 @@ public class SymTableVisitor implements Visitor<Object> {
 				throw new DeclaredButNeverUserdException(String.format("warning! variable %s declared but never used\n", id)); 
 			}catch(DeclaredButNeverUserdException e) {}
 		}
-	}
+	}*/
 	
 }
