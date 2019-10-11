@@ -13,10 +13,8 @@ import syntaxTree.varDeclInitOp.*;
 import syntaxTree.wrapper.DeclsWrapper;
 import syntaxTree.wrapper.VarDeclsInitWrapper;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
 import java.util.logging.Logger;
-
 import exception.*;
 import semantic.*;
 import semantic.SymbolTable.*;
@@ -26,20 +24,9 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 	private Stack<SymbolTable> stack;
 	private SymbolTable actualScope;
 	private String ast;
-	
 	private Logger logger=Logger.getLogger("TypeChecker");
 	
-	private SymbolTable.Type[][] sumOpCompOp = {
-			{Type.INT, Type.STRING, Type.DOUBLE, null, null, null},	//riga interi
-			{Type.STRING, Type.STRING, Type.STRING, Type.STRING, Type.STRING, null },	//riga stringa
-			{Type.DOUBLE, Type.STRING, Type.DOUBLE, null, null, null},	//riga double
-			{null, Type.STRING, null, Type.STRING, null, null},	//riga char
-			{null, Type.STRING, null, null, null, null}, //riga bool
-			{null, null, null, null, null, null}	//riga void
-	};
-	
-	
-	private SymbolTable.Type[][] arithOpCompOp = { // it's sub, mult and divOp
+	private SymbolTable.Type[][] arithOpCompOp = { // it's add, sub, mult and divOp
 			{Type.INT, null, Type.DOUBLE, null, null, null},	//riga interi
 			{null, null, null, null, null, null},	//riga stringa
 			{Type.DOUBLE, null, Type.DOUBLE, null, null, null},	//riga double
@@ -242,7 +229,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 	public Object visit(AddOp n) throws RuntimeException {
 		Type t1 = (Type) n.getE1().accept(this);
 		Type t2 = (Type) n.getE2().accept(this);
-		Type toReturn = this.sumOpCompOp[gift(t1)][gift(t2)];
+		Type toReturn = this.arithOpCompOp[gift(t1)][gift(t2)];
 		if(toReturn == null) {
 			throw new TypeMismatchException(n.getOp(), t1, t2);
 		}else
