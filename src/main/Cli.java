@@ -55,13 +55,13 @@ public class Cli {
 			}
 			TypeCheckerVisitor tcv = new TypeCheckerVisitor();
 			tcv.visit(p);
-			/*if(enrich) {
+			if(enrich) {
 				EnrichASTVisitor eAST = new EnrichASTVisitor();
 				fw = new FileWriter("yasplSource/enrichAst.xml");
 				fw.write(eAST.visit(p));
 			    fw.close();
 			}
-			GenerateCVisitor genC = new GenerateCVisitor();
+			/*GenerateCVisitor genC = new GenerateCVisitor();
 			//CodeVisitor genC = new CodeVisitor();
 		    fw = new FileWriter("yasplSource/target.c");
 		    fw.write(genC.visit(p));

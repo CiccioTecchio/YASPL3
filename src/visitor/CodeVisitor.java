@@ -20,7 +20,7 @@ import syntaxTree.arithOp.DivOp;
 import syntaxTree.arithOp.MultOp;
 import syntaxTree.arithOp.SubOp;
 import syntaxTree.arithOp.UminusOp;
-import syntaxTree.comp.Leaf;
+import syntaxTree.components.Leaf;
 import syntaxTree.declsOp.DefDeclNoPar;
 import syntaxTree.declsOp.DefDeclPar;
 import syntaxTree.declsOp.VarDecl;

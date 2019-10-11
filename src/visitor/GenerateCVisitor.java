@@ -19,10 +19,7 @@ import syntaxTree.VarInitValue;
 import syntaxTree.Vars;
 import syntaxTree.arithOp.AddOp;
 import syntaxTree.arithOp.DivOp;
-import syntaxTree.arithOp.ModOp;
 import syntaxTree.arithOp.MultOp;
-import syntaxTree.arithOp.PowOp;
-import syntaxTree.arithOp.SqrtOp;
 import syntaxTree.arithOp.SubOp;
 import syntaxTree.arithOp.UminusOp;
 import syntaxTree.components.Leaf;
@@ -47,13 +44,8 @@ import syntaxTree.relOp.LeOp;
 import syntaxTree.relOp.LtOp;
 import syntaxTree.statOp.AssignOp;
 import syntaxTree.statOp.CallOp;
-import syntaxTree.statOp.DoWhileOp;
 import syntaxTree.statOp.IfThenElseOp;
 import syntaxTree.statOp.IfThenOp;
-import syntaxTree.statOp.PostFixDecrement;
-import syntaxTree.statOp.PostFixIncrement;
-import syntaxTree.statOp.PreFixDecrement;
-import syntaxTree.statOp.PreFixIncrement;
 import syntaxTree.statOp.ReadOp;
 import syntaxTree.statOp.WhileOp;
 import syntaxTree.statOp.WriteOp;
@@ -234,50 +226,16 @@ public class GenerateCVisitor implements Visitor<String> {
 	public String visit(DivOp n) throws RuntimeException {
 		return n.getE1().accept(this)+" / "+n.getE2().accept(this);
 	}
-
-	@Override
-	public String visit(ModOp n) throws RuntimeException {
-		return n.getE1().accept(this)+" % "+n.getE2().accept(this);
-	}
 	
 	@Override
 	public String visit(MultOp n) throws RuntimeException {
 		return n.getE1().accept(this)+" * "+n.getE2().accept(this);
 	}
 	
-	public String visit(PowOp n) throws RuntimeException{
-		return "pow("+n.getBase().accept(this)+", "+n.getEsp().accept(this)+")";
-	}
-
-	public String visit(SqrtOp n ) throws RuntimeException{
-		return "sqrt("+n.getE().accept(this)+")";
-	}
-	
 	@Override
 	public String visit(SubOp n) throws RuntimeException {
 		return n.getE1().accept(this)+" - "+n.getE2().accept(this);
 	}
-
-	@Override
-	public String visit(PostFixIncrement n) throws RuntimeException{
-		return n.getId().accept(this)+"++;\n";
-	}
-	
-	@Override
-	public String visit(PostFixDecrement n) throws RuntimeException{
-		return n.getId().accept(this)+"--;\n";
-	}
-	
-	@Override
-	public String visit(PreFixIncrement n) throws RuntimeException{
-		return "++"+n.getId().accept(this)+";\n";
-	}
-	
-	@Override
-	public String visit(PreFixDecrement n) throws RuntimeException{
-		return "--"+n.getId().accept(this)+";\n";
-	}
-	
 	
 	@Override
 	public String visit(UminusOp n) throws RuntimeException {
@@ -446,10 +404,6 @@ public class GenerateCVisitor implements Visitor<String> {
 		return "while("+n.getE().accept(this)+"){\n"
 				+ n.getBody().accept(this)+"\n}\n";
 	}
-	
-	public String visit(DoWhileOp n) throws RuntimeException{
-		return "do {\n"+n.getCs().accept(this)+"} while("+n.getE().accept(this)+");\n";
-	}
 
 	@Override
 	public String visit(WriteOp n) throws RuntimeException {
@@ -461,9 +415,6 @@ public class GenerateCVisitor implements Visitor<String> {
 		final boolean isEBool = e.getType().toString().equalsIgnoreCase("bool");
 		final boolean isPrimitive = isEInt || isEChar || isEDouble || isEBool;
 		String typeOfE = e.getType()+"";
-		if(e instanceof PowOp || e instanceof SqrtOp) {
-			tr+="printf(\"%lf\\n\","+e.accept(this)+");\n";
-		}else {
 		if(isEBool) {
 			tr+="printf(\"%s"+"\\n\", "+e.accept(this)+"? \"true\": \"false\");\n";
 		}
@@ -477,9 +428,9 @@ public class GenerateCVisitor implements Visitor<String> {
 				tr+="\n";
 		}	
 		}
-		}
 		return tr;
 	}
+	
 	@Override
 	public String visit(Leaf n) throws RuntimeException {		
 		return n.getValue();
@@ -487,7 +438,6 @@ public class GenerateCVisitor implements Visitor<String> {
 
 	@Override
 	public String visit(ParDeclSon n) throws RuntimeException {
-		// TODO Auto-generated method stub
 		String tr="";
 		String id = n.getId().accept(this)+"";
 		String parType = n.getParType().accept(this)+"";

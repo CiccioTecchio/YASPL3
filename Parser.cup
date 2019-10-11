@@ -83,7 +83,7 @@ non terminal	Expr				Expr;
 /*List of precedences*/ 
 precedence nonassoc  ELSE; 
 precedence left PLUS,MINUS,OR;
-precedence left TIMES,DIV,AND, MOD;
+precedence left TIMES,DIV,AND;
 precedence nonassoc GT, GE, LT, LE, EQ; 
 precedence left UMINUS, NOT, COMMA;	
 

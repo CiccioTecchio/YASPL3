@@ -33,14 +33,6 @@ public interface Visitor<E> {
 	E visit(MultOp n) throws RuntimeException;
 	E visit(SubOp n) throws RuntimeException;
 	E visit(UminusOp n) throws RuntimeException;
-	E visit(ModOp n) throws RuntimeException;
-	E visit(PowOp n) throws RuntimeException;
-	E visit(SqrtOp n) throws RuntimeException;
-
-	E visit(PostFixIncrement n) throws RuntimeException;
-	E visit(PostFixDecrement n) throws RuntimeException;
-	E visit(PreFixIncrement n) throws RuntimeException;
-	E visit(PreFixDecrement n) throws RuntimeException;
 	
 	E visit(AndOp n) throws RuntimeException;
 	E visit(NotOp n) throws RuntimeException;
@@ -65,7 +57,6 @@ public interface Visitor<E> {
 	E visit(IfThenOp n) throws RuntimeException;
 	E visit(ReadOp n) throws RuntimeException;
 	E visit(WhileOp n) throws RuntimeException;
-	E visit(DoWhileOp n) throws RuntimeException;
 	E visit(WriteOp n) throws RuntimeException;
 	E visit(Leaf n) throws RuntimeException;
 

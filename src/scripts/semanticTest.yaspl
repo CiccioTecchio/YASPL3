@@ -1,6 +1,5 @@
 head
 double value, result;
-/*awifbuwa*/
 def sqrt(in double value, out double result) {
 	int i;
 	result = value / 2;

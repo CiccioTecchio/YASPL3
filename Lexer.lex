@@ -99,13 +99,11 @@ whitespace = [ \r\n\t\f]
 "<"				{ return new Symbol(LexerSym.LT); }
 "<="			{ return new Symbol(LexerSym.LE); }
 "=="			{ return new Symbol(LexerSym.EQ); }
-"%"				{ return new Symbol(LexerSym.MOD); }
 "not"			{ return new Symbol(LexerSym.NOT); }
 "and"			{ return new Symbol(LexerSym.AND); }
 "or"			{ return new Symbol(LexerSym.OR); }
 "in"			{ return new Symbol(LexerSym.IN); }
 "out"			{ return new Symbol(LexerSym.OUT); }
 "inout"			{ return new Symbol(LexerSym.INOUT); }
-"sqrt"			{ return new Symbol(LexerSym.SQRT); }
 {id}			{ return new Symbol(LexerSym.ID, yytext()); }
 [^]				{  throw new Error("Illegal character <"+yytext()+"> at line "+yyline+", column "+yycolumn);}

@@ -1,0 +1,403 @@
+<Programma symTbl = "Globale" type = "VOID">
+<Decls type = "VOID">
+<VarDecl type = "VOID">
+<Type>
+DOUBLE
+</Type>
+
+<VarDeclsInit type = "VOID">
+<VarNotInit>
+<Id type = "DOUBLE">
+value
+</Id>
+
+</VarNotInit>
+
+<VarNotInit>
+<Id type = "DOUBLE">
+result
+</Id>
+
+</VarNotInit>
+
+</VarDeclsInit>
+
+</VarDecl>
+
+<DefDecl symTbl = "sqrt" type = "VOID">
+<Id type = "VOID">
+sqrt
+</Id>
+
+<ParDeclsOp>
+<ParDeclSon>
+<ParType>
+IN
+</ParType>
+<Type>
+DOUBLE
+</Type>
+<Id>
+value
+</Id>
+</ParDeclSon>
+<ParDeclSon>
+<ParType>
+OUT
+</ParType>
+<Type>
+DOUBLE
+</Type>
+<Id>
+result
+</Id>
+</ParDeclSon>
+</ParDeclsOp>
+
+<Body type = "VOID">
+<VarDecls type = "VOID">
+<VarDecl type = "VOID">
+<Type>
+INT
+</Type>
+
+<VarDeclsInit type = "VOID">
+<VarNotInit>
+<Id type = "INT">
+i
+</Id>
+
+</VarNotInit>
+
+</VarDeclsInit>
+
+</VarDecl>
+
+</VarDecls>
+
+<Statements>
+<AssignOp type = "VOID">
+<Id type = "DOUBLE">
+result
+</Id>
+
+<DivOp type = "DOUBLE">
+<Id type = "DOUBLE">
+value
+</Id>
+
+<IntConst>
+2
+</IntConst>
+
+</DivOp>
+
+</AssignOp>
+
+<AssignOp type = "VOID">
+<Id type = "INT">
+i
+</Id>
+
+<IntConst>
+0
+</IntConst>
+
+</AssignOp>
+
+<WhileOp symTbl = "WhileScope - hashCode: 565760380" type = "VOID">
+<LtOp type = "BOOL">
+<Id type = "INT">
+i
+</Id>
+
+<IntConst>
+64
+</IntConst>
+
+</LtOp>
+
+<Body type = "VOID">
+<VarDecls type = "VOID">
+</VarDecls>
+
+<Statements>
+<AssignOp type = "VOID">
+<Id type = "DOUBLE">
+result
+</Id>
+
+<DivOp type = "DOUBLE">
+<AddOp type = "DOUBLE">
+<Id type = "DOUBLE">
+result
+</Id>
+
+<DivOp type = "DOUBLE">
+<Id type = "DOUBLE">
+value
+</Id>
+
+<Id type = "DOUBLE">
+result
+</Id>
+
+</DivOp>
+
+</AddOp>
+
+<IntConst>
+2
+</IntConst>
+
+</DivOp>
+
+</AssignOp>
+
+<AssignOp type = "VOID">
+<Id type = "INT">
+i
+</Id>
+
+<AddOp type = "INT">
+<Id type = "INT">
+i
+</Id>
+
+<IntConst>
+1
+</IntConst>
+
+</AddOp>
+
+</AssignOp>
+
+</Statements>
+
+</Body>
+
+</WhileOp>
+
+</Statements>
+
+</Body>
+
+</DefDecl>
+
+<DefDecl symTbl = "sqrt2" type = "VOID">
+<Id type = "VOID">
+sqrt2
+</Id>
+
+<ParDeclsOp>
+<ParDeclSon>
+<ParType>
+IN
+</ParType>
+<Type>
+DOUBLE
+</Type>
+<Id>
+value
+</Id>
+</ParDeclSon>
+<ParDeclSon>
+<ParType>
+OUT
+</ParType>
+<Type>
+DOUBLE
+</Type>
+<Id>
+result
+</Id>
+</ParDeclSon>
+</ParDeclsOp>
+
+<Body type = "VOID">
+<VarDecls type = "VOID">
+<VarDecl type = "VOID">
+<Type>
+INT
+</Type>
+
+<VarDeclsInit type = "VOID">
+<VarNotInit>
+<Id type = "INT">
+i
+</Id>
+
+</VarNotInit>
+
+</VarDeclsInit>
+
+</VarDecl>
+
+</VarDecls>
+
+<Statements>
+<AssignOp type = "VOID">
+<Id type = "DOUBLE">
+result
+</Id>
+
+<DivOp type = "DOUBLE">
+<Id type = "DOUBLE">
+value
+</Id>
+
+<IntConst>
+2
+</IntConst>
+
+</DivOp>
+
+</AssignOp>
+
+<AssignOp type = "VOID">
+<Id type = "INT">
+i
+</Id>
+
+<IntConst>
+0
+</IntConst>
+
+</AssignOp>
+
+<WhileOp symTbl = "WhileScope - hashCode: 589873731" type = "VOID">
+<LtOp type = "BOOL">
+<Id type = "INT">
+i
+</Id>
+
+<IntConst>
+64
+</IntConst>
+
+</LtOp>
+
+<Body type = "VOID">
+<VarDecls type = "VOID">
+</VarDecls>
+
+<Statements>
+<AssignOp type = "VOID">
+<Id type = "DOUBLE">
+result
+</Id>
+
+<DivOp type = "DOUBLE">
+<AddOp type = "DOUBLE">
+<Id type = "DOUBLE">
+result
+</Id>
+
+<DivOp type = "DOUBLE">
+<Id type = "DOUBLE">
+value
+</Id>
+
+<Id type = "DOUBLE">
+result
+</Id>
+
+</DivOp>
+
+</AddOp>
+
+<IntConst>
+2
+</IntConst>
+
+</DivOp>
+
+</AssignOp>
+
+<AssignOp type = "VOID">
+<Id type = "INT">
+i
+</Id>
+
+<AddOp type = "INT">
+<Id type = "INT">
+i
+</Id>
+
+<IntConst>
+1
+</IntConst>
+
+</AddOp>
+
+</AssignOp>
+
+</Statements>
+
+</Body>
+
+</WhileOp>
+
+</Statements>
+
+</Body>
+
+</DefDecl>
+
+</Decls>
+
+<Statements>
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
+<StringConst>
+&quot;Inserisci il valore di cui vuoi calcolare la radice quadrata&quot;
+</StringConst>
+
+</ArgsOp>
+
+</WriteOp>
+
+<ReadOp type = "VOID">
+<Vars type = "VOID">
+<Id type = "DOUBLE">
+value
+</Id>
+</Vars>
+
+</ReadOp>
+
+<CallOpWithArgs type = "VOID">
+<Id>
+sqrt
+</Id>
+
+<ArgsOp type = "VOID">
+<Id type = "DOUBLE">
+value
+</Id>
+
+<Id type = "DOUBLE">
+result
+</Id>
+
+</ArgsOp>
+
+</CallOpWithArgs>
+
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
+<StringConst>
+&quot;Il valore della radice quadrata è&quot;
+</StringConst>
+
+<Id type = "DOUBLE">
+result
+</Id>
+
+</ArgsOp>
+
+</WriteOp>
+
+</Statements>
+
+</Programma>
