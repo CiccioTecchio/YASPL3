@@ -53,9 +53,9 @@ public class Cli {
 				SymTableVisitor sym = new SymTableVisitor();
 				sym.visit(p);
 			}
-			/*TypeCheckerVisitor tcv = new TypeCheckerVisitor();
+			TypeCheckerVisitor tcv = new TypeCheckerVisitor();
 			tcv.visit(p);
-			if(enrich) {
+			/*if(enrich) {
 				EnrichASTVisitor eAST = new EnrichASTVisitor();
 				fw = new FileWriter("yasplSource/enrichAst.xml");
 				fw.write(eAST.visit(p));

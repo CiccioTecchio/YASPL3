@@ -1,0 +1,27 @@
+head
+double value, result;
+/*awifbuwa*/
+def sqrt(in double value, out double result) {
+	int i;
+	result = value / 2;
+	i = 0;
+	while(i < 64) do {
+		result = (result + (value / result)) / 2;
+		i = i + 1;
+	}
+} 
+
+def sqrt2(in double value, out double result) {
+	int i;
+	result = value / 2;
+	i = 0;
+	while(i < 64) do {
+		result = (result + (value / result)) / 2;
+		i = i + 1;
+	}
+} 
+start
+"Inserisci il valore di cui vuoi calcolare la radice quadrata" ->;
+value <-;
+sqrt(value, result);
+"Il valore della radice quadrata è", result ->;

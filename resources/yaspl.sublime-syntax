@@ -1,0 +1,88 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+name: YASPL 3
+file_extensions:
+  - yaspl
+scope: source.yaspl
+
+contexts:
+  main:
+    # Strings begin and end with quotes, and use backslashes as an escape
+    # character
+    - match: '"'
+      scope: punctuation.definition.string.begin.yaspl
+      push: double_quoted_string
+
+    # Comments begin with a '//' and finish at the end of the line
+    - match: '//'
+      scope: punctuation.definition.comment.yaspl
+      push: line_comment
+
+    - match: '/\*abc\*/'
+      scope: punctuation.definition.comment.yaspl
+
+    # Keywords are if, else for and while.
+    # Note that blackslashes don't need to be escaped within single quoted
+    # strings in YAML. When using single quoted strings, only single quotes
+    # need to be escaped: this is done by using two single quotes next to each
+    # other.
+
+  prototype:
+    - include: comments
+  comments:
+    - match: '/\*'
+      scope: punctuation.definition.comment.yaspl
+      push:
+        - meta_scope: comment.block.yaspl
+        - match: '\*/'
+          pop: true
+
+    - match: '\b(head|start|in|out|inout|true|false|if|then|else|while|do|for)\b'
+      scope: keyword
+
+    - match: 'int|double|string|char|bool'
+      scope:  support.type.yaspl
+
+    - match: 'def'
+      scope: support.function.yaspl
+
+    - match: '<-'
+      scope: variable.language.yaspl
+
+    - match: '->'
+      scope: variable.language.yaspl
+
+    - match: '>='
+      scope: variable.language.yaspl
+
+    - match: '>'
+      scope: variable.language.yaspl
+
+    - match: '<='
+      scope: variable.language.yaspl
+
+    - match: '<'
+      scope: variable.language.yaspl
+
+    - match: '=='
+      scope: variable.language.yaspl
+
+    - match: '\b(and|or|not)\b'
+      scope: variable.language.yaspl
+    # Numbers
+    - match: '\b(-)?[0-9.]+\b'
+      scope: constant.numeric.yaspl
+
+  double_quoted_string:
+    - meta_scope: string.quoted.double.yaspl
+    - match: '\\.'
+      scope: constant.character.escape.yaspl
+    - match: '"'
+      scope: punctuation.definition.string.end.yaspl
+      pop: true
+
+  line_comment:
+    - meta_scope: comment.line.yaspl
+    - match: $
+      pop: true

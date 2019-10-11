@@ -4,7 +4,7 @@ int z;
 int k;
 
 def addizione(in int i, in int z, out int res){
-string ggg = "cazzi";
+string ggg = 2;
 int h=0;
 while(h < 10) do{
     int cc;

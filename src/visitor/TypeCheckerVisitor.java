@@ -34,7 +34,8 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 			{Type.STRING, Type.STRING, Type.STRING, Type.STRING, Type.STRING, null },	//riga stringa
 			{Type.DOUBLE, Type.STRING, Type.DOUBLE, null, null, null},	//riga double
 			{null, Type.STRING, null, Type.STRING, null, null},	//riga char
-			{null, Type.STRING, null, null, null, null}	//riga bool
+			{null, Type.STRING, null, null, null, null}, //riga bool
+			{null, null, null, null, null, null}	//riga void
 	};
 	
 	
@@ -44,6 +45,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 			{Type.DOUBLE, null, Type.DOUBLE, null, null, null},	//riga double
 			{null, null, null, null, null, null},	//riga char
 			{null, null, null, null, null, null},	//riga bool
+			{null, null, null, null, null, null}	//rigo void
 	};
 	
 	private SymbolTable.Type[][] eqOpCompOp = {
@@ -51,7 +53,8 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 			{null, Type.BOOL, null, null, null,  null},	//riga stringa
 			{Type.BOOL, null, Type.BOOL, null, null, null},	//riga double
 			{null, null, null, Type.BOOL, null, null},	//riga char
-			{null, null, null, null, Type.BOOL, null}	//riga bool
+			{null, null, null, null, Type.BOOL, null},	//riga bool
+			{null, null, null, null, null, null}	//riga void
 	};
 	
 	private SymbolTable.Type[][] relOpCompOp = { //it's relOp
@@ -60,6 +63,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 			{Type.BOOL, null, Type.BOOL, null, null, null},	//riga double
 			{null, null, null, Type.BOOL, null, null},	//riga char
 			{null, null, null, null, null, null},	//riga bool
+			{null, null, null, null, null, null}	//riga void
 	};
 	
 	private SymbolTable.Type[][] assignOpCompOp = {
@@ -67,11 +71,12 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 			{null, Type.STRING, null, Type.STRING, null, null},	//riga stringa
 			{Type.DOUBLE, null, Type.DOUBLE, null, null, null},	//riga double
 			{null, null, null, Type.CHAR, null, null},	//riga char
-			{null, null, null, null, Type.BOOL, null}	//riga bool
+			{null, null, null, null, Type.BOOL, null},	//riga bool
+			{null, null, null, null, null, null}	//riga void
 	};
 	
 	private SymbolTable.Type[] uminusOpCompOp = {
-			Type.INT, null, Type.DOUBLE, null, Type.BOOL,  null
+			Type.INT, null, Type.DOUBLE, null, null,  null
 	};	
 	
 	public TypeCheckerVisitor() {
@@ -95,6 +100,8 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 	public Object visit(Body n) throws RuntimeException {
 		n.getVd().accept(this);
 		n.getS().accept(this);
+		this.stack.pop();
+		this.actualScope = this.stack.peek();
 		n.setType(Type.VOID);
 		return n.getType();
 	}
@@ -128,8 +135,8 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		this.actualScope = this.stack.peek();
 		n.getId().accept(this);
 		n.getB().accept(this);
-		this.stack.pop();
-		this.actualScope = this.stack.peek();
+		//this.stack.pop();
+		//this.actualScope = this.stack.peek();
 		return n.getType();
 	}
 
@@ -142,8 +149,8 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		this.actualScope = this.stack.peek();
 		n.getId().accept(this);
 		n.getB().accept(this);
-		this.stack.pop();
-		this.actualScope = this.stack.peek();
+		//this.stack.pop();
+		//this.actualScope = this.stack.peek();
 		return n.getType();
 	}
 
@@ -151,12 +158,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(ParDecls n) throws RuntimeException {
-		n.setType(Type.VOID);
-		for(ParDeclSon son: n.getChildList()) {
-			son.accept(this);
-		}
-		return Type.VOID;
-		
+		return null;
 	}
 
 
@@ -169,6 +171,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		this.actualScope = stack.peek();
 		n.getD().accept(this);
 		n.getS().accept(this);
+		this.stack.pop();
 		return Type.VOID;
 	}
 
@@ -197,7 +200,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 	@Override
 	public Object visit(VarDecls n) throws RuntimeException {
 		n.setType(Type.VOID);
-		for(DeclsWrapper dw: n.getChildList()) {
+		for(VarDecl dw: n.getChildList()) {
 			dw.accept(this);
 		}
 		return Type.VOID;
@@ -426,13 +429,9 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 	@Override
 	public Object visit(IdConst n) throws RuntimeException {
 		Tuple t = lookup(n.getId().getValue());
-		if(t == null) throw new NotDefinedElementException(n.getId().getValue()+"Non definita");
-		else {
 			if(t instanceof DefTuple) n.setType(Type.VOID);
-			else  if(t instanceof ParTuple) n.setType(((ParTuple) t).getType());
+			else if(t instanceof ParTuple) n.setType(((ParTuple) t).getType()); //tipo settato nel SymTableVisitor
 			else n.setType(((VarTuple) t).getType());
-		}
-		//System.out.println(n.getType());
 		return n.getType();
 	}
 
@@ -484,37 +483,31 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 
 
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public Object visit(CallOp n) throws RuntimeException {
 		n.setType(Type.VOID);
-		n.getId().accept(this);
-		
 		ArrayList<Type> typesArgs;
 		ArrayList<Expr> exprOfArgs;
 		typesArgs = (n.getA()!= null)? (ArrayList<Type>) n.getA().accept(this): new ArrayList<Type>();
 		exprOfArgs= (n.getA() != null)? n.getA().getChildList(): new ArrayList<Expr>();
 		String id = n.getId().getId().getValue();
-		Tuple t = lookup(id);
-		if(t instanceof DefTuple) {
-			DefTuple dt = (DefTuple) t;
-			if(dt.getParArray().size() != typesArgs.size()) {
-				throw new WrongArgumentException(id);
+		DefTuple def = (DefTuple)lookup(id);
+		ArrayList<ParTuple> par = def.getParArray();
+		int size = par.size();
+		if(size != typesArgs.size()) throw new WrongArgumentException("Wrog param number");
+		int i;
+		for(i=0; i < size; i++) {
+			if((par.get(i).getPt() == ParType.OUT ||
+				par.get(i).getPt() == ParType.INOUT) &&
+				!(exprOfArgs.get(i) instanceof IdConst)){
+				throw new WrongArgumentException("OUT parameters need to be a variabile");
 			}
-			else {
-				ArrayList<ParTuple> format = dt.getParArray();
-				int len = format.size();
-				for(int i =0; i < len; i++) {
-					if((format.get(i).getPt() == ParType.OUT || format.get(i).getPt() == ParType.INOUT)&& !(exprOfArgs.get(i) instanceof IdConst))
-					{
-						throw new WrongArgumentException(id);
-					}
-					if(assignOpCompOp[gift(format.get(i).getType())][gift(typesArgs.get(i))] == null) {
-						throw new WrongArgumentException(id, i, format.get(i).getType(), typesArgs.get(i));
-					}
-				}
+			if(assignOpCompOp[gift(par.get(i).getType())] [gift(typesArgs.get(i))] == null) {
+				throw new TypeMismatchException(n.getOp(), par.get(i).getType(), typesArgs.get(i));
 			}
-		} else throw new NotDefinedElementException(id, Kind.DEFDECL);
+		}
+		
+		
 		return Type.VOID;
 	}
 
@@ -554,13 +547,11 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 
 
 
-	@Override//aggiunta scope WhileOp
+	@Override
 	public Object visit(WhileOp n) throws RuntimeException {
 		this.stack.push(n.getSym());
 		Type expr = (Type) n.getE().accept(this);
 		n.getBody().accept(this);
-		this.stack.pop();
-		this.actualScope = this.stack.peek();
 		if(expr == Type.BOOL) {
 			n.setType(Type.VOID);
 		}else throw new TypeMismatchException(n.getOp(), expr);
@@ -587,11 +578,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(ParDeclSon n) throws RuntimeException {
-		n.setType(Type.VOID);
-		n.getParType().accept(this);
-		n.getTypeLeaf().accept(this);
-		n.getId().accept(this);
-		return Type.VOID;
+		return null;
 	}
 
 
@@ -629,15 +616,21 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		return n.getValue();
 	}
 	
-	private Tuple lookup(String id) throws NotDefinedElementException{
-		List<SymbolTable> list = stack;
-		Tuple toReturn;
-		int i = list.size() -1;
-		while(i >= 0 && !list.get(i).containsKey(id)) i--;
-		if (i < 0) throw new NotDefinedElementException(id); else toReturn =list.get(i).get(id);
-		return toReturn;
+	private Tuple lookup(String id){
+		int i = this.stack.indexOf(actualScope);
+		boolean find = false;
+		Tuple tr = null;
+		SymbolTable app = null;
+		while(i>=0 && !find) {
+			app = this.stack.elementAt(i);
+			find = app.containsKey(id);
+			i--;
 		}
+			tr = app.get(id);
+		return tr;
+	}
 	
+	//get int from type
 	private int gift(SymbolTable.Type t) {
 		int toReturn;
 		switch(t) {
@@ -654,37 +647,6 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 	
 	public String getAST() {
 		return ast;
-	}
-	
-	private void astBuilder(String op, Type t) {
-		 this.ast+="<"+op+" type = \""+t+"\">\n";
-	}
-	
-	private void closeTag(String op) {
-		 this.ast+="</"+op+">\n";
-	}
-	
-	private void astBuilderWithSymTbl(String op, String scopeName, Type t ) {
-		 this.ast+="<"+op+" symTbl = \""+ scopeName +"\" type = \""+t+"\">\n";
-	}
-	
-	private void appendValue(Object value) {
-		 this.ast+=value+"\n";
-	}
-	
-	private static final String LT = "&lt;";
-	private static final String GT = "&gt;";
-	private static final String AMP= "&amp;";
-	private static final String QUOT= "&quot;";
-	private static final String APOS= "&apos;";
-	
-	private String replaceEscape(String s) {
-		s = s.replace("<", LT);
-		s = s.replace(">", GT);
-		s = s.replace("&", AMP);
-		s = s.replace("\"", QUOT);
-		s = s.replace("\'", APOS);
-		return s;
 	}
 
 }
