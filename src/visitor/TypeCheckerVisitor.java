@@ -2,7 +2,7 @@ package visitor;
 
 import syntaxTree.*;
 import syntaxTree.arithOp.*;
-import syntaxTree.comp.*;
+import syntaxTree.components.*;
 import syntaxTree.declsOp.*;
 import syntaxTree.leaf.*;
 import syntaxTree.logicOp.*;
@@ -266,7 +266,6 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 	}
 
 
-
 	@Override
 	public Object visit(SubOp n) throws RuntimeException {
 		Type t1 = (Type) n.getE1().accept(this);
@@ -278,8 +277,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		n.setType(toReturn);
 		return toReturn;
 	}
-
-
+	
 
 	@Override
 	public Object visit(UminusOp n) throws RuntimeException {
@@ -539,6 +537,16 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		this.stack.push(n.getSym());
 		Type expr = (Type) n.getE().accept(this);
 		n.getBody().accept(this);
+		if(expr == Type.BOOL) {
+			n.setType(Type.VOID);
+		}else throw new TypeMismatchException(n.getOp(), expr);
+		return Type.VOID;
+	}
+	
+	@Override
+	public Object visit(DoWhileOp n) throws RuntimeException {
+		Type expr = (Type) n.getE().accept(this);
+		n.getCs().accept(this);
 		if(expr == Type.BOOL) {
 			n.setType(Type.VOID);
 		}else throw new TypeMismatchException(n.getOp(), expr);

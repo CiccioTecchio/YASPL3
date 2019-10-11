@@ -1,0 +1,9 @@
+head
+
+int c =3;
+string ciao = "ciao";
+string ciao2 = "ciao";
+bool b;
+start
+b = ciao == ciao2;
+b->;

@@ -2,7 +2,7 @@ package visitor;
 
 import syntaxTree.*;
 import syntaxTree.arithOp.*;
-import syntaxTree.comp.*;
+import syntaxTree.components.*;
 import syntaxTree.declsOp.*;
 import syntaxTree.leaf.*;
 import syntaxTree.logicOp.*;
@@ -180,6 +180,23 @@ public class ASTVisitor implements Visitor<String> {
 		toReturn += "</"+n.getOp()+">\n";
 		return toReturn;
 	}
+	
+	@Override
+	public String visit(PowOp n) {
+		String toReturn = "<"+n.getOp()+">\n";
+		toReturn += n.getBase().accept(this);
+		toReturn += n.getEsp().accept(this);
+		toReturn += "</"+n.getOp()+">\n";
+		return toReturn;
+	}
+	
+	@Override
+	public String visit(SqrtOp n) {
+		String toReturn = "<"+n.getOp()+">\n";
+		toReturn += n.getE().accept(this);
+		toReturn += "</"+n.getOp()+">\n";
+		return toReturn;
+	}
 
 	@Override
 	public String visit(UminusOp n) {
@@ -250,7 +267,48 @@ public class ASTVisitor implements Visitor<String> {
 		toReturn += "</"+n.getOp()+">\n";
 		return toReturn;
 	}
-
+	
+	@Override
+	public String visit(ModOp n) throws RuntimeException {
+		String toReturn = "<"+n.getOp()+">\n";
+		toReturn += n.getE1().accept(this);
+		toReturn += n.getE2().accept(this);
+		toReturn += "</"+n.getOp()+">\n";
+		return toReturn;
+	}
+	
+	@Override
+	public String visit(PostFixIncrement n) throws RuntimeException {
+		String toReturn = "<"+n.getOp()+">\n";
+		toReturn += n.getId().accept(this);
+		toReturn += "</"+n.getOp()+">\n";
+		return toReturn;
+	}
+	
+	@Override
+	public String visit(PostFixDecrement n) throws RuntimeException {
+		String toReturn = "<"+n.getOp()+">\n";
+		toReturn += n.getId().accept(this);
+		toReturn += "</"+n.getOp()+">\n";
+		return toReturn;
+	}
+	
+	@Override
+	public String visit(PreFixIncrement n) throws RuntimeException {
+		String toReturn = "<"+n.getOp()+">\n";
+		toReturn += n.getId().accept(this);
+		toReturn += "</"+n.getOp()+">\n";
+		return toReturn;
+	}
+	
+	@Override
+	public String visit(PreFixDecrement n) throws RuntimeException {
+		String toReturn = "<"+n.getOp()+">\n";
+		toReturn += n.getId().accept(this);
+		toReturn += "</"+n.getOp()+">\n";
+		return toReturn;
+	}
+	
 	@Override
 	public String visit(LtOp n) {
 		String toReturn = "<"+n.getOp()+">\n";
@@ -312,6 +370,14 @@ public class ASTVisitor implements Visitor<String> {
 		toReturn += n.getE().accept(this);
 		//toReturn += n.getCs().accept(this);
 		toReturn += n.getBody().accept(this);
+		toReturn += "</"+n.getOp()+">\n";
+		return toReturn;
+	}
+	@Override
+	public String visit(DoWhileOp n) {
+		String toReturn = "<"+n.getOp()+">\n";
+		toReturn += n.getCs().accept(this);
+		toReturn += n.getE().accept(this);
 		toReturn += "</"+n.getOp()+">\n";
 		return toReturn;
 	}

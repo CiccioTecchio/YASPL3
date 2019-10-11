@@ -1,6 +1,6 @@
 package syntaxTree.leaf;
 
-import syntaxTree.comp.Leaf;
+import syntaxTree.components.Leaf;
 import visitor.Visitable;
 import visitor.Visitor;
 

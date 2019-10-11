@@ -2,7 +2,7 @@ package syntaxTree.declsOp;
 
 import syntaxTree.Body;
 import syntaxTree.ParDecls;
-import syntaxTree.comp.Leaf;
+import syntaxTree.components.Leaf;
 import syntaxTree.leaf.IdConst;
 import syntaxTree.leaf.TypeLeaf;
 import syntaxTree.wrapper.DeclsWrapper;

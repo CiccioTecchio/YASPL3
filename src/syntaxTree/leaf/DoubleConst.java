@@ -1,7 +1,7 @@
 package syntaxTree.leaf;
 
 import syntaxTree.Expr;
-import syntaxTree.comp.Leaf;
+import syntaxTree.components.Leaf;
 import visitor.Visitable;
 import visitor.Visitor;
 

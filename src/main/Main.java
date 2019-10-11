@@ -21,7 +21,7 @@ public class Main {
 			LexerLex lexer = new LexerLex(fs);
 			ParserCup parser = new ParserCup(lexer);
 			Programma p = (Programma) parser.parse().value;
-			ASTVisitor tpv = new ASTVisitor();;
+			ASTVisitor tpv = new ASTVisitor();
 			FileWriter fw = new FileWriter(args[1]);
 			fw.write(tpv.visit(p));
 			fw.close();
@@ -49,5 +49,4 @@ public class Main {
 			e.printStackTrace();
 		}
 	}
-
 }

@@ -1,7 +1,7 @@
 package syntaxTree;
 
-import syntaxTree.comp.Internal;
-import syntaxTree.comp.Leaf;
+import syntaxTree.components.Internal;
+import syntaxTree.components.Leaf;
 import syntaxTree.leaf.IdConst;
 import visitor.Visitable;
 import visitor.Visitor;
@@ -24,7 +24,7 @@ public abstract class Stat extends Internal{
 	public Stat(String op, IdConst id, Args a) {
 		super(op, id, a);
 	}
-	//CallOp
+	//CallOp increment and decrement
 	public Stat(String op, IdConst id) {
 		super(op, id);
 	}
@@ -43,10 +43,5 @@ public abstract class Stat extends Internal{
 		}
 	
 	public abstract Object accept(Visitor<?> visitor);
-	
-	
-	
-	
-	
 	
 }

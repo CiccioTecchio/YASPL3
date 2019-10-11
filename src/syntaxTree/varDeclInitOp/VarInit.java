@@ -1,8 +1,8 @@
 package syntaxTree.varDeclInitOp;
 
 import syntaxTree.VarInitValue;
-import syntaxTree.comp.Internal;
-import syntaxTree.comp.Leaf;
+import syntaxTree.components.Internal;
+import syntaxTree.components.Leaf;
 import syntaxTree.leaf.IdConst;
 import syntaxTree.wrapper.VarDeclsInitWrapper;
 import visitor.Visitable;

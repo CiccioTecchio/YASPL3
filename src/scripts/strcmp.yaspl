@@ -1,0 +1,10 @@
+head
+string a = "ciao";
+string b = "ciao2";
+
+start
+if(a == b) then {
+    "Uguali" ->;
+}else {
+    "Diversi" ->;
+}

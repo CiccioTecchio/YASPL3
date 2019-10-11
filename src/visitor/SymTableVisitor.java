@@ -2,7 +2,7 @@ package visitor;
 
 import syntaxTree.*;
 import syntaxTree.arithOp.*;
-import syntaxTree.comp.*;
+import syntaxTree.components.*;
 import syntaxTree.declsOp.*;
 import syntaxTree.leaf.*;
 import syntaxTree.logicOp.*;
@@ -12,7 +12,6 @@ import syntaxTree.utils.*;
 import syntaxTree.varDeclInitOp.*;
 import syntaxTree.wrapper.DeclsWrapper;
 import syntaxTree.wrapper.VarDeclsInitWrapper;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map.Entry;
@@ -21,7 +20,6 @@ import java.util.Stack;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
-
 import exception.*;
 import semantic.*;
 import semantic.SymbolTable.*;
@@ -30,7 +28,7 @@ public class SymTableVisitor implements Visitor<Object> {
 	
 	private Stack<SymbolTable> stack;
 	private SymbolTable actualScope;
-	private Logger logger=Logger.getLogger("SymbolTable");
+	private Logger logger = Logger.getLogger("SymbolTable");
 	private FileHandler fh;
 	private SimpleFormatter formatter;
 	private String pathToPrintScope;
@@ -41,7 +39,7 @@ public class SymTableVisitor implements Visitor<Object> {
 		this.fh = new FileHandler(this.pathToPrintScope);
 		logger.setUseParentHandlers(false); // remove log message from stdout
 		logger.addHandler(fh);
-		SimpleFormatter formatter = new SimpleFormatter();
+		this.formatter = new SimpleFormatter();
 		fh.setFormatter(formatter);
 	}
 	

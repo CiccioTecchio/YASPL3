@@ -1,7 +1,8 @@
 package syntaxTree;
 
-import syntaxTree.comp.Internal;
-import syntaxTree.comp.Leaf;
+import syntaxTree.components.Internal;
+import syntaxTree.components.Leaf;
+import syntaxTree.leaf.IdConst;
 import visitor.Visitable;
 import visitor.Visitor;
 
@@ -19,9 +20,16 @@ public abstract class Expr extends Internal {
 		super(op, e);
 	}
 	
+	//Increment and Decrement
+	public Expr(String op, IdConst id) {
+		super(op, id);
+	}
+	
 	public Expr(String op, Leaf id) {
 		super(op, id);
 	}
+	
+	
 	
 	public abstract Object accept(Visitor<?> visitor);
 

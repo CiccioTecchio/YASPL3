@@ -310,29 +310,6 @@ res
 
 <Body type = "VOID">
 <VarDecls type = "VOID">
-<VarDecl type = "VOID">
-<Type>
-INT
-</Type>
-
-<VarDeclsInit type = "VOID">
-<VarInit>
-<Id type = "INT">
-i
-</Id>
-
-<VarInitValue type = "INT">
-<IntConst>
-1
-</IntConst>
-</VarInitValue>
-
-</VarInit>
-
-</VarDeclsInit>
-
-</VarDecl>
-
 </VarDecls>
 
 <Statements>
@@ -341,67 +318,18 @@ i
 res
 </Id>
 
-<IntConst>
-1
-</IntConst>
-
-</AssignOp>
-
-<WhileOp type = "VOID">
-<LeOp type = "BOOL">
+<PowOp type = "INT">
 <Id type = "INT">
-i
+b
 </Id>
 
 <Id type = "INT">
 e
 </Id>
 
-</LeOp>
-
-<CompStat type = "VOID">
-<Statements>
-<AssignOp type = "VOID">
-<Id type = "INT">
-res
-</Id>
-
-<MultOp type = "INT">
-<Id type = "INT">
-res
-</Id>
-
-<Id type = "INT">
-b
-</Id>
-
-</MultOp>
+</PowOp>
 
 </AssignOp>
-
-<AssignOp type = "VOID">
-<Id type = "INT">
-i
-</Id>
-
-<AddOp type = "INT">
-<Id type = "INT">
-i
-</Id>
-
-<IntConst>
-1
-</IntConst>
-
-</AddOp>
-
-</AssignOp>
-
-</Statements>
-
-</CompStat>
-
-</WhileOp>
 
 </Statements>
 
@@ -590,6 +518,83 @@ res
 
 </DefDecl>
 
+<DefDecl symTbl = "radiceQuadrata" type = "VOID">
+<Id type = "VOID">
+radiceQuadrata
+</Id>
+
+<ParDeclsOp>
+<ParDeclSon>
+<ParType>
+IN
+</ParType>
+<Type>
+INT
+</Type>
+<Id>
+num
+</Id>
+</ParDeclSon>
+</ParDeclsOp>
+
+<Body type = "VOID">
+<VarDecls type = "VOID">
+<VarDecl type = "VOID">
+<Type>
+DOUBLE
+</Type>
+
+<VarDeclsInit type = "VOID">
+<VarInit>
+<Id type = "DOUBLE">
+res
+</Id>
+
+<VarInitValue type = "INT">
+<IntConst>
+0
+</IntConst>
+</VarInitValue>
+
+</VarInit>
+
+</VarDeclsInit>
+
+</VarDecl>
+
+</VarDecls>
+
+<Statements>
+<AssignOp type = "VOID">
+<Id type = "DOUBLE">
+res
+</Id>
+
+<SqrtOp type = "INT">
+<Id type = "INT">
+num
+</Id>
+
+</SqrtOp>
+
+</AssignOp>
+
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
+<Id type = "DOUBLE">
+res
+</Id>
+
+</ArgsOp>
+
+</WriteOp>
+
+</Statements>
+
+</Body>
+
+</DefDecl>
+
 <DefDecl symTbl = "menu" type = "VOID">
 <Id type = "VOID">
 menu
@@ -602,6 +607,7 @@ menu
 <Statements>
 <WriteOp type = "VOID">
 <ArgsOp type = "VOID">
+<AddOp type = "STRING">
 <AddOp type = "STRING">
 <AddOp type = "STRING">
 <AddOp type = "STRING">
@@ -631,6 +637,12 @@ menu
 
 <StringConst>
 &quot;4. Successione di Fibonacci\n&quot;
+</StringConst>
+
+</AddOp>
+
+<StringConst>
+&quot;5. Radice quadrata di un intero\n&quot;
 </StringConst>
 
 </AddOp>
@@ -747,37 +759,9 @@ res
 
 <WriteOp type = "VOID">
 <ArgsOp type = "VOID">
-<AddOp type = "STRING">
-<AddOp type = "STRING">
-<AddOp type = "STRING">
-<AddOp type = "STRING">
-<Id type = "INT">
-n1
-</Id>
-
-<StringConst>
-&quot; + &quot;
-</StringConst>
-
-</AddOp>
-
-<Id type = "INT">
-n2
-</Id>
-
-</AddOp>
-
-<StringConst>
-&quot; = &quot;
-</StringConst>
-
-</AddOp>
-
 <Id type = "INT">
 res
 </Id>
-
-</AddOp>
 
 </ArgsOp>
 
@@ -849,37 +833,9 @@ res
 
 <WriteOp type = "VOID">
 <ArgsOp type = "VOID">
-<AddOp type = "STRING">
-<AddOp type = "STRING">
-<AddOp type = "STRING">
-<AddOp type = "STRING">
-<Id type = "INT">
-n1
-</Id>
-
-<StringConst>
-&quot; * &quot;
-</StringConst>
-
-</AddOp>
-
-<Id type = "INT">
-n2
-</Id>
-
-</AddOp>
-
-<StringConst>
-&quot; = &quot;
-</StringConst>
-
-</AddOp>
-
 <Id type = "INT">
 res
 </Id>
-
-</AddOp>
 
 </ArgsOp>
 
@@ -908,7 +864,7 @@ opt
 <WriteOp type = "VOID">
 <ArgsOp type = "VOID">
 <StringConst>
-&quot;Inserisci basa ed esponente&quot;
+&quot;Inserisci la base&quot;
 </StringConst>
 
 </ArgsOp>
@@ -920,6 +876,22 @@ opt
 <Id type = "INT">
 n1
 </Id>
+</Vars>
+
+</ReadOp>
+
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
+<StringConst>
+&quot;Inserisci l&apos;esponente&quot;
+</StringConst>
+
+</ArgsOp>
+
+</WriteOp>
+
+<ReadOp type = "VOID">
+<Vars type = "VOID">
 <Id type = "INT">
 n2
 </Id>
@@ -951,37 +923,9 @@ res
 
 <WriteOp type = "VOID">
 <ArgsOp type = "VOID">
-<AddOp type = "STRING">
-<AddOp type = "STRING">
-<AddOp type = "STRING">
-<AddOp type = "STRING">
-<Id type = "INT">
-n1
-</Id>
-
-<StringConst>
-&quot; ^ &quot;
-</StringConst>
-
-</AddOp>
-
-<Id type = "INT">
-n2
-</Id>
-
-</AddOp>
-
-<StringConst>
-&quot; = &quot;
-</StringConst>
-
-</AddOp>
-
 <Id type = "INT">
 res
 </Id>
-
-</AddOp>
 
 </ArgsOp>
 
@@ -993,7 +937,7 @@ res
 
 <CompStat type = "VOID">
 <Statements>
-<IfThenOp type = "VOID">
+<IfThenElseOp type = "VOID">
 <EqOp type = "BOOL">
 <Id type = "INT">
 opt
@@ -1043,7 +987,7 @@ n1
 <WriteOp type = "VOID">
 <ArgsOp type = "VOID">
 <StringConst>
-&quot;Questa è la sequenza:&quot;
+&quot;Sequenza&quot;
 </StringConst>
 
 </ArgsOp>
@@ -1073,7 +1017,7 @@ n1
 <WriteOp type = "VOID">
 <ArgsOp type = "VOID">
 <StringConst>
-&quot;Inserisci numero positivo&quot;
+&quot;Inserisci un intero positivo&quot;
 </StringConst>
 
 </ArgsOp>
@@ -1090,7 +1034,66 @@ n1
 
 </CompStat>
 
+<CompStat type = "VOID">
+<Statements>
+<IfThenOp type = "VOID">
+<EqOp type = "BOOL">
+<Id type = "INT">
+opt
+</Id>
+
+<IntConst>
+5
+</IntConst>
+
+</EqOp>
+
+<CompStat type = "VOID">
+<Statements>
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
+<StringConst>
+&quot;Inserisci un numero&quot;
+</StringConst>
+
+</ArgsOp>
+
+</WriteOp>
+
+<ReadOp type = "VOID">
+<Vars type = "VOID">
+<Id type = "INT">
+n1
+</Id>
+</Vars>
+
+</ReadOp>
+
+<CallOpWithArgs type = "VOID">
+<Id type = "VOID">
+radiceQuadrata
+</Id>
+
+<ArgsOp type = "VOID">
+<Id type = "INT">
+n1
+</Id>
+
+</ArgsOp>
+
+</CallOpWithArgs>
+
+</Statements>
+
+</CompStat>
+
 </IfThenOp>
+
+</Statements>
+
+</CompStat>
+
+</IfThenElseOp>
 
 </Statements>
 
