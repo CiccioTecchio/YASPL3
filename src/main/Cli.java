@@ -1,22 +1,17 @@
 package main;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.util.Scanner;
-
 import lexer.LexerLex;
 import parser.ParserCup;
 import syntaxTree.Programma;
 import visitor.ASTVisitor;
+import visitor.CodeVisitor;
 import visitor.EnrichASTVisitor;
 import visitor.GenerateCVisitor;
 import visitor.SymTableVisitor;
@@ -53,20 +48,21 @@ public class Cli {
 			}
 			if(scope) {
 				SymTableVisitor sym = new SymTableVisitor("yasplSource/scopes.log");
-				sym.visit(p);
+				sym.visit(p); 
 			}else {
 				SymTableVisitor sym = new SymTableVisitor();
 				sym.visit(p);
 			}
 			TypeCheckerVisitor tcv = new TypeCheckerVisitor();
 			tcv.visit(p);
-			if(enrich) {
+			/*if(enrich) {
 				EnrichASTVisitor eAST = new EnrichASTVisitor();
 				fw = new FileWriter("yasplSource/enrichAst.xml");
 				fw.write(eAST.visit(p));
 			    fw.close();
 			}
 			GenerateCVisitor genC = new GenerateCVisitor();
+			//CodeVisitor genC = new CodeVisitor();
 		    fw = new FileWriter("yasplSource/target.c");
 		    fw.write(genC.visit(p));
 		    fw.close();
@@ -81,7 +77,7 @@ public class Cli {
                 
             }
             reader.close();
-		    process.destroy();
+		    process.destroy();*/
 		} catch (FileNotFoundException e) {
 			System.out.println(HELP);
 			e.printStackTrace();

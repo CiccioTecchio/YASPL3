@@ -1,5 +1,6 @@
 package syntaxTree.statOp;
 
+import syntaxTree.Body;
 import syntaxTree.CompStat;
 import syntaxTree.Expr;
 import syntaxTree.Stat;
@@ -11,6 +12,7 @@ public class WhileOp extends Stat implements Visitable {
 	private String op;
 	private Expr e;
 	private CompStat cs;
+	private Body b;
 	
 	public WhileOp(String op, Expr e, CompStat cs) {
 		super(op, e, cs);
@@ -19,9 +21,15 @@ public class WhileOp extends Stat implements Visitable {
 		this.cs = cs;
 	}
 	
+	public WhileOp(String op, Expr e, Body b) {
+		super(op, e, b);
+		this.op = op;
+		this.e = e;	
+		this.b = b;
+	}
+	
 	@Override
 	public Object accept(Visitor<?> visitor) {
-		// TODO Auto-generated method stub
 		return visitor.visit(this);
 	}
 
@@ -35,6 +43,10 @@ public class WhileOp extends Stat implements Visitable {
 
 	public CompStat getCs() {
 		return cs;
+	}
+	
+	public Body getBody() {
+		return b;
 	}
 	
 	

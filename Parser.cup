@@ -60,8 +60,6 @@ terminal OUT;
 terminal INOUT;
 terminal INT;
 terminal UMINUS; /*is the Symbol '-'  used for unary Internal*/ 
-terminal MOD;
-terminal SQRT;
 
 /*List of non teminals*/  
 non terminal	Programma			Programma; 
@@ -149,12 +147,7 @@ Stat		::= Vars:vars READ SEMI											{: RESULT = new ReadOp("ReadOp", vars); 
 			|	ID:id LPAR RPAR SEMI									 	{: RESULT = new CallOp("CallOp", new IdConst("Id", new Leaf("Value", id))); :}
 			|	IF LPAR Expr:e RPAR THEN Comp_stat:cs1 ELSE Comp_stat:cs2	{: RESULT = new IfThenElseOp("IfThenElseOp", e, cs1, cs2); :}
 			|	IF LPAR Expr:e RPAR THEN Comp_stat:cs 						{: RESULT = new IfThenOp("IfThenOp", e, cs); :}
-			|	WHILE LPAR Expr:e RPAR DO Comp_stat:cs						{: RESULT = new WhileOp("WhileOp", e, cs); :}
-			|	DO Comp_stat:cs WHILE LPAR Expr:e RPAR	SEMI				{: RESULT = new DoWhileOp("DoWhileOp", cs, e); :}
-			|	ID:id PLUS PLUS	SEMI										{: RESULT = new PostFixIncrement("PostFixIncrement", new IdConst("Id", new Leaf("Value", id))); :}
-			|	ID:id MINUS MINUS SEMI										{: RESULT = new PostFixDecrement("PostFixDecrement", new IdConst("Id", new Leaf("Value", id))); :}
-			|	PLUS PLUS ID:id SEMI										{: RESULT = new PreFixIncrement("PostFixIncrement", new IdConst("Id", new Leaf("Value", id))); :}
-			|	MINUS MINUS ID:id SEMI										{: RESULT = new PreFixDecrement("PreFixDecrement", new IdConst("Id", new Leaf("Value", id))); :}
+			|	WHILE LPAR Expr:e RPAR DO Body:b							{: RESULT = new WhileOp("WhileOp", e, b); :}
 			;
 			
 Args		::=	Expr:e COMMA Args:arg		{: RESULT = arg.addChild(e); :}
@@ -168,9 +161,6 @@ Expr		::=	Expr:e1 MINUS Expr:e2		{: RESULT = new SubOp("SubOp", e1, e2); :}
 			|	Expr:e1 PLUS Expr:e2 		{: RESULT = new AddOp("AddOp", e1, e2); :}
 			|	Expr:e1 TIMES Expr:e2		{: RESULT = new MultOp("MultOp", e1, e2); :}	
 			|	Expr:e1 DIV Expr:e2			{: RESULT = new DivOp("DivOp", e1, e2); :}
-			|	Expr:e1 MOD Expr:e2			{: RESULT = new ModOp("ModOp", e1, e2); :}
-			|	SQRT LPAR Expr:e RPAR		{: RESULT = new SqrtOp("SqrtOp", e); :}
-			|	Expr:e1 TIMES TIMES Expr:e2	{: RESULT = new PowOp("PowOp", e1, e2); :}
 			|	Expr:e1 AND Expr:e2			{: RESULT = new AndOp("AndOp", e1, e2); :}	
 			|	Expr:e1 OR Expr:e2			{: RESULT = new OrOp("OrOp", e1, e2); :}
 			|	Expr:e1 GT Expr:e2			{: RESULT = new GtOp("GtOp", e1, e2); :}

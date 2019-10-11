@@ -1,6 +1,5 @@
 head
-int x;
+int x=3;
 start
 "Hello"->;
-3+2->;
-/*x<-;*/
+3+2+x->;

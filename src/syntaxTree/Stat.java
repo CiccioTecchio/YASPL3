@@ -37,16 +37,11 @@ public abstract class Stat extends Internal{
 		super(op, e, cs);
 	}
 	
-	//DoWhileOp
-	public Stat(String op, CompStat cs, Expr e) {
-		super(op, e, cs);
-	}
+	//IfThenOp && WhileOp with scope
+		public Stat(String op, Expr e, Body b) {
+			super(op, e, b);
+		}
 	
 	public abstract Object accept(Visitor<?> visitor);
-	
-	
-	
-	
-	
 	
 }
