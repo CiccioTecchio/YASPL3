@@ -3,15 +3,25 @@ head
 int x;
 int y;
 
-def scriviMale(out int x){
-x->;
-3->;
+def checking(in int x, in int y, in bool b){
+double k = x+y;
+	if(y <= 12) then{
+		"ciao"->;
+	}
+	if(not(b)) then{
+		"ciao"->;
+	}else{
+		"arrivederci"->;
+	}
 }
 
-def leggiMale(in int x, in int y){
-x<-;
-y = 3;
+def chiamato(out int var){
+var = 13;
+}
+
+def chiamante(in int v){
+	chiamato(v);
 }
 
 start
-leggiMale(x, y);
+chiamante(x);

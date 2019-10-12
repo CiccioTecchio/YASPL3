@@ -22,7 +22,7 @@ contexts:
     - match: '/\*abc\*/'
       scope: punctuation.definition.comment.yaspl
 
-    - match: '\b(head|start|in|out|inout|true|false|if|then|else|while|do|for)\b'
+    - match: '\b(head|start|in|out|inout|if|then|else|while|do|for)\b'
       scope: keyword
 
     - match: '\b(int|double|string|char|bool)\b'
@@ -55,7 +55,7 @@ contexts:
     - match: '\b(and|or|not)\b'
       scope: variable.language.yaspl
     # Numbers
-    - match: '\b(-)?[0-9.]+\b'
+    - match: '\b((-)?[0-9.]+)|(true|false)\b'
       scope: constant.numeric.yaspl
 
     # Keywords are if, else for and while.
