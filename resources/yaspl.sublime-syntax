@@ -22,26 +22,10 @@ contexts:
     - match: '/\*abc\*/'
       scope: punctuation.definition.comment.yaspl
 
-    # Keywords are if, else for and while.
-    # Note that blackslashes don't need to be escaped within single quoted
-    # strings in YAML. When using single quoted strings, only single quotes
-    # need to be escaped: this is done by using two single quotes next to each
-    # other.
-
-  prototype:
-    - include: comments
-  comments:
-    - match: '/\*'
-      scope: punctuation.definition.comment.yaspl
-      push:
-        - meta_scope: comment.block.yaspl
-        - match: '\*/'
-          pop: true
-
     - match: '\b(head|start|in|out|inout|true|false|if|then|else|while|do|for)\b'
       scope: keyword
 
-    - match: 'int|double|string|char|bool'
+    - match: '\b(int|double|string|char|bool)\b'
       scope:  support.type.yaspl
 
     - match: 'def'
@@ -73,6 +57,24 @@ contexts:
     # Numbers
     - match: '\b(-)?[0-9.]+\b'
       scope: constant.numeric.yaspl
+
+    # Keywords are if, else for and while.
+    # Note that blackslashes don't need to be escaped within single quoted
+    # strings in YAML. When using single quoted strings, only single quotes
+    # need to be escaped: this is done by using two single quotes next to each
+    # other.
+
+  prototype:
+    - include: comments
+  comments:
+    - match: '/\*'
+      scope: punctuation.definition.comment.yaspl
+      push:
+        - meta_scope: comment.block.yaspl
+        - match: '\*/'
+          pop: true
+
+
 
   double_quoted_string:
     - meta_scope: string.quoted.double.yaspl

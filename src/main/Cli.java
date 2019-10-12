@@ -14,7 +14,7 @@ import visitor.ASTVisitor;
 import visitor.CodeVisitor;
 import visitor.EnrichASTVisitor;
 import visitor.GenerateCVisitor;
-import visitor.SymTableVisitor;
+import visitor.ScopeCheckerVisitor;
 import visitor.TypeCheckerVisitor;
 
 public class Cli {
@@ -46,15 +46,17 @@ public class Cli {
 				fw.write(tpv.visit(p));
 				fw.close();
 			}
+			
 			if(scope) {
-				SymTableVisitor sym = new SymTableVisitor("yasplSource/scopes.log");
+				ScopeCheckerVisitor sym = new ScopeCheckerVisitor("yasplSource/scopes.log");
 				sym.visit(p); 
 			}else {
-				SymTableVisitor sym = new SymTableVisitor();
+				ScopeCheckerVisitor sym = new ScopeCheckerVisitor();
 				sym.visit(p);
 			}
 			TypeCheckerVisitor tcv = new TypeCheckerVisitor();
 			tcv.visit(p);
+			
 			if(enrich) {
 				EnrichASTVisitor eAST = new EnrichASTVisitor();
 				fw = new FileWriter("yasplSource/enrichAst.xml");
@@ -78,6 +80,7 @@ public class Cli {
             }
             reader.close();
 		    process.destroy();*/
+			System.out.println("fine");
 		} catch (FileNotFoundException e) {
 			System.out.println(HELP);
 			e.printStackTrace();

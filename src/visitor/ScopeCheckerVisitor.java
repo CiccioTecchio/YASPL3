@@ -14,8 +14,6 @@ import syntaxTree.wrapper.DeclsWrapper;
 import syntaxTree.wrapper.VarDeclsInitWrapper;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map.Entry;
-import java.util.Set;
 import java.util.Stack;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
@@ -24,7 +22,7 @@ import exception.*;
 import semantic.*;
 import semantic.SymbolTable.*;
 
-public class SymTableVisitor implements Visitor<Object> {
+public class ScopeCheckerVisitor implements Visitor<Object> {
 	
 	private Stack<SymbolTable> stack;
 	private SymbolTable actualScope;
@@ -33,7 +31,7 @@ public class SymTableVisitor implements Visitor<Object> {
 	private SimpleFormatter formatter;
 	private String pathToPrintScope;
 	
-	public SymTableVisitor(String pathToPrintScope) throws SecurityException, IOException {
+	public ScopeCheckerVisitor(String pathToPrintScope) throws SecurityException, IOException {
 		this.stack = new Stack<SymbolTable>();
 		this.pathToPrintScope = pathToPrintScope;
 		this.fh = new FileHandler(this.pathToPrintScope);
@@ -43,7 +41,7 @@ public class SymTableVisitor implements Visitor<Object> {
 		fh.setFormatter(formatter);
 	}
 	
-	public SymTableVisitor() {
+	public ScopeCheckerVisitor() {
 		this.stack = new Stack<SymbolTable>();
 		this.pathToPrintScope = "";
 	}
@@ -51,7 +49,7 @@ public class SymTableVisitor implements Visitor<Object> {
 	@Override
 	public Object visit(Args n) {
 		for(Expr e : n.getChildList()) {
-			if(checkDx(e))e.accept(this);
+			if(checkDx(e)) e.accept(this);
 		}
 		return null;
 	}
@@ -82,7 +80,6 @@ public class SymTableVisitor implements Visitor<Object> {
 		ArrayList<ParTuple> parArray = new ArrayList<>();
 		for(ParDeclSon s : n.getChildList()) {
 			parArray.add((ParTuple) s.accept(this));
-			
 		}
 		
 		return parArray;
@@ -95,12 +92,14 @@ public class SymTableVisitor implements Visitor<Object> {
 		ParType x = this.getValueOfParTypeLeaf((String)n.getParType().accept(this));
 		ParTuple t = new ParTuple(Kind.VARDECL, x, this.getValueOfLeaf(n.getTypeLeaf()));
 		this.actualScope.put(id, t);
+		
 		return t;
 	}
 	
 	@Override
 	public Object visit(VarDecl n){
 		ArrayList<String> idList = (ArrayList<String>) n.getVdi().accept(this);
+		
 		for(String s: idList) {
 			checkAlreadyDeclared(s);
 			VarTuple t = new VarTuple(Kind.VARDECL, this.getValueOfLeaf(n.getT()));
@@ -172,7 +171,7 @@ public class SymTableVisitor implements Visitor<Object> {
 		}else {
 			logger.info(this.stack.peek().toString());
 		}
-		this.stack.pop();
+		//this.stack.pop();
 		return n;
 	}
 
@@ -388,7 +387,11 @@ public class SymTableVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(AssignOp n) {
-		checkNotDeclared((String)n.getId().accept(this));
+		String id = (String)n.getId().accept(this);
+		int position = checkNotDeclared(id);
+		if(this.stack.elementAt(position).get(id) instanceof ParTuple) {
+			checkParams(id, position, ParType.IN, String.format("%s is a IN parameter, cannot write in IN parameter", id));
+		}
 		if(checkDx(n.getE()))n.getE().accept(this);
 		return null;
 	}
@@ -420,9 +423,13 @@ public class SymTableVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(ReadOp n) {
+		
 		ArrayList<String> list = (ArrayList<String>) n.getV().accept(this);
 		for(String s: list) {
-			checkNotDeclared(s);
+			int position = checkNotDeclared(s);
+			if(this.stack.elementAt(position).get(s) instanceof ParTuple ) {
+				checkParams(s, position, ParType.IN, String.format("%s is a IN parameter, cannot write in IN parameter", s));
+			}	
 		}
 		return null;
 	}
@@ -491,14 +498,14 @@ public class SymTableVisitor implements Visitor<Object> {
 	
 	private void checkAlreadyDeclared(String id) throws AlreadyDeclaredException {
 		if(this.actualScope.containsKey(id)) {
-			throw new AlreadyDeclaredException(String.format("%s già dichiarata in %s",
+			throw new AlreadyDeclaredException(String.format("%s already declared in %s scope",
 															  id,
 															  this.actualScope.getScopeName()
 												));
 		}
 	}
 	
-	private void checkNotDeclared(String id) throws NotDeclaredException {
+	private int checkNotDeclared(String id) throws NotDeclaredException {
 		int i = this.stack.indexOf(actualScope);
 		boolean find = false;
 		
@@ -508,11 +515,13 @@ public class SymTableVisitor implements Visitor<Object> {
 			i--;
 		}
 		if(!find) {
-			throw new NotDeclaredException(String.format("%s NON dichiarata in %s",
+			throw new NotDeclaredException(String.format("%s undeclared in %s scope",
 															  id,
 															  this.actualScope.getScopeName()
 												));
 		}
+		i++;
+		return i;
 	}
 	
 	private boolean checkDx(Expr e) {
@@ -525,4 +534,8 @@ public class SymTableVisitor implements Visitor<Object> {
 		return tr;
 	}
 	
+	private void checkParams(String id, int position, ParType check, String mess) {
+		ParTuple pt = (ParTuple) this.stack.elementAt(position).get(id);
+		if(pt.getPt() == check) throw new IllegalParamOperationException(mess);
+	}
 }

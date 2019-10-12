@@ -1,0 +1,17 @@
+head
+
+int x;
+int y;
+
+def scriviMale(out int x){
+x->;
+3->;
+}
+
+def leggiMale(in int x, in int y){
+x<-;
+y = 3;
+}
+
+start
+leggiMale(x, y);

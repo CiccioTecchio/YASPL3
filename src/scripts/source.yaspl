@@ -38,7 +38,7 @@ while (i > 0) do{
 
 	while (not(x > 0 and y >0)) do
 	{
-		"Moltiplicazione " + i + ": inserisci due numeri positivi" ->;
+		"Moltiplicazione ", i ,": inserisci due numeri positivi" ->;
 		x, y <-;
 	}
 	
@@ -52,7 +52,7 @@ while (i > 0) do{
 	i = i-1;
 }
 
-"Valore di sommagrande: " + sommagrande ->;
-"Valore di sommapiccola: " + sommapiccola ->;
+"Valore di sommagrande: ", sommagrande ->;
+"Valore di sommapiccola: ", sommapiccola ->;
 
 "ciao" ->;

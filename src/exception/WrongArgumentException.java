@@ -3,7 +3,6 @@
  */
 package exception;
 
-import semantic.SymbolTable.Kind;
 import semantic.SymbolTable.Type;
 
 /**
@@ -12,6 +11,8 @@ import semantic.SymbolTable.Type;
  */
 public class WrongArgumentException extends RuntimeException {
 	
+	private static final long serialVersionUID = 1L;
+
 	public WrongArgumentException(String id) {
 		System.err.println(String.format("Numero argomenti errato per func %s\n", id));
 		System.exit(1);

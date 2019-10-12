@@ -10,7 +10,7 @@ import syntaxTree.Programma;
 import visitor.ASTVisitor;
 import visitor.EnrichASTVisitor;
 import visitor.GenerateCVisitor;
-import visitor.SymTableVisitor;
+import visitor.ScopeCheckerVisitor;
 import visitor.TypeCheckerVisitor;
 
 public class Main {
@@ -25,7 +25,7 @@ public class Main {
 			FileWriter fw = new FileWriter(args[1]);
 			fw.write(tpv.visit(p));
 			fw.close();
-			SymTableVisitor sym = new SymTableVisitor("src/tree/scopes.log");
+			ScopeCheckerVisitor sym = new ScopeCheckerVisitor("src/tree/scopes.log");
 			sym.visit(p);
 			TypeCheckerVisitor tcv = new TypeCheckerVisitor();
 			tcv.visit(p);

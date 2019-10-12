@@ -24,6 +24,7 @@ public class ParTuple extends Tuple {
 	public void setType(Type type) {
 		this.type = type;
 	}
+	
 
 	public ParTuple(Kind kind, ParType pt, Type type ) {
 		super(kind);
@@ -31,4 +32,11 @@ public class ParTuple extends Tuple {
 		this.type = type;
 	}
 
+	@Override
+	public String toString() {
+		return "ParTuple [pt=" + pt + ", type=" + type + "]";
+	}
+
+	
+	
 }
