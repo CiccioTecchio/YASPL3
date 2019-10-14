@@ -35,15 +35,6 @@ public class SymbolTable extends TreeMap<String, Tuple> {
 		INOUT;
 	}
 	
-	/*@Override
-	  public String toString() {
-	    String toReturn = "SymbolTable "+hashCode()+"\n";
-	    for(Map.Entry<String, Tuple> e : this.entrySet()) {
-	      toReturn += "<Name:\t"+e.getKey()+"\t\t"+e.getValue()+">\n";
-	    }
-	    return toReturn;
-	  }*/
-	
 	@Override
 	  public String toString() {
 	    String toReturn = "SymbolTable "+this.scopeName+"\n";
@@ -56,5 +47,7 @@ public class SymbolTable extends TreeMap<String, Tuple> {
 	public String getScopeName() {
 		return scopeName;
 	}
+	
+	
 	
 }

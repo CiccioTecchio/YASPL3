@@ -3,25 +3,13 @@ head
 int x;
 int y;
 
-def checking(in int x, in int y, in bool b){
-double k = x+y;
-	if(y <= 12) then{
-		"ciao"->;
-	}
-	if(not(b)) then{
-		"ciao"->;
-	}else{
-		"arrivederci"->;
-	}
-}
-
 def chiamato(out int var){
 var = 13;
 }
 
 def chiamante(in int v){
-	chiamato(v);
+chiamato(v);	
 }
 
 start
-chiamante(x);
+x = 0;

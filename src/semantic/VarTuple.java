@@ -20,6 +20,11 @@ public class VarTuple extends Tuple {
 	public void setType(Type t) {
 		this.t = t;
 	}
+
+	@Override
+	public String toString() {
+		return "VarTuple [t=" + t + "]";
+	}
 	
 	
 

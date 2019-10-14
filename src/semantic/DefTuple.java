@@ -19,6 +19,11 @@ public class DefTuple extends Tuple {
 	public void setParArray(ArrayList<ParTuple> parArray) {
 		this.parArray = parArray;
 	}
+
+	@Override
+	public String toString() {
+		return "DefTuple [parArray=" + parArray + "]";
+	}
 	
 	
 

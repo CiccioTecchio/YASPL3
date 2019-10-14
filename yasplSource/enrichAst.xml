@@ -34,77 +34,6 @@ y
 
 </VarDecl>
 
-<DefDecl symTbl = "checking" type = "VOID">
-<Id type = "VOID">
-checking
-</Id>
-
-<ParDeclsOp>
-<ParDeclSon>
-<ParType>
-IN
-</ParType>
-<Type>
-INT
-</Type>
-<Id>
-x
-</Id>
-</ParDeclSon>
-<ParDeclSon>
-<ParType>
-IN
-</ParType>
-<Type>
-INT
-</Type>
-<Id>
-y
-</Id>
-</ParDeclSon>
-</ParDeclsOp>
-
-<Body type = "VOID">
-<VarDecls type = "VOID">
-<VarDecl type = "VOID">
-<Type>
-DOUBLE
-</Type>
-
-<VarDeclsInit type = "VOID">
-<VarInit>
-<Id type = "DOUBLE">
-k
-</Id>
-
-<VarInitValue type = "INT">
-<AddOp type = "INT">
-<Id type = "INT">
-x
-</Id>
-
-<Id type = "INT">
-y
-</Id>
-
-</AddOp>
-</VarInitValue>
-
-</VarInit>
-
-</VarDeclsInit>
-
-</VarDecl>
-
-</VarDecls>
-
-<Statements>
-</Statements>
-
-</Body>
-
-</DefDecl>
-
 <DefDecl symTbl = "chiamato" type = "VOID">
 <Id type = "VOID">
 chiamato
@@ -193,19 +122,16 @@ v
 </Decls>
 
 <Statements>
-<CallOpWithArgs type = "VOID">
-<Id>
-chiamante
-</Id>
-
-<ArgsOp type = "VOID">
+<AssignOp type = "VOID">
 <Id type = "INT">
 x
 </Id>
 
-</ArgsOp>
+<IntConst>
+0
+</IntConst>
 
-</CallOpWithArgs>
+</AssignOp>
 
 </Statements>
 

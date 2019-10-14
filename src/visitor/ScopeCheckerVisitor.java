@@ -174,7 +174,7 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 		}else {
 			logger.info(this.stack.peek().toString());
 		}
-		//this.stack.pop();
+		this.stack.pop();
 		return n;
 	}
 
@@ -420,6 +420,7 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 	}
 
 	@Override
+	//TODO chiamato chiamante
 	public Object visit(CallOp n) {
 		checkNotDeclared((String)n.getId().accept(this));
 		if(n.getA() != null) {
