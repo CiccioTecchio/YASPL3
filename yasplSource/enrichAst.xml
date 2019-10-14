@@ -42,13 +42,24 @@ chiamato
 <ParDeclsOp>
 <ParDeclSon>
 <ParType>
-OUT
+IN
 </ParType>
 <Type>
 INT
 </Type>
 <Id>
 var
+</Id>
+</ParDeclSon>
+<ParDeclSon>
+<ParType>
+IN
+</ParType>
+<Type>
+INT
+</Type>
+<Id>
+b
 </Id>
 </ParDeclSon>
 </ParDeclsOp>
@@ -58,16 +69,15 @@ var
 </VarDecls>
 
 <Statements>
-<AssignOp type = "VOID">
+<WriteOp type = "VOID">
+<ArgsOp type = "VOID">
 <Id type = "INT">
 var
 </Id>
 
-<IntConst>
-13
-</IntConst>
+</ArgsOp>
 
-</AssignOp>
+</WriteOp>
 
 </Statements>
 
@@ -92,7 +102,69 @@ INT
 v
 </Id>
 </ParDeclSon>
+<ParDeclSon>
+<ParType>
+IN
+</ParType>
+<Type>
+INT
+</Type>
+<Id>
+b
+</Id>
+</ParDeclSon>
 </ParDeclsOp>
+
+<Body type = "VOID">
+<VarDecls type = "VOID">
+</VarDecls>
+
+<Statements>
+<WhileOp symTbl = "WhileScope - hashCode: 340870931" type = "VOID">
+<LtOp type = "BOOL">
+<IntConst>
+1
+</IntConst>
+
+<IntConst>
+2
+</IntConst>
+
+</LtOp>
+
+<Body type = "VOID">
+<VarDecls type = "VOID">
+</VarDecls>
+
+<Statements>
+<WhileOp symTbl = "WhileScope - hashCode: 1768305536" type = "VOID">
+<LtOp type = "BOOL">
+<IntConst>
+1
+</IntConst>
+
+<IntConst>
+2
+</IntConst>
+
+</LtOp>
+
+<Body type = "VOID">
+<VarDecls type = "VOID">
+</VarDecls>
+
+<Statements>
+<WhileOp symTbl = "WhileScope - hashCode: 1530388690" type = "VOID">
+<LtOp type = "BOOL">
+<IntConst>
+1
+</IntConst>
+
+<IntConst>
+2
+</IntConst>
+
+</LtOp>
 
 <Body type = "VOID">
 <VarDecls type = "VOID">
@@ -109,9 +181,31 @@ chiamato
 v
 </Id>
 
+<Id type = "INT">
+b
+</Id>
+
 </ArgsOp>
 
 </CallOpWithArgs>
+
+</Statements>
+
+</Body>
+
+</WhileOp>
+
+</Statements>
+
+</Body>
+
+</WhileOp>
+
+</Statements>
+
+</Body>
+
+</WhileOp>
 
 </Statements>
 
@@ -122,6 +216,24 @@ v
 </Decls>
 
 <Statements>
+<CallOpWithArgs type = "VOID">
+<Id>
+chiamato
+</Id>
+
+<ArgsOp type = "VOID">
+<Id type = "INT">
+x
+</Id>
+
+<Id type = "INT">
+y
+</Id>
+
+</ArgsOp>
+
+</CallOpWithArgs>
+
 <AssignOp type = "VOID">
 <Id type = "INT">
 x

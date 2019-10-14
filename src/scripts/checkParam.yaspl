@@ -3,13 +3,22 @@ head
 int x;
 int y;
 
-def chiamato(out int var){
-var = 13;
+def chiamato(in int var, in int b){
+var->;
 }
 
-def chiamante(in int v){
-chiamato(v);	
+def chiamante(in int v, in int b){
+while(1<2) do{
+	while(1<2)do{
+		while(1<2)do{
+			chiamato(v,b);
+		}	
+	}
+	
+}
+
 }
 
 start
+chiamato(x,y);
 x = 0;

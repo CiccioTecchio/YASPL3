@@ -14,6 +14,7 @@ import syntaxTree.wrapper.DeclsWrapper;
 import syntaxTree.wrapper.VarDeclsInitWrapper;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Set;
 import java.util.Stack;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
@@ -421,10 +422,56 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 
 	@Override
 	//TODO chiamato chiamante
-	public Object visit(CallOp n) {
-		checkNotDeclared((String)n.getId().accept(this));
-		if(n.getA() != null) {
-			n.getA().accept(this);
+	public Object visit(CallOp n){
+		//functionName: nome della funzione che fa la CallOp
+		String functionName = n.getId().accept(this)+"";
+		//chiamantePosition: la posizione nello stack dello scope della funzione che fa la CallOp
+		int chiamantePosition = checkNotDeclared(functionName);
+		if(n.getA() != null && this.stack.indexOf(actualScope)>0) {
+			//chiamanteDef: DefTuple della funzione che fa la CallOp
+			DefTuple chiamanteDef = (DefTuple)this.stack.elementAt(chiamantePosition).get(functionName);
+			//parList: lista dei parametri della funzione che fa CallOp
+			ArrayList<ParTuple> parList = chiamanteDef.getParArray();
+			
+			//chiamatoPosition: posizione della DefDecl che chiama la CallOp 
+			int chiamatoPosition = this.stack.indexOf(actualScope);
+			boolean find = false;
+			while(chiamatoPosition >=0  && !find) {
+				SymbolTable sym = this.stack.get(chiamatoPosition);
+				Set<String> set = sym.keySet();
+				for(String s: set) {
+					if(sym.get(s) instanceof ParTuple) find = true; else break;
+				}
+				chiamatoPosition--;
+			}
+			chiamatoPosition++;
+			//chiamatoName: nome della funzione che contiene una CallOp
+			String chiamatoName = this.stack.get(chiamatoPosition).getScopeName();
+			chiamatoPosition--; //decremento perchè nella symbolTable superiore trovo la DefDecl
+			//chiamatoDef: DefTuple della funzione che contiene una CallOp
+			DefTuple chiamatoDef = (DefTuple)this.stack.elementAt(chiamatoPosition).get(chiamatoName);
+			//exprList:lista dei parametri della funzione che contiene la CallOp
+			ArrayList<ParTuple> exprList = chiamatoDef.getParArray();
+			int size = parList.size();
+			if(size != exprList.size()) throw new WrongArgumentException("Wrog param number");
+			else {
+				for(int i=0; i<size; i++){
+					ParType parExpr = exprList.get(i).getPt();
+					ParType parArgs = parList.get(i).getPt();
+					if((exprList.get(i).getPt() != ParType.INOUT) || (parList.get(i).getPt() != ParType.INOUT)) {
+						if(!(((parExpr == ParType.IN || parExpr == ParType.INOUT ) &&
+							(parArgs == ParType.IN || parArgs == ParType.INOUT))) 
+												||
+							(((parExpr == ParType.OUT || parExpr == ParType.INOUT ) &&
+							(parArgs == ParType.OUT || parArgs == ParType.INOUT)))) throw new IllegalParamOperationException("Parametri di IN o OUT diversi, Ferdinando le eccezioni le scrive meglio");
+					}
+				}
+				n.getA().accept(this);
+			}	
+		}else {
+			if(n.getA() != null && this.stack.indexOf(actualScope)==0) {
+				n.getA().accept(this);
+			}
 		}
 		return null;
 	}
