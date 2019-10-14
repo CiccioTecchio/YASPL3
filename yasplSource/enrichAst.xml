@@ -62,10 +62,38 @@ INT
 b
 </Id>
 </ParDeclSon>
+<ParDeclSon>
+<ParType>
+IN
+</ParType>
+<Type>
+INT
+</Type>
+<Id>
+cc
+</Id>
+</ParDeclSon>
 </ParDeclsOp>
 
 <Body type = "VOID">
 <VarDecls type = "VOID">
+<VarDecl type = "VOID">
+<Type>
+INT
+</Type>
+
+<VarDeclsInit type = "VOID">
+<VarNotInit>
+<Id type = "INT">
+la
+</Id>
+
+</VarNotInit>
+
+</VarDeclsInit>
+
+</VarDecl>
+
 </VarDecls>
 
 <Statements>
@@ -110,51 +138,182 @@ IN
 INT
 </Type>
 <Id>
-b
+c
 </Id>
 </ParDeclSon>
 </ParDeclsOp>
 
 <Body type = "VOID">
 <VarDecls type = "VOID">
-</VarDecls>
+<VarDecl type = "VOID">
+<Type>
+INT
+</Type>
 
-<Statements>
-<WhileOp symTbl = "WhileScope - hashCode: 340870931" type = "VOID">
-<LtOp type = "BOOL">
+<VarDeclsInit type = "VOID">
+<VarInit>
+<Id type = "INT">
+cc
+</Id>
+
+<VarInitValue type = "INT">
 <IntConst>
-1
+0
 </IntConst>
+</VarInitValue>
 
+</VarInit>
+
+</VarDeclsInit>
+
+</VarDecl>
+
+<VarDecl type = "VOID">
+<Type>
+INT
+</Type>
+
+<VarDeclsInit type = "VOID">
+<VarInit>
+<Id type = "INT">
+jj
+</Id>
+
+<VarInitValue type = "INT">
 <IntConst>
-2
+0
 </IntConst>
+</VarInitValue>
 
-</LtOp>
+</VarInit>
 
-<Body type = "VOID">
-<VarDecls type = "VOID">
-</VarDecls>
+</VarDeclsInit>
 
-<Statements>
-<WhileOp symTbl = "WhileScope - hashCode: 1768305536" type = "VOID">
-<LtOp type = "BOOL">
-<IntConst>
-1
-</IntConst>
+</VarDecl>
 
-<IntConst>
-2
-</IntConst>
-
-</LtOp>
-
-<Body type = "VOID">
-<VarDecls type = "VOID">
 </VarDecls>
 
 <Statements>
 <WhileOp symTbl = "WhileScope - hashCode: 1530388690" type = "VOID">
+<LtOp type = "BOOL">
+<IntConst>
+1
+</IntConst>
+
+<IntConst>
+2
+</IntConst>
+
+</LtOp>
+
+<Body type = "VOID">
+<VarDecls type = "VOID">
+</VarDecls>
+
+<Statements>
+<WhileOp symTbl = "WhileScope - hashCode: 1146743572" type = "VOID">
+<LtOp type = "BOOL">
+<IntConst>
+1
+</IntConst>
+
+<IntConst>
+2
+</IntConst>
+
+</LtOp>
+
+<Body type = "VOID">
+<VarDecls type = "VOID">
+</VarDecls>
+
+<Statements>
+<WhileOp symTbl = "WhileScope - hashCode: 1512981843" type = "VOID">
+<LtOp type = "BOOL">
+<IntConst>
+1
+</IntConst>
+
+<IntConst>
+2
+</IntConst>
+
+</LtOp>
+
+<Body type = "VOID">
+<VarDecls type = "VOID">
+</VarDecls>
+
+<Statements>
+<WhileOp symTbl = "WhileScope - hashCode: 42768293" type = "VOID">
+<LtOp type = "BOOL">
+<IntConst>
+1
+</IntConst>
+
+<IntConst>
+2
+</IntConst>
+
+</LtOp>
+
+<Body type = "VOID">
+<VarDecls type = "VOID">
+</VarDecls>
+
+<Statements>
+<WhileOp symTbl = "WhileScope - hashCode: 1717159510" type = "VOID">
+<LtOp type = "BOOL">
+<IntConst>
+1
+</IntConst>
+
+<IntConst>
+2
+</IntConst>
+
+</LtOp>
+
+<Body type = "VOID">
+<VarDecls type = "VOID">
+</VarDecls>
+
+<Statements>
+<WhileOp symTbl = "WhileScope - hashCode: 1834188994" type = "VOID">
+<LtOp type = "BOOL">
+<IntConst>
+1
+</IntConst>
+
+<IntConst>
+2
+</IntConst>
+
+</LtOp>
+
+<Body type = "VOID">
+<VarDecls type = "VOID">
+</VarDecls>
+
+<Statements>
+<WhileOp symTbl = "WhileScope - hashCode: 1174361318" type = "VOID">
+<LtOp type = "BOOL">
+<IntConst>
+1
+</IntConst>
+
+<IntConst>
+2
+</IntConst>
+
+</LtOp>
+
+<Body type = "VOID">
+<VarDecls type = "VOID">
+</VarDecls>
+
+<Statements>
+<WhileOp symTbl = "WhileScope - hashCode: 589873731" type = "VOID">
 <LtOp type = "BOOL">
 <IntConst>
 1
@@ -182,12 +341,46 @@ v
 </Id>
 
 <Id type = "INT">
-b
+c
 </Id>
+
+<IntConst>
+3
+</IntConst>
 
 </ArgsOp>
 
 </CallOpWithArgs>
+
+</Statements>
+
+</Body>
+
+</WhileOp>
+
+</Statements>
+
+</Body>
+
+</WhileOp>
+
+</Statements>
+
+</Body>
+
+</WhileOp>
+
+</Statements>
+
+</Body>
+
+</WhileOp>
+
+</Statements>
+
+</Body>
+
+</WhileOp>
 
 </Statements>
 
@@ -229,6 +422,10 @@ x
 <Id type = "INT">
 y
 </Id>
+
+<IntConst>
+33
+</IntConst>
 
 </ArgsOp>
 

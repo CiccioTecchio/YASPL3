@@ -479,8 +479,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		DefTuple def = (DefTuple)lookup(id);
 		ArrayList<ParTuple> par = def.getParArray();
 		int size = par.size();
-		
-		//if(size != typesArgs.size()) throw new WrongArgumentException("Wrog param number");
+		if(size != typesArgs.size()) throw new WrongArgumentException("Wrog param number");
 		
 		int i;
 		for(i=0; i < size; i++) {
@@ -492,9 +491,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 			if(assignOpCompOp[gift(par.get(i).getType())] [gift(typesArgs.get(i))] == null) {
 				throw new TypeMismatchException(n.getOp(), par.get(i).getType(), typesArgs.get(i));
 			}
-		}
-		
-		
+		}	
 		return Type.VOID;
 	}
 

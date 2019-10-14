@@ -175,7 +175,7 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 		}else {
 			logger.info(this.stack.peek().toString());
 		}
-		this.stack.pop();
+		//this.stack.pop();
 		return n;
 	}
 
@@ -421,57 +421,44 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 	}
 
 	@Override
-	//TODO chiamato chiamante
 	public Object visit(CallOp n){
-		//functionName: nome della funzione che fa la CallOp
-		String functionName = n.getId().accept(this)+"";
-		//chiamantePosition: la posizione nello stack dello scope della funzione che fa la CallOp
-		int chiamantePosition = checkNotDeclared(functionName);
+		String callId = n.getId().accept(this)+"";
+		int indexCallOp = checkNotDeclared(callId);
 		if(n.getA() != null && this.stack.indexOf(actualScope)>0) {
-			//chiamanteDef: DefTuple della funzione che fa la CallOp
-			DefTuple chiamanteDef = (DefTuple)this.stack.elementAt(chiamantePosition).get(functionName);
-			//parList: lista dei parametri della funzione che fa CallOp
-			ArrayList<ParTuple> parList = chiamanteDef.getParArray();
+			//DefTuple della funzione che effettua la callOp
+			DefTuple callDefTuple = (DefTuple)this.stack.elementAt(indexCallOp).get(callId);
+			ArrayList<ParTuple> callParams = callDefTuple.getParArray();
 			
-			//chiamatoPosition: posizione della DefDecl che chiama la CallOp 
-			int chiamatoPosition = this.stack.indexOf(actualScope);
+			int i = this.stack.indexOf(actualScope);
 			boolean find = false;
-			while(chiamatoPosition >=0  && !find) {
-				SymbolTable sym = this.stack.get(chiamatoPosition);
-				Set<String> set = sym.keySet();
+			//SymbolTable della funzione che contiene la CallOp
+			SymbolTable callSym = actualScope;
+			while(i>= 0 && !find) {
+				callSym = this.stack.get(i);
+				Set<String> set = callSym.keySet();
 				for(String s: set) {
-					if(sym.get(s) instanceof ParTuple) find = true; else break;
-				}
-				chiamatoPosition--;
-			}
-			chiamatoPosition++;
-			//chiamatoName: nome della funzione che contiene una CallOp
-			String chiamatoName = this.stack.get(chiamatoPosition).getScopeName();
-			chiamatoPosition--; //decremento perchè nella symbolTable superiore trovo la DefDecl
-			//chiamatoDef: DefTuple della funzione che contiene una CallOp
-			DefTuple chiamatoDef = (DefTuple)this.stack.elementAt(chiamatoPosition).get(chiamatoName);
-			//exprList:lista dei parametri della funzione che contiene la CallOp
-			ArrayList<ParTuple> exprList = chiamatoDef.getParArray();
-			int size = parList.size();
-			if(size != exprList.size()) throw new WrongArgumentException("Wrog param number");
-			else {
-				for(int i=0; i<size; i++){
-					ParType parExpr = exprList.get(i).getPt();
-					ParType parArgs = parList.get(i).getPt();
-					if((exprList.get(i).getPt() != ParType.INOUT) || (parList.get(i).getPt() != ParType.INOUT)) {
-						if(!(((parExpr == ParType.IN || parExpr == ParType.INOUT ) &&
-							(parArgs == ParType.IN || parArgs == ParType.INOUT))) 
-												||
-							(((parExpr == ParType.OUT || parExpr == ParType.INOUT ) &&
-							(parArgs == ParType.OUT || parArgs == ParType.INOUT)))) throw new IllegalParamOperationException("Parametri di IN o OUT diversi, Ferdinando le eccezioni le scrive meglio");
+					if(callSym.get(s) instanceof ParTuple) {
+						find = true;
+						break;
 					}
 				}
-				n.getA().accept(this);
-			}	
-		}else {
-			if(n.getA() != null && this.stack.indexOf(actualScope)==0) {
-				n.getA().accept(this);
+				i--;
 			}
+			ArrayList<Expr> argsList = n.getA().getChildList();
+			if(argsList.size() != callParams.size()) throw new WrongArgumentException("numero di argomenti sbagliati");
+			int j=0;
+			
+			for(Expr e : argsList) {
+				String id = e.accept(this)+"";
+				if(callSym.get(id) instanceof ParTuple) {
+					ParTuple t= (ParTuple) callSym.get(id);
+					if(callParams.get(j).getPt() != t.getPt()) throw new IllegalParamOperationException("Ferdinando le scrive meglio le eccezioni");
+				}
+				j++;
+			}
+			n.getA().accept(this);
+		}else {
+			n.getA().accept(this);
 		}
 		return null;
 	}
