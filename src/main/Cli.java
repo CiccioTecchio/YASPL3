@@ -19,15 +19,24 @@ import visitor.TypeCheckerVisitor;
 
 public class Cli {
 	
-	private static final String HELP = "[options] <source.yaspl>"
+	private static final String HELPemSDK = "before generate js code you need to install emscriten and follow this tutorial:\n"
+			  + "https://emscripten.org/docs/getting_started/downloads.html";
+	
+	private static final String HELP = "[options] [path to emsdk] <source.yaspl>"
 			+ "options are:\n"
 			+ "-ast\tgenerate ast.xml\n"
 			+ "-scope\tgenerate scope.log\n"
-			+ "-enrich\tgenerate enrich.xml\n";
+			+ "-enrich\tgenerate enrich.xml\n"
+			+ "-js\tgenerate the JavaScript equivalent of souce.yaspl\n"+HELPemSDK
+			+ "path to emsdk need to be passed with the path based of the home directory for OSX is ~ example\n"
+			+ "~/path to/emsdk";
+	
+	
 	
 	private static boolean ast = false;
 	private static boolean scope = false;
 	private static boolean enrich = false;
+	private static boolean js = false;
 	
 	public static void main(String[] args) {
 		try {
@@ -65,27 +74,40 @@ public class Cli {
 			}
 			/*GenerateCVisitor genC = new GenerateCVisitor();
 			//CodeVisitor genC = new CodeVisitor();
-		    fw = new FileWriter("yasplSource/target.c");
-		    fw.write(genC.visit(p));
-		    fw.close();
+		    //fw = new FileWriter("yasplSource/target.c");
+		    //fw.write(genC.visit(p));
+		    //fw.close();
 		    pb.redirectErrorStream(true);
+		    if(js){
+		    pb.command("bash", "-c", "cd yasplSource;"
+		    					   + "clang target.c -o ../yaspl.out;"
+		    					   + "clang -S -emit-llvm target.c -o ../target.ll;"
+		    					   );
+		    }else{
 		    pb.command("bash", "-c", "cd yasplSource; clang target.c -o ../yaspl.out");
+		    }
+		    
 		    process = pb.start();
 		    BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 		    String line = reader.readLine();
             while (line != null) {
                 System.out.println(line);
-                line = reader.readLine();
-                
+                line = reader.readLine();  
             }
-            reader.close();
-		    process.destroy();*/
+           if(js) {
+            	String pathEmSDK = args[args.length -2];
+            	pb.command("bash", "-c", "source "+pathEmSDK+"/emsdk_env.sh ;"
+            							+ "emcc target.ll -o yaspl.out.js");
+            	process = pb.start();
+            }
+            reader.close();*/
+		    process.destroy();
 			System.out.println("fine");
 		} catch (FileNotFoundException e) {
-			System.out.println(HELP);
+			System.err.println(HELP);
 			e.printStackTrace();
 		} catch (IndexOutOfBoundsException e) {
-			System.out.println(HELP);
+			System.err.println(HELP);
 			e.printStackTrace();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -100,6 +122,9 @@ public class Cli {
 			case "-ast": ast = true; break;
 			case "-scope": scope = true; break;
 			case "-enrich": enrich = true; break;
+			case "-js": {
+						js = true; break;
+			}
 			case "help": System.out.println(HELP); break;
 			case "-help": System.out.println(HELP); break;
 			}
