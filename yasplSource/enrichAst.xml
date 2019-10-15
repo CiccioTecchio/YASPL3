@@ -53,7 +53,7 @@ var
 </ParDeclSon>
 <ParDeclSon>
 <ParType>
-INOUT
+IN
 </ParType>
 <Type>
 INT
@@ -132,7 +132,7 @@ v
 </ParDeclSon>
 <ParDeclSon>
 <ParType>
-INOUT
+IN
 </ParType>
 <Type>
 INT

@@ -26,12 +26,13 @@ import static parser.LexerSym.*;
 %init}
 
 %{
-	private Symbol sym(int type)
+
+	private Symbol symbol(int type)
 	{
-		return sym(type, yytext());
+		return symbol(type, yytext());
 	}
 
-	private Symbol sym(int type, Object value)
+	private Symbol symbol(int type, Object value)
 	{
 		return new Symbol(type, yyline, yycolumn, value);
 	}
@@ -62,48 +63,48 @@ whitespace = [ \r\n\t\f]
 %%
 {whitespace} 	{ /* ignore */ }
 {comment}		{ /*IGNORE*/ }
-"head"			{ return new Symbol(LexerSym.HEAD); }
-"start"			{ return new Symbol(LexerSym.START); }
-";"				{ return new Symbol(LexerSym.SEMI); }
-"int"			{ return new Symbol(LexerSym.INT); }
-"bool"			{ return new Symbol(LexerSym.BOOL); }
-"double"		{ return new Symbol(LexerSym.DOUBLE); }
-"string"		{ return new Symbol(LexerSym.STRING); }
-"char"			{ return new Symbol(LexerSym.CHAR); }
-","				{ return new Symbol(LexerSym.COMMA); }
-"def"			{ return new Symbol(LexerSym.DEF); }
-"("				{ return new Symbol(LexerSym.LPAR); }
-")"				{ return new Symbol(LexerSym.RPAR); }
-"{"				{ return new Symbol(LexerSym.LGPAR); }
-"}"				{ return new Symbol(LexerSym.RGPAR); }
-"<-"			{ return new Symbol(LexerSym.READ); }
-"->"			{ return new Symbol(LexerSym.WRITE); }
-"+"				{ return new Symbol(LexerSym.PLUS); }
-"-"				{ return new Symbol(LexerSym.MINUS); }
-"*"				{ return new Symbol(LexerSym.TIMES); }
-"/"				{ return new Symbol(LexerSym.DIV); }
-{intConst}		{ return new Symbol(LexerSym.INT_CONST, yytext()); }
-{doubleConst}	{ return new Symbol(LexerSym.DOUBLE_CONST, yytext()); }
-{stringConst}	{ return new Symbol(LexerSym.STRING_CONST, yytext()); }
-{charConst}		{ return new Symbol(LexerSym.CHAR_CONST, yytext()); }
-"true"			{ return new Symbol(LexerSym.TRUE); }
-"false"			{ return new Symbol(LexerSym.FALSE); }
-"="				{ return new Symbol(LexerSym.ASSIGN); }
-"if"			{ return new Symbol(LexerSym.IF); }
-"then"			{ return new Symbol(LexerSym.THEN);  }
-"while"			{ return new Symbol(LexerSym.WHILE); }
-"do"			{ return new Symbol(LexerSym.DO); }
-"else"			{ return new Symbol(LexerSym.ELSE); }
-">"				{ return new Symbol(LexerSym.GT); }
-">="			{ return new Symbol(LexerSym.GE); }
-"<"				{ return new Symbol(LexerSym.LT); }
-"<="			{ return new Symbol(LexerSym.LE); }
-"=="			{ return new Symbol(LexerSym.EQ); }
-"not"			{ return new Symbol(LexerSym.NOT); }
-"and"			{ return new Symbol(LexerSym.AND); }
-"or"			{ return new Symbol(LexerSym.OR); }
-"in"			{ return new Symbol(LexerSym.IN); }
-"out"			{ return new Symbol(LexerSym.OUT); }
-"inout"			{ return new Symbol(LexerSym.INOUT); }
-{id}			{ return new Symbol(LexerSym.ID, yytext()); }
+"head"			{ return symbol(LexerSym.HEAD); }
+"start"			{ return symbol(LexerSym.START); }
+";"				{ return symbol(LexerSym.SEMI); }
+"int"			{ return symbol(LexerSym.INT); }
+"bool"			{ return symbol(LexerSym.BOOL); }
+"double"		{ return symbol(LexerSym.DOUBLE); }
+"string"		{ return symbol(LexerSym.STRING); }
+"char"			{ return symbol(LexerSym.CHAR); }
+","				{ return symbol(LexerSym.COMMA); }
+"def"			{ return symbol(LexerSym.DEF); }
+"("				{ return symbol(LexerSym.LPAR); }
+")"				{ return symbol(LexerSym.RPAR); }
+"{"				{ return symbol(LexerSym.LGPAR); }
+"}"				{ return symbol(LexerSym.RGPAR); }
+"<-"			{ return symbol(LexerSym.READ); }
+"->"			{ return symbol(LexerSym.WRITE); }
+"+"				{ return symbol(LexerSym.PLUS); }
+"-"				{ return symbol(LexerSym.MINUS); }
+"*"				{ return symbol(LexerSym.TIMES); }
+"/"				{ return symbol(LexerSym.DIV); }
+{intConst}		{ return symbol(LexerSym.INT_CONST, yytext()); }
+{doubleConst}	{ return symbol(LexerSym.DOUBLE_CONST, yytext()); }
+{stringConst}	{ return symbol(LexerSym.STRING_CONST, yytext()); }
+{charConst}		{ return symbol(LexerSym.CHAR_CONST, yytext()); }
+"true"			{ return symbol(LexerSym.TRUE); }
+"false"			{ return symbol(LexerSym.FALSE); }
+"="				{ return symbol(LexerSym.ASSIGN); }
+"if"			{ return symbol(LexerSym.IF); }
+"then"			{ return symbol(LexerSym.THEN);  }
+"while"			{ return symbol(LexerSym.WHILE); }
+"do"			{ return symbol(LexerSym.DO); }
+"else"			{ return symbol(LexerSym.ELSE); }
+">"				{ return symbol(LexerSym.GT); }
+">="			{ return symbol(LexerSym.GE); }
+"<"				{ return symbol(LexerSym.LT); }
+"<="			{ return symbol(LexerSym.LE); }
+"=="			{ return symbol(LexerSym.EQ); }
+"not"			{ return symbol(LexerSym.NOT); }
+"and"			{ return symbol(LexerSym.AND); }
+"or"			{ return symbol(LexerSym.OR); }
+"in"			{ return symbol(LexerSym.IN); }
+"out"			{ return symbol(LexerSym.OUT); }
+"inout"			{ return symbol(LexerSym.INOUT); }
+{id}			{ return symbol(LexerSym.ID, yytext()); }
 [^]				{  throw new Error("Illegal character <"+yytext()+"> at line "+yyline+", column "+yycolumn);}

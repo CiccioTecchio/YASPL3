@@ -17,7 +17,7 @@ import syntaxTree.varDeclInitOp.*;
 import syntaxTree.leaf.*;
 import syntaxTree.utils.*;
 import syntaxTree.declsOp.*;
-import visitor.*;
+import exception.SyntaxErrorException;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -349,6 +349,19 @@ public class ParserCup extends java_cup.runtime.lr_parser {
 
   /** <code>error</code> Symbol index. */
   public int error_sym() {return 1;}
+
+
+
+	public void report_error(String msg, Object info){
+		if(info instanceof Symbol){
+			if(((Symbol)info).left != -1 && ((Symbol)info).right!=-1){
+				int line = (((Symbol)info).left)+1;
+				int col  = (((Symbol)info).right)+1;
+				String val = ((Symbol)info).value.toString();
+				throw new SyntaxErrorException(line,col, val);
+			}
+		}
+	}
 
 
 /** Cup generated class to encapsulate user supplied action code.*/
