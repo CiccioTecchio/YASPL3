@@ -92,7 +92,7 @@ INT
 v
 </Id>
 <ParType>
-IN
+OUT
 </ParType>
 <Type>
 INT
@@ -250,6 +250,9 @@ v
 <Id>
 c
 </Id>
+<IntConst>
+32
+</IntConst>
 </ArgsOp>
 </CallOpWithArgs>
 </Statements>

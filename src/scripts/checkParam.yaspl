@@ -2,13 +2,13 @@ head
 
 int x;
 int y;
-
+			//callParams
 def chiamato(in int var, in int b, in int cc){
 int la;
 var->;
 }
-
-def chiamante(in int v, in int c){//exprList
+			//t.getPt()
+def chiamante(in int v, out int c){//exprList
 int cc=0;
 int jj=0;
 while(1<2) do{
@@ -19,7 +19,7 @@ while(1<2) do{
 			while(1<2)do{
 			while(1<2)do{
 			while(1<2)do{
-			chiamato(v,c);//parLIst
+			chiamato(v,c,32);//parLIst
 		}
 		}
 		}

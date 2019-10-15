@@ -50,12 +50,8 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 	@Override
 	public Object visit(Args n) {
 		for(Expr e : n.getChildList()) {
-			String id = checkDx(e);
-			if(id.equals("")) e.accept(this);
-			else {
-				checkParams(id, ParType.OUT, String.format("%s is a OUT parameter, cannot read in OUT parameter", id));
-				}
-			}
+			if(checkDx(e).equals("")) e.accept(this);
+		}
 		return null;
 	}
 
@@ -175,7 +171,7 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 		}else {
 			logger.info(this.stack.peek().toString());
 		}
-		//this.stack.pop();
+		this.stack.pop();
 		return n;
 	}
 
@@ -221,158 +217,78 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(AddOp n) {
-		
-		/*if(checkDx(n.getE1()).equals("")) {
-			n.getE1().accept(this);
-		}
-		if(checkDx(n.getE2()).equals("")) {
-			n.getE2().accept(this);
-		}*/
 		visitOfBinaryExpr(n.getE1(), n.getE2());
 		return null;
 	}
 
 	@Override
 	public Object visit(DivOp n) {
-		/*if(checkDx(n.getE1()).equals("")) {
-			n.getE1().accept(this);
-		}
-		if(checkDx(n.getE2()).equals("")) {
-			n.getE2().accept(this);
-		}*/
 		visitOfBinaryExpr(n.getE1(), n.getE2());
 		return null;
 	}
 	
 	@Override
 	public Object visit(MultOp n) {
-		/*String idE1 = checkDx(n.getE1());
-		String idE2 = checkDx(n.getE2());
-		if(idE1.equals("")) {
-			n.getE1().accept(this);
-		}else {
-			this.checkParams(idE1, ParType.OUT, String.format("%s is a OUT parameter, cannot read in OUT parameter", idE1));
-		}
-		
-		if(idE2.equals("")) {
-			n.getE2().accept(this);
-		}else {
-			this.checkParams(idE2, ParType.OUT, String.format("%s is a OUT parameter, cannot read in OUT parameter", idE2));
-		}*/
 		visitOfBinaryExpr(n.getE1(), n.getE2());
 		return null;
 	}
 
 	@Override
 	public Object visit(SubOp n) {
-		/*if(checkDx(n.getE1()).equals("")) {
-			n.getE1().accept(this);
-		}
-		if(checkDx(n.getE2()).equals("")) {
-			n.getE2().accept(this);
-		}*/
 		visitOfBinaryExpr(n.getE1(), n.getE2());
 		return null;
 	}
 
 	@Override
 	public Object visit(UminusOp n) {
-		/*if(checkDx(n.getE()).equals("")) {
-			n.getE().accept(this);
-		}*/
 		visitOfUnaryExpr(n.getE());
 		return null;
 	}
 
 	@Override
 	public Object visit(AndOp n) {
-		/*if(checkDx(n.getE1()).equals("")) {
-			n.getE1().accept(this);
-		}
-		if(checkDx(n.getE2()).equals("")) {
-			n.getE2().accept(this);
-		}*/
 		visitOfBinaryExpr(n.getE1(), n.getE2());
 		return null;
 	}
 
 	@Override
 	public Object visit(NotOp n) {
-		/*if(checkDx(n.getE()).equals("")) {
-			n.getE().accept(this);
-		}*/
 		visitOfUnaryExpr(n.getE());
 		return null;
 	}
 
 	@Override
 	public Object visit(OrOp n) {
-		/*if(checkDx(n.getE1()).equals("")) {
-			n.getE1().accept(this);
-		}
-		if(checkDx(n.getE2()).equals("")) {
-			n.getE2().accept(this);
-		}*/
 		visitOfBinaryExpr(n.getE1(), n.getE2());
 		return null;
 	}
 
 	@Override
 	public Object visit(EqOp n) {
-		/*if(checkDx(n.getE1()).equals("")) {
-			n.getE1().accept(this);
-		}
-		if(checkDx(n.getE2()).equals("")) {
-			n.getE2().accept(this);
-		}*/
 		visitOfBinaryExpr(n.getE1(), n.getE2());
 		return null;
 	}
 
 	@Override
 	public Object visit(GeOp n) {
-		/*if(checkDx(n.getE1()).equals("")) {
-			n.getE1().accept(this);
-		}
-		if(checkDx(n.getE2()).equals("")) {
-			n.getE2().accept(this);
-		}*/
 		visitOfBinaryExpr(n.getE1(), n.getE2());
 		return null;
 	}
 
 	@Override
 	public Object visit(GtOp n) {
-		/*if(checkDx(n.getE1()).equals("")) {
-			n.getE1().accept(this);
-		}
-		if(checkDx(n.getE2()).equals("")) {
-			n.getE2().accept(this);
-		}*/
 		visitOfBinaryExpr(n.getE1(), n.getE2());
 		return null;
 	}
 
 	@Override
 	public Object visit(LeOp n) {
-		/*if(checkDx(n.getE1()).equals("")) {
-			n.getE1().accept(this);
-		}
-		if(checkDx(n.getE2()).equals("")) {
-			n.getE2().accept(this);
-		}*/
 		visitOfBinaryExpr(n.getE1(), n.getE2());
 		return null;
 	}
 
 	@Override
 	public Object visit(LtOp n) {
-		/*if(checkDx(n.getE1()).equals("")) {
-			n.getE1().accept(this);
-		}
-		if(checkDx(n.getE2()).equals("")) {
-			n.getE2().accept(this);
-		}*/
 		visitOfBinaryExpr(n.getE1(), n.getE2());
 		return null;
 	}
@@ -437,22 +353,25 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 				callSym = this.stack.get(i);
 				Set<String> set = callSym.keySet();
 				for(String s: set) {
-					if(callSym.get(s) instanceof ParTuple) {
-						find = true;
-						break;
-					}
+					if(callSym.get(s) instanceof ParTuple) {find = true;break;}
 				}
 				i--;
 			}
+			
+			if(n.getA().getChildList().size() != callParams.size()) throw new WrongArgumentException("numero di argomenti sbagliati");
+			//ArrayList<String> argsList = (ArrayList<String>) n.getA().accept(this);
 			ArrayList<Expr> argsList = n.getA().getChildList();
-			if(argsList.size() != callParams.size()) throw new WrongArgumentException("numero di argomenti sbagliati");
 			int j=0;
 			
 			for(Expr e : argsList) {
 				String id = e.accept(this)+"";
 				if(callSym.get(id) instanceof ParTuple) {
 					ParTuple t= (ParTuple) callSym.get(id);
-					if(callParams.get(j).getPt() != t.getPt()) throw new IllegalParamOperationException("Ferdinando le scrive meglio le eccezioni");
+					//if(callParams.get(j).getPt() != t.getPt()) throw new IllegalParamOperationException("Ferdinando le scrive meglio le eccezioni");
+					if(callParams.get(j).getPt() != t.getPt() && 
+					   ((callParams.get(j).getPt() != ParType.INOUT || t.getPt() != ParType.INOUT)) &&  
+					   (t.getPt() != ParType.INOUT)) 
+						throw new IllegalParamOperationException(String.format("Variabile %s del tipo %s, tipo richiesto %s", id,t.getPt().toString(),callParams.get(j).getPt().toString()));
 				}
 				j++;
 			}
@@ -480,7 +399,6 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(ReadOp n) {
-		
 		ArrayList<String> list = (ArrayList<String>) n.getV().accept(this);
 		for(String s: list) {
 			checkParams(s, ParType.IN, String.format("%s is a IN parameter, cannot write in IN parameter", s));
