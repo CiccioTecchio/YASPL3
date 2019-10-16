@@ -153,8 +153,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 	@Override
 	public Object visit(Programma n) throws RuntimeException {
 		n.setType(Type.VOID);
-		SymbolTable tbl = n.getSym();
-		stack.push(tbl);
+		stack.push(n.getSym());
 		this.actualScope = stack.peek();
 		n.getD().accept(this);
 		n.getS().accept(this);

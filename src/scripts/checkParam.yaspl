@@ -2,16 +2,20 @@ head
 
 int x;
 int y;
+int ls = 3+2;
+int k = 3, l=2+2, c;
+string ciao;
+bool t;
 			//callParams
-def chiamato(in int var, in int b, in int cc){
+def chiamato(in int var, out int b, in int cc){
 int la;
 var->;
 }
 			//t.getPt()
-def chiamante(in int v, in int c){//exprList
+def chiamante(in int v, out int c){//exprList
 int cc=0;
 int jj=0;
-
+c->;
 while(1<2) do{
 	while(1<2)do{
 		while(1<2)do{
@@ -34,5 +38,9 @@ while(1<2) do{
 }
 
 start
+ciao = "Lino";
 chiamato(x,y,33);
 x = 0;
+t = true;
+ls,k<-;
+"cioai",12,32," 444",12.72, ciao, x,t,false->;

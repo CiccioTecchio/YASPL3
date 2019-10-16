@@ -5,8 +5,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStreamReader;
+
 import lexer.LexerLex;
 import parser.ParserCup;
 import syntaxTree.Programma;
@@ -72,12 +72,12 @@ public class Cli {
 				fw.write(eAST.visit(p));
 			    fw.close();
 			}
-			/*GenerateCVisitor genC = new GenerateCVisitor();
-			//CodeVisitor genC = new CodeVisitor();
-		    //fw = new FileWriter("yasplSource/target.c");
-		    //fw.write(genC.visit(p));
-		    //fw.close();
-		    pb.redirectErrorStream(true);
+			//GenerateCVisitor genC = new GenerateCVisitor();
+			CodeVisitor genC = new CodeVisitor();
+		    fw = new FileWriter("yasplSource/target.c");
+		    fw.write(genC.visit(p));
+		    fw.close();
+		    /*pb.redirectErrorStream(true);
 		    if(js){
 		    pb.command("bash", "-c", "cd yasplSource;"
 		    					   + "clang target.c -o ../yaspl.out;"
@@ -122,19 +122,11 @@ public class Cli {
 			case "-ast": ast = true; break;
 			case "-scope": scope = true; break;
 			case "-enrich": enrich = true; break;
-			case "-js": {
-						js = true; break;
-			}
+			case "-js": js = true; break;
 			case "help": System.out.println(HELP); break;
 			case "-help": System.out.println(HELP); break;
 			}
 		}
 	}
 	
-	private static void readInput(BufferedReader bf) throws IOException {
-		String msg;
-		while((msg = bf.readLine())!=null) {
-			System.out.println(msg);
-		}
-	}
 }

@@ -29,8 +29,10 @@ hs_err_pid*
 
 \.project
 
-src/main/target\.out
-
 *.out
+*.ll
+*.out.js
+*.wasm
+yasplSource
 
 src/scripts/yaspl_src.sublime-workspace
