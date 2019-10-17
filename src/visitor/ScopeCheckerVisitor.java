@@ -377,7 +377,7 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 			}
 			n.getA().accept(this);
 		}else {
-			n.getA().accept(this);
+			if(n.getA()!=null)n.getA().accept(this);
 		}
 		return null;
 	}

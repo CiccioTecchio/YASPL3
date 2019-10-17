@@ -429,10 +429,8 @@ public class CodeVisitor implements Visitor<String> {
 	}
 
 	@Override
-	//TODO ricorda di gestire assignOp sulle stringhe
 	public String visit(AssignOp n) throws RuntimeException {
 		StringBuilder sb = new StringBuilder();
-		//sb.append(n.getId().accept(this));
 		if(n.getE() instanceof StringConst) {
 		sb.append("strcpy(")
 		.append(n.getId().accept(this))
@@ -455,7 +453,7 @@ public class CodeVisitor implements Visitor<String> {
 		sb.append(id);
 		sb.append("(");
 		this.functionName = id;
-		sb.append(n.getA().accept(this));
+		if(n.getA()!=null)sb.append(n.getA().accept(this));
 		this.functionName = "";
 		sb.append(");\n");
 		return sb.toString();
@@ -465,11 +463,11 @@ public class CodeVisitor implements Visitor<String> {
 	public String visit(IfThenElseOp n) throws RuntimeException {
 		StringBuilder sb = new StringBuilder();
 		sb.append("if(");
-		sb.append(n.getE());
+		sb.append(n.getE().accept(this));
 		sb.append("){\n");
-		sb.append(n.getCs1());
+		sb.append(n.getCs1().accept(this));
 		sb.append("}\nelse{\n");
-		sb.append(n.getCs2());
+		sb.append(n.getCs2().accept(this));
 		sb.append("}\n");
 		return sb.toString();
 	}
@@ -478,9 +476,9 @@ public class CodeVisitor implements Visitor<String> {
 	public String visit(IfThenOp n) throws RuntimeException {
 		StringBuilder sb = new StringBuilder();
 		sb.append("if(");
-		sb.append(n.getE());
+		sb.append(n.getE().accept(this));
 		sb.append("){\n");
-		sb.append(n.getCs());
+		sb.append(n.getCs().accept(this));
 		sb.append("}\n");
 		return sb.toString();
 	}
@@ -610,7 +608,7 @@ public class CodeVisitor implements Visitor<String> {
 			sb.append(e.accept(this));
 			sb.append("\"");
 		}else {
-				if(e instanceof IdConst &&  ((IdConst)e).getType() == Type.BOOL
+				if((e instanceof IdConst) &&  ((IdConst)e).getType() == Type.BOOL
 					|| (e instanceof EqOp || e instanceof NotOp
 					||  e instanceof GeOp || e instanceof GtOp
 					||  e instanceof LeOp || e instanceof LtOp

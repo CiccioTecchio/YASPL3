@@ -39,7 +39,8 @@ while(1<2) do{
 
 start
 ciao = "Lino";
-chiamato(x,y,33);
+while(1<2)do{chiamato(x,y,33);}
+
 x = 0;
 t = true;
 ls,k<-;

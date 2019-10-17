@@ -1,0 +1,108 @@
+head
+
+int x,y,res,opt;
+
+def somma(in int x, in int y, out int res ){
+res = x + y;
+}
+
+def mult(in int x, in int y, inout int res ){
+int i=0;
+while(not(i==y)) do{
+	res = res + x;
+	i = i + 1;
+}
+}
+
+def divisione(in int x, in int y, out int res){
+res = x / y;
+}
+
+def potenza(in int x, in int y, inout int res){
+int i=1;
+while(not(i==y)) do{
+	res = res * x;
+	i = i + 1;
+}
+}
+
+def fibonacci(in int num){
+  int i = 1, a = -1, b = 1;
+  res = 0;
+  while(i <= num)do{
+      res = a + b;
+      a = b;
+      b = res;
+      i = i + 1;
+      res->;
+  }
+}
+
+def menu(){
+    "Scegli un opzione:\n",
+    "1. Somma fra due interi\n",
+    "2. Moltiplicazione fra due interi\n",
+    "3. Divisione fra due interi\n",
+    "4. Elevazione a potenza\n",
+    "5. Radice quadrata di un intero\n",
+    "0. Esci"->;
+}
+
+def printBinOp(in int x, in char op, in int y, in int res){
+	x," ",op," ", y," = ",res->;
+}
+
+start
+menu();
+opt<-;
+while(not(opt == 0)) do{
+	if(opt == 1) then {
+		"inserisci 2 numeri"->;
+		x,y<-;
+		somma(x,y,res);
+		printBinOp(x,'+',y,res);
+	}else{
+	
+	if(opt == 2)then{
+		"inserisci 2 numeri"->;
+		x,y<-;
+		res = 0;
+		mult(x,y,res);
+		printBinOp(x,'*',y,res);
+	}else{
+		if(opt == 3) then{
+		"inserisci 2 interi positivi"->;
+		x,y<-;
+		while(x<0 or y<0)do{
+		"inserisci 2 interi positivi"->;
+		x,y<-;
+		}
+		divisione(x,y,res);
+		printBinOp(x,'/',y,res);
+		}
+	else {
+		if(opt == 4) then{
+		"inserisci 2 interi positivi"->;
+		x,y<-;
+		while(x<0 or y<0)do{
+		"inserisci 2 interi positivi"->;
+		x,y<-;
+		}
+		res = 1;
+		potenza(x,y,res);
+		printBinOp(x,'^',y,res);
+		}
+	else {
+		if(opt ==5)then{
+			"Sequenza"->;
+			x<-;
+            fibonacci(x);
+		}
+	}
+	}
+	}
+
+	}
+menu();
+opt<-;
+}
