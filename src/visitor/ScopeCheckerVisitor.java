@@ -367,11 +367,11 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 				String id = e.accept(this)+"";
 				if(callSym.get(id) instanceof ParTuple) {
 					ParTuple t= (ParTuple) callSym.get(id);
-					//if(callParams.get(j).getPt() != t.getPt()) throw new IllegalParamOperationException("Ferdinando le scrive meglio le eccezioni");
-					if(callParams.get(j).getPt() != t.getPt() && 
-					   ((callParams.get(j).getPt() != ParType.INOUT || t.getPt() != ParType.INOUT)) &&  
-					   (t.getPt() != ParType.INOUT)) 
-						throw new IllegalParamOperationException(String.format("Variabile %s del tipo %s, tipo richiesto %s", id,t.getPt().toString(),callParams.get(j).getPt().toString()));
+					if(callParams.get(j).getPt() != t.getPt()) throw new IllegalParamOperationException(String.format("Variabile %s del tipo %s, tipo richiesto %s", id,t.getPt().toString(),callParams.get(j).getPt().toString()));
+					//if(callParams.get(j).getPt() != t.getPt() && 
+					//   ((callParams.get(j).getPt() != ParType.INOUT || t.getPt() != ParType.INOUT)) &&  
+					//   (t.getPt() != ParType.INOUT)) 
+					//	throw new IllegalParamOperationException(String.format("Variabile %s del tipo %s, tipo richiesto %s", id,t.getPt().toString(),callParams.get(j).getPt().toString()));
 				}
 				j++;
 			}

@@ -169,7 +169,7 @@ public class CodeVisitor implements Visitor<String> {
 		sb.append(n.getId().accept(this));
 		sb.append("(){\n");
 		sb.append(n.getB().accept(this));
-		sb.append("\n}\n");
+		sb.append("}\n\n");
 		return sb.toString();
 	}
 
@@ -184,7 +184,7 @@ public class CodeVisitor implements Visitor<String> {
 		sb.append(n.getPd().accept(this));
 		sb.append("){\n");
 		sb.append(n.getB().accept(this));
-		sb.append("\n}\n");
+		sb.append("}\n\n");
 		return sb.toString();
 	}
 
@@ -542,7 +542,7 @@ public class CodeVisitor implements Visitor<String> {
 		String format = tmp[1];
 		sb.append("printf(\"");
 		sb.append(format);
-		sb.append("\\n\", ");
+		sb.append("\", ");
 		sb.append(value);
 		sb.append(");\n");
 		this.isWrite = false;
