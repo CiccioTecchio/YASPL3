@@ -94,7 +94,7 @@ non terminal	Args				Args;
 non terminal	CompStat			Comp_stat;
 non terminal	Expr				Expr;
 
-/*List of precedences*/ 
+/*List of precedences*/
 precedence nonassoc  ELSE; 
 precedence left PLUS,MINUS,OR;
 precedence left TIMES,DIV,AND;
@@ -165,6 +165,7 @@ Stat		::= Vars:vars READ SEMI											{: RESULT = new ReadOp("ReadOp", vars); 
 			;
 			
 Args		::=	Expr:e COMMA Args:arg		{: RESULT = arg.addChild(e); :}
+			| 	ID:id  COMMA Args:arg		{: RESULT = arg.addChild(new IdConst("Id", new Leaf("Value", id))); :}			
 			|	Expr:e						{: RESULT = new Args("ArgsOp").addChild(e); :}				
 			;
 			

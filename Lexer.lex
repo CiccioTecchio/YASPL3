@@ -54,15 +54,26 @@ intConst 	= {digit}+
 doubleConst = {intConst}("."{intConst})?
 any			= .
 stringConst = \"~\"
-singleLineComment = "//"~"\n"
-multilineComment = "/*"~"*/"
-comment 	= {singleLineComment} | {multilineComment}
+// singleLineComment = "//"~"\n"
+// multilineComment = "/*"~"*/"
+//comment 	= {singleLineComment} | {multilineComment}
 charConst	= '({any})?'
-whitespace = [ \r\n\t\f]
+// whitespace = [ \r\n\t\f]
+
+LineTerminator = \r|\n|\r\n
+InputCharacter = [^\r\n]
+WhiteSpace     = {LineTerminator} | [ \t\f]
+
+/* comments */
+Comment = {TraditionalComment} | {EndOfLineComment}
+
+TraditionalComment   = "/*" [^*] ~"*/" | "/*" "*"+ "/"
+// Comment can be the last line of the file, without line terminator.
+EndOfLineComment     = "//" {InputCharacter}* {LineTerminator}?
 
 %%
-{whitespace} 	{ /* ignore */ }
-{comment}		{ /*IGNORE*/ }
+{WhiteSpace} 	{ /* ignore */ }
+{Comment}		{ /* ignore */ }
 "head"			{ return symbol(LexerSym.HEAD); }
 "start"			{ return symbol(LexerSym.START); }
 ";"				{ return symbol(LexerSym.SEMI); }

@@ -214,9 +214,10 @@ public class CodeVisitor implements Visitor<String> {
 		sb.append("typedef int bool;\n");
 		sb.append("#define false 0\n");
 		sb.append("#define true 1\n");
+		sb.append("#define STRING_CONST 256\n");
 		sb.append("#define PB(b)(b?\"true\":\"false\")");
 		sb.append("\n");
-		sb.append("typedef char* string;\n");
+		sb.append("typedef char string[STRING_CONST];\n");
 		//visita Decls
 		sb.append(n.getD().accept(this));
 		sb.append("int main(void){\n");
@@ -335,8 +336,9 @@ public class CodeVisitor implements Visitor<String> {
 	@Override
 	public String visit(NotOp n) throws RuntimeException {
 		StringBuilder sb = new StringBuilder();
-		sb.append("!");
+		sb.append("!(");
 		sb.append(n.getE().accept(this));
+		sb.append(")");
 		return sb.toString();
 	}
 
@@ -430,10 +432,19 @@ public class CodeVisitor implements Visitor<String> {
 	//TODO ricorda di gestire assignOp sulle stringhe
 	public String visit(AssignOp n) throws RuntimeException {
 		StringBuilder sb = new StringBuilder();
+		//sb.append(n.getId().accept(this));
+		if(n.getE() instanceof StringConst) {
+		sb.append("strcpy(")
+		.append(n.getId().accept(this))
+		.append(", ")
+		.append(n.getE().accept(this))
+		.append(");\n");
+		}else {
 		sb.append(n.getId().accept(this));
 		sb.append(" = ");
 		sb.append(n.getE().accept(this));
 		sb.append(";\n");
+		}
 		return sb.toString();
 	}
 
@@ -457,7 +468,7 @@ public class CodeVisitor implements Visitor<String> {
 		sb.append(n.getE());
 		sb.append("){\n");
 		sb.append(n.getCs1());
-		sb.append("\n}else{\n");
+		sb.append("}\nelse{\n");
 		sb.append(n.getCs2());
 		sb.append("}\n");
 		return sb.toString();
@@ -470,7 +481,7 @@ public class CodeVisitor implements Visitor<String> {
 		sb.append(n.getE());
 		sb.append("){\n");
 		sb.append(n.getCs());
-		sb.append("\n}");
+		sb.append("}\n");
 		return sb.toString();
 	}
 	
@@ -519,7 +530,7 @@ public class CodeVisitor implements Visitor<String> {
 		this.stack.push(n.getSym());
 		this.actualScope = this.stack.peek();
 		sb.append(n.getBody().accept(this));
-		sb.append("\n}");
+		sb.append("}\n");
 		return sb.toString();
 	}
 
@@ -599,16 +610,17 @@ public class CodeVisitor implements Visitor<String> {
 			sb.append(e.accept(this));
 			sb.append("\"");
 		}else {
-			if(e instanceof CharConst) {
-				sb.append("\'");
-				sb.append(e.accept(this));
-				sb.append("\'");
-			}else {
-				if(e instanceof IdConst &&  ((IdConst)e).getType() == Type.BOOL  ) {
+				if(e instanceof IdConst &&  ((IdConst)e).getType() == Type.BOOL
+					|| (e instanceof EqOp || e instanceof NotOp
+					||  e instanceof GeOp || e instanceof GtOp
+					||  e instanceof LeOp || e instanceof LtOp
+					||  e instanceof AndOp || e instanceof OrOp)
+						) {
+					
 					sb.append("PB("+e.accept(this)+")");
 				}else
 					sb.append(e.accept(this));
-			}
+			
 		}
 		return sb.toString();
 	}

@@ -1,0 +1,19 @@
+head
+int letto, somma = 0;
+bool b = false;
+bool b1 = true;
+string s;
+
+start
+s = "100"; 
+"Inserisci numero"->;
+letto<-;
+while(not(letto == 0))do{
+	"Inserisci numero"->;
+	somma = somma + letto;
+	letto<-;
+}
+
+somma->;
+somma,somma ->;
+//
