@@ -18,7 +18,7 @@ def divisione(in int x, in int y, out int res){
 res = x / y;
 }
 
-def printBinOp(in int x, in char op, in int y, inout int res){
+def printBinOp(in int x, in char op, in int y, in int res){
 	x," ",op," ", y," = ",res,"\n"->;
 }
 
@@ -28,6 +28,7 @@ while(not(i==(y+1))) do{
 	res = res * x;
 	i = i + 1;
 }
+printBinOp(x,'^',y,res);
 }
 
 def fibonacci(in int num){

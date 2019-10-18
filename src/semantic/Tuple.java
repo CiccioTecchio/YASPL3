@@ -18,6 +18,6 @@ public class Tuple {
 
 	public void setKind(Kind kind) {
 		this.kind = kind;
-	}	
+	}
 
 }

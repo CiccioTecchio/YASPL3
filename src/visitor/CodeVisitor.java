@@ -2,7 +2,9 @@ package visitor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Stack;
+import java.util.TreeMap;
 
 import semantic.DefTuple;
 import semantic.ParTuple;
@@ -10,6 +12,7 @@ import semantic.SymbolTable;
 import semantic.SymbolTable.ParType;
 import semantic.SymbolTable.Type;
 import semantic.Tuple;
+import semantic.VarTuple;
 import syntaxTree.Args;
 import syntaxTree.Body;
 import syntaxTree.CompStat;
@@ -67,12 +70,15 @@ public class CodeVisitor implements Visitor<String> {
 	private Stack<SymbolTable> stack;
 	private SymbolTable actualScope;
 	private String functionName;
-	
+	private TreeMap<String, String> stringInit;
+	private final String OPUGUALE = " = ";
+
 	public CodeVisitor() {
 		this.isWrite = false;
 		this.stack = new Stack<SymbolTable>();
 		this.actualScope = new SymbolTable();
 		this.functionName = "";
+		this.stringInit = new TreeMap<>();
 	}
 	
 	
@@ -97,25 +103,15 @@ public class CodeVisitor implements Visitor<String> {
 				int size = list.size();
 				for(int i = 0; i<size; i++) {
 					Expr e = list.get(i);
-					if(e instanceof IdConst) {
-					String id = ((IdConst) e).getId().getValue();
-					Tuple t = lookup(id);
-					if(t instanceof ParTuple) {
-						ParType pt = ((ParTuple) t).getPt();
-						if(pt != ParType.IN) {
+					DefTuple dt = (DefTuple) lookup(this.functionName);
+					List<ParTuple> t = dt.getParArray();
+						if(t.get(i).getPt()!= ParType.IN) {
 							sb.append("&(");
 							sb.append(e.accept(this));
 							sb.append(")");
-						}else sb.append(e.accept(this));
-					}else { //caso id dopo start
-						DefTuple dt = (DefTuple) lookup(this.functionName);
-						List<ParTuple> listTuple = dt.getParArray();
-						if(listTuple.get(i).getPt() != ParType.IN) {
-							sb.append("&");
-						}
-						sb.append(e.accept(this));
+						}else {
+							sb.append(e.accept(this));
 					}
-				}else sb.append(e.accept(this));
 				sb.append(",");
 				}
 				sb.deleteCharAt(sb.lastIndexOf(","));
@@ -128,7 +124,9 @@ public class CodeVisitor implements Visitor<String> {
 	public String visit(Body n) throws RuntimeException {
 		StringBuilder sb = new StringBuilder();
 		sb.append(n.getVd().accept(this));
+		sb.append(allocateString());
 		sb.append(n.getS().accept(this));
+		sb.append(this.freeString());
 		this.stack.pop();
 		this.actualScope = this.stack.peek();
 		return sb.toString();
@@ -214,15 +212,16 @@ public class CodeVisitor implements Visitor<String> {
 		sb.append("typedef int bool;\n");
 		sb.append("#define false 0\n");
 		sb.append("#define true 1\n");
-		sb.append("#define STRING_CONST 256\n");
 		sb.append("#define PB(b)(b?\"true\":\"false\")");
 		sb.append("\n");
-		sb.append("typedef char string[STRING_CONST];\n");
+		sb.append("typedef char* string;\n");
 		//visita Decls
 		sb.append(n.getD().accept(this));
 		sb.append("int main(void){\n");
+		sb.append(this.allocateString());
 		//visita Statements
 		sb.append(n.getS().accept(this));
+		sb.append(this.freeString());
 		sb.append("return 0;\n}");
 		this.stack.pop();
 		return sb.toString();
@@ -273,7 +272,7 @@ public class CodeVisitor implements Visitor<String> {
 	@Override
 	public String visit(VarInitValue n) throws RuntimeException {
 		StringBuilder sb = new StringBuilder();
-		sb.append(" = ");
+		sb.append(OPUGUALE);
 		sb.append(n.getE().accept(this));
 		return sb.toString();
 	}
@@ -354,45 +353,96 @@ public class CodeVisitor implements Visitor<String> {
 	@Override
 	public String visit(EqOp n) throws RuntimeException {
 		StringBuilder sb = new StringBuilder();
+		//TODO se n.getE1 è un'IdConst fai lookup per cercarla fra gli scope se è una stringa va confrontata con strcmp
+		final boolean E1 = n.getE1().getType() == Type.STRING;
+		final boolean E2 = n.getE2().getType() == Type.STRING;
+		if(E1 && E2) {
+				sb.append("strcmp(")
+				.append(n.getE1().accept(this))
+				.append(",")
+				.append(n.getE2().accept(this))
+				.append(")").append(" == 0");
+		}else {
 		sb.append(n.getE1().accept(this));
 		sb.append(" == ");
 		sb.append(n.getE2().accept(this));
+		}
 		return sb.toString();
 	}
 
 	@Override
 	public String visit(GeOp n) throws RuntimeException {
 		StringBuilder sb = new StringBuilder();
+		final boolean E1 = n.getE1().getType() == Type.STRING;
+		final boolean E2 = n.getE2().getType() == Type.STRING;
+		if(E1 && E2) {
+				sb.append("strcmp(")
+				.append(n.getE1().accept(this))
+				.append(",")
+				.append(n.getE2().accept(this))
+				.append(")").append(" >= 0");
+		}else {
 		sb.append(n.getE1().accept(this));
 		sb.append(" >= ");
 		sb.append(n.getE2().accept(this));
+		}
 		return sb.toString();
 	}
 
 	@Override
 	public String visit(GtOp n) throws RuntimeException {
 		StringBuilder sb = new StringBuilder();
+		final boolean E1 = n.getE1().getType() == Type.STRING;
+		final boolean E2 = n.getE2().getType() == Type.STRING;
+		if(E1 && E2) {
+				sb.append("strcmp(")
+				.append(n.getE1().accept(this))
+				.append(",")
+				.append(n.getE2().accept(this))
+				.append(")").append(" > 0");
+		}else {
 		sb.append(n.getE1().accept(this));
 		sb.append(" > ");
 		sb.append(n.getE2().accept(this));
+		}
 		return sb.toString();
 	}
 
 	@Override
 	public String visit(LeOp n) throws RuntimeException {
 		StringBuilder sb = new StringBuilder();
+		final boolean E1 = n.getE1().getType() == Type.STRING;
+		final boolean E2 = n.getE2().getType() == Type.STRING;
+		if(E1 && E2) {
+				sb.append("strcmp(")
+				.append(n.getE1().accept(this))
+				.append(",")
+				.append(n.getE2().accept(this))
+				.append(")").append(" <= 0");
+		}else {
 		sb.append(n.getE1().accept(this));
 		sb.append(" <= ");
 		sb.append(n.getE2().accept(this));
+		}
 		return sb.toString();
 	}
 
 	@Override
 	public String visit(LtOp n) throws RuntimeException {
 		StringBuilder sb = new StringBuilder();
+		final boolean E1 = n.getE1().getType() == Type.STRING;
+		final boolean E2 = n.getE2().getType() == Type.STRING;
+		if(E1 && E2) {
+				sb.append("strcmp(")
+				.append(n.getE1().accept(this))
+				.append(",")
+				.append(n.getE2().accept(this))
+				.append(")").append(" < 0");
+		}else {
 		sb.append(n.getE1().accept(this));
 		sb.append(" < ");
 		sb.append(n.getE2().accept(this));
+		}
 		return sb.toString();
 	}
 
@@ -431,18 +481,10 @@ public class CodeVisitor implements Visitor<String> {
 	@Override
 	public String visit(AssignOp n) throws RuntimeException {
 		StringBuilder sb = new StringBuilder();
-		if(n.getE() instanceof StringConst) {
-		sb.append("strcpy(")
-		.append(n.getId().accept(this))
-		.append(", ")
-		.append(n.getE().accept(this))
-		.append(");\n");
-		}else {
 		sb.append(n.getId().accept(this));
-		sb.append(" = ");
+		sb.append(OPUGUALE);
 		sb.append(n.getE().accept(this));
 		sb.append(";\n");
-		}
 		return sb.toString();
 	}
 
@@ -488,12 +530,18 @@ public class CodeVisitor implements Visitor<String> {
 	    StringBuilder format = new StringBuilder();
 	    StringBuilder value = new StringBuilder();
 	    StringBuilder res = new StringBuilder();
-	    for(IdConst id : n.getChildList()) {
+	    List<IdConst> list = n.getChildList();
+	    for(IdConst id : list) {
 	      if(id.getType() != null) {
 	        format.append(this.escapeForC(id.getType()));
+	        if(id.getType().toString().equalsIgnoreCase("STRING")) {
+	        	value.append(id.accept(this));
+	        	value.append(",");
+	        }else {
 	        value.append("&");
 	        value.append(id.accept(this));
 	        value.append(",");
+	        }
 	      }
 	    }
 	    value.deleteCharAt(value.lastIndexOf(","));
@@ -542,7 +590,7 @@ public class CodeVisitor implements Visitor<String> {
 		String format = tmp[1];
 		sb.append("printf(\"");
 		sb.append(format);
-		sb.append("\", ");
+		sb.append("\\n\", ");
 		sb.append(value);
 		sb.append(");\n");
 		this.isWrite = false;
@@ -567,16 +615,20 @@ public class CodeVisitor implements Visitor<String> {
 	@Override
 	public String visit(VarInit n) throws RuntimeException {
 		StringBuilder sb = new StringBuilder();
-		sb.append(n.getId().accept(this));
-		sb.append(n.getViv().accept(this));
+		String id = n.getId().accept(this).toString();
+		String viv = n.getViv().accept(this).toString();
+		
+		if(n.getId().getType() == Type.STRING) {
+			this.stringInit.put(id, viv.replace(OPUGUALE, ""));	
+		}
+		sb.append(id);
+		sb.append(viv);
 		return sb.toString();
 	}
 
 	@Override
 	public String visit(VarNotInit n) throws RuntimeException {
-		StringBuilder sb = new StringBuilder();
-		sb.append(n.getId().accept(this));
-		return sb.toString();
+		return n.getId().accept(this).toString();
 	}
 
 	@Override
@@ -632,5 +684,28 @@ public class CodeVisitor implements Visitor<String> {
 		}
 		i++;
 		return this.stack.get(i).get(id);
+	}
+	
+	
+	private String allocateString() {
+		String tr ="";
+		for(Entry<String, Tuple>e: this.actualScope.entrySet()) {
+			if(e.getValue() instanceof VarTuple && ((VarTuple) e.getValue()).getType() == Type.STRING) {
+				tr+=e.getKey()+" = malloc(256 * sizeof(char));\n";
+				if(stringInit.containsKey(e.getKey()))
+					tr+="strcpy("+e.getKey()+", "+this.stringInit.get(e.getKey())+");\n";
+			}
+		}
+		return tr;
+	}
+	
+	private String freeString() {
+		String tr ="";
+		for(Entry<String, Tuple>e: this.actualScope.entrySet()) {
+			if(e.getValue() instanceof VarTuple && ((VarTuple) e.getValue()).getType() == Type.STRING) {
+				tr+="free("+e.getKey()+");\n";
+			}
+		}
+		return tr;
 	}
 }

@@ -99,8 +99,7 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 	
 	@Override
 	public Object visit(VarDecl n){
-		ArrayList<String> idList = (ArrayList<String>) n.getVdi().accept(this);
-		
+		ArrayList<String> idList = (ArrayList<String>) n.getVdi().accept(this);	
 		for(String s: idList) {
 			checkAlreadyDeclared(s);
 			VarTuple t = new VarTuple(Kind.VARDECL, this.getValueOfLeaf(n.getT()));
@@ -112,7 +111,7 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 	@Override
 	public Object visit(VarDeclsInit n) {
 		ArrayList<String> idList = new ArrayList<>();
-		for(VarDeclsInitWrapper vdiw: n.getChildList()) {
+		for(VarDeclsInitWrapper vdiw: n.getChildList()) {			
 			idList.add(0, (String)vdiw.accept(this));
 		}
 		return idList;
@@ -367,11 +366,11 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 				String id = e.accept(this)+"";
 				if(callSym.get(id) instanceof ParTuple) {
 					ParTuple t= (ParTuple) callSym.get(id);
-					if(callParams.get(j).getPt() != t.getPt()) throw new IllegalParamOperationException(String.format("Variabile %s del tipo %s, tipo richiesto %s", id,t.getPt().toString(),callParams.get(j).getPt().toString()));
-					//if(callParams.get(j).getPt() != t.getPt() && 
-					//   ((callParams.get(j).getPt() != ParType.INOUT || t.getPt() != ParType.INOUT)) &&  
-					//   (t.getPt() != ParType.INOUT)) 
-					//	throw new IllegalParamOperationException(String.format("Variabile %s del tipo %s, tipo richiesto %s", id,t.getPt().toString(),callParams.get(j).getPt().toString()));
+					//if(callParams.get(j).getPt() != t.getPt()) throw new IllegalParamOperationException(String.format("Variabile %s del tipo %s, tipo richiesto %s", id,t.getPt().toString(),callParams.get(j).getPt().toString()));
+					if(callParams.get(j).getPt() != t.getPt() && 
+					   ((callParams.get(j).getPt() != ParType.INOUT || t.getPt() != ParType.INOUT)) &&  
+					   (t.getPt() != ParType.INOUT)) 
+						throw new IllegalParamOperationException(String.format("Variabile %s del tipo %s, tipo richiesto %s", id,t.getPt().toString(),callParams.get(j).getPt().toString()));
 				}
 				j++;
 			}

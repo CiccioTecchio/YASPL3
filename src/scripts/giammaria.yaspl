@@ -1,9 +1,34 @@
 head
 
-int c =3;
-string ciao = "ciao";
-string ciao2 = "ciao";
+string ciao ="ciao2";
 bool b;
+string s,s2;
+
+def prova(){
+	string s1="pippo",s2="pippa";
+	s1,s2->;
+}
+
 start
-b = ciao == ciao2;
+s,s2<-;
+b = (ciao == "ciao2");
 b->;
+b = (ciao < "ciao2");
+b->;
+(ciao == "ciao")->;
+if(ciao == "ciao") then{
+	true->;
+}else{
+	false->;
+}
+prova();
+/*int c =3;
+string ciao = "2";
+string ciao2 = "2";
+bool b = false;
+start
+if(ciao == ciao2)then{
+	"a"->;
+}
+//b = ciao == ciao2;
+b->;*/

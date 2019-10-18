@@ -11,11 +11,11 @@ def calcola(){
 
 start
 fattoriale = 1;
-"Inserisci un intero positivo per calcolare il fattoriale" ->;
+"Inserisci un intero positivo per calcolare il fattoriale\n" ->;
 input<-;
 if(input >=1) then {
     calcola();    
-    "Il fattoriale è "+fattoriale->;
+    "Il fattoriale è ",fattoriale,"\n"->;
 }else {
-    "Devi inserire un intero positivo!" ->;
+    "Devi inserire un intero positivo!\n" ->;
 }
