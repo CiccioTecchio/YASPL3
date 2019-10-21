@@ -13,8 +13,11 @@ import syntaxTree.leaf.*;
 import syntaxTree.utils.*;
 import syntaxTree.declsOp.*;
 import exception.SyntaxErrorException;
+import java_cup.runtime.ComplexSymbolFactory;
+import java_cup.runtime.ComplexSymbolFactory.ComplexSymbol;
 
-parser code{:
+parser code{:  
+	
 	public void report_error(String msg, Object info){
 		if(info instanceof Symbol){
 			if(((Symbol)info).left != -1 && ((Symbol)info).right!=-1){
@@ -25,6 +28,7 @@ parser code{:
 			}
 		}
 	}
+    
 :}
 
 
@@ -40,13 +44,13 @@ terminal String ID;
 terminal COMMA;
 terminal DEF;
 terminal LPAR;
-terminal RPAR;
+terminal RPAR; 
 terminal LGPAR;
 terminal RGPAR;
 terminal READ;
 terminal WRITE; 
 terminal PLUS;
-terminal MINUS;
+terminal MINUS; 
 terminal TIMES;
 terminal DIV;
 terminal String INT_CONST;
@@ -99,10 +103,10 @@ precedence nonassoc  ELSE;
 precedence left PLUS,MINUS,OR;
 precedence left TIMES,DIV,AND;
 precedence nonassoc GT, GE, LT, LE, EQ; 
-precedence left UMINUS, NOT, COMMA;	
+precedence left UMINUS, NOT, COMMA;	 
 
 /*Grammar*/												
-Programma 	::= HEAD Decls:decls START Statements:s							{: RESULT = new Programma("Programma", decls, s);:}
+Programma 	::= HEAD:h Decls:decls START Statements:s							{: RESULT = new Programma(hxleft, hxright, "Programma", decls, s); :}
 			; 
 																
 Decls 		::= Var_decl:var Decls:decls									{: RESULT = decls.addChild(var); :}
