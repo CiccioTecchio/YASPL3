@@ -8,8 +8,8 @@ import lexer.*;
 import parser.ParserCup;
 import syntaxTree.Programma;
 import visitor.ASTVisitor;
+import visitor.CodeVisitor;
 import visitor.EnrichASTVisitor;
-import visitor.GenerateCVisitor;
 import visitor.ScopeCheckerVisitor;
 import visitor.TypeCheckerVisitor;
 
@@ -33,7 +33,7 @@ public class Main {
 			fw = new FileWriter(args[2]);
 			fw.write(eAST.visit(p));
 		    fw.close();
-		    GenerateCVisitor genC = new GenerateCVisitor();
+		    CodeVisitor genC = new CodeVisitor();
 		    fw = new FileWriter(args[3]);
 		    fw.write(genC.visit(p));
 		    fw.close();

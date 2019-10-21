@@ -1,34 +1,13 @@
 head
-
-string ciao ="ciao2";
-bool b;
-string s,s2;
-
-def prova(){
-	string s1="pippo",s2="pippa";
-	s1,s2->;
-}
-
+string s, c = "bellanova";
+int f;
 start
-s,s2<-;
-b = (ciao == "ciao2");
-b->;
-b = (ciao < "ciao2");
-b->;
-(ciao == "ciao")->;
-if(ciao == "ciao") then{
-	true->;
-}else{
-	false->;
-}
-prova();
-/*int c =3;
-string ciao = "2";
-string ciao2 = "2";
-bool b = false;
-start
-if(ciao == ciao2)then{
-	"a"->;
-}
-//b = ciao == ciao2;
-b->;*/
+
+f = 5+3;
+f = 8;
+c = "bruttanova";
+s = "kebabino per",4+7,f;
+s = c;
+s,"\n",c,"\n"->;
+
+"Fine\n"->;

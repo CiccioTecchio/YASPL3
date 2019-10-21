@@ -1,5 +1,6 @@
 package syntaxTree.statOp;
 
+import syntaxTree.Args;
 import syntaxTree.Expr;
 import syntaxTree.Stat;
 import syntaxTree.components.Leaf;
@@ -11,15 +12,23 @@ public class AssignOp extends Stat implements Visitable {
 
 	private String op;
 	private IdConst id;
-	private Expr e;
+	//private Expr e;
+	private Args a;
 	
-	public AssignOp(String op, IdConst id, Expr e) {
+	/*public AssignOp(String op, IdConst id, Expr e) {
 		super(op, id, e);
 		this.op = op;
 		this.id = id;
 		this.e = e;
-	}
+	}*/
 
+	public AssignOp(String op, IdConst id, Args a) {
+		super(op, id, a);
+		this.op = op;
+		this.id = id;
+		this.a = a;
+	}
+	
 	@Override
 	public Object accept(Visitor<?> visitor) {
 		// TODO Auto-generated method stub
@@ -34,8 +43,8 @@ public class AssignOp extends Stat implements Visitable {
 		return id;
 	}
 
-	public Expr getE() {
-		return e;
+	public Args getA() {
+		return a;
 	}
 	
 	

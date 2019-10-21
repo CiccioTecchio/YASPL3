@@ -1,19 +1,15 @@
 package main;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.InputStreamReader;
-
 import lexer.LexerLex;
 import parser.ParserCup;
 import syntaxTree.Programma;
 import visitor.ASTVisitor;
 import visitor.CodeVisitor;
 import visitor.EnrichASTVisitor;
-import visitor.GenerateCVisitor;
 import visitor.ScopeCheckerVisitor;
 import visitor.TypeCheckerVisitor;
 

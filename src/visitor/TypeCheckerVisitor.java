@@ -13,6 +13,7 @@ import syntaxTree.varDeclInitOp.*;
 import syntaxTree.wrapper.DeclsWrapper;
 import syntaxTree.wrapper.VarDeclsInitWrapper;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 import java.util.logging.Logger;
 import exception.*;
@@ -456,13 +457,19 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 	@Override
 	public Object visit(AssignOp n) throws RuntimeException {
 		Type t1 = (Type) n.getId().accept(this);
-		Type t2 = (Type) n.getE().accept(this);
+		List<Type> argsList = (List<Type>) n.getA().accept(this);
+		Type t2;
+		if(argsList.size() == 1) {
+			t2 = argsList.get(0);
+		}else {
+			t2 = Type.STRING;
+		}
 		Type toReturn = this.assignOpCompOp[gift(t1)][gift(t2)];
 		if(toReturn == null) {
 			throw new TypeMismatchException(n.getOp(), t1, t2);
-		}else
-		n.setType(Type.VOID);
-		return Type.VOID;
+		}else n.setType(Type.VOID);
+		
+		return n.getType();
 	}
 
 

@@ -481,10 +481,30 @@ public class CodeVisitor implements Visitor<String> {
 	@Override
 	public String visit(AssignOp n) throws RuntimeException {
 		StringBuilder sb = new StringBuilder();
-		sb.append(n.getId().accept(this));
-		sb.append(OPUGUALE);
-		sb.append(n.getE().accept(this));
-		sb.append(";\n");
+		List<Expr> argsList = n.getA().getChildList();
+		String id = n.getId().accept(this).toString();
+		
+		//sb.append(n.getE().accept(this));
+		if(argsList.size() == 1) {
+			Expr e = argsList.get(0);
+			if(e instanceof StringConst || 
+			  (e instanceof IdConst && e.getType() == Type.STRING)) {
+				sb.append(String.format("strcpy(%s,%s);\n",id, e.accept(this)));
+			}else {
+			sb.append(id);
+			sb.append(OPUGUALE);
+			sb.append(argsList.get(0).accept(this));
+			sb.append(";\n");
+			}
+		}else {
+			isWrite = true;
+			String[] tmp = n.getA().accept(this).toString().split("#");
+			String format = tmp[0];
+			String value = tmp[1];
+			sb.append(String.format("sprintf(%s,\"%s\",%s);\n", id, value, format));
+			isWrite = false;
+		}
+		
 		return sb.toString();
 	}
 
@@ -590,7 +610,8 @@ public class CodeVisitor implements Visitor<String> {
 		String format = tmp[1];
 		sb.append("printf(\"");
 		sb.append(format);
-		sb.append("\\n\", ");
+		sb.append("\", ");
+		//sb.append("\\n\", ");
 		sb.append(value);
 		sb.append(");\n");
 		this.isWrite = false;

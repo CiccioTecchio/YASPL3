@@ -156,7 +156,7 @@ Body		::=	LGPAR Var_decls:vd Statements:s RGPAR						{: RESULT = new Body("Body"
 			
 Stat		::= Vars:vars READ SEMI											{: RESULT = new ReadOp("ReadOp", vars); :}
 			|	Args:args WRITE SEMI										{: RESULT = new WriteOp("WriteOp", args); :}
-			|	ID:id ASSIGN Expr:e1 SEMI 									{: RESULT = new AssignOp("AssignOp", new IdConst("Id", new Leaf("Value", id)), e1); :}
+			|	ID:id ASSIGN Args:e1 SEMI 									{: RESULT = new AssignOp("AssignOp", new IdConst("Id", new Leaf("Value", id)), e1); :}
 			|	ID:id LPAR Args:args RPAR SEMI								{: RESULT = new CallOp("CallOpWithArgs", new IdConst("Id", new Leaf("Value", id)), args); :}
 			|	ID:id LPAR RPAR SEMI									 	{: RESULT = new CallOp("CallOp", new IdConst("Id", new Leaf("Value", id))); :}
 			|	IF LPAR Expr:e RPAR THEN Comp_stat:cs1 ELSE Comp_stat:cs2	{: RESULT = new IfThenElseOp("IfThenElseOp", e, cs1, cs2); :}

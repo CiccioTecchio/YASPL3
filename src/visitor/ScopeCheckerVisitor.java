@@ -329,9 +329,10 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(AssignOp n) {
-		String id = (String)n.getId().accept(this);
-		checkParams(id, ParType.IN, String.format("%s is a IN parameter, cannot write in IN parameter", id));
-		if(checkDx(n.getE()).equals(""))n.getE().accept(this);
+		n.getId().accept(this);
+		n.getA().accept(this);
+		//checkParams(id, ParType.IN, String.format("%s is a IN parameter, cannot write in IN parameter", id));
+		//if(checkDx(n.getE()).equals(""))n.getE().accept(this);
 		return null;
 	}
 
