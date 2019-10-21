@@ -18,6 +18,8 @@ import syntaxTree.leaf.*;
 import syntaxTree.utils.*;
 import syntaxTree.declsOp.*;
 import exception.SyntaxErrorException;
+import java_cup.runtime.ComplexSymbolFactory;
+import java_cup.runtime.ComplexSymbolFactory.ComplexSymbol;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -361,7 +363,8 @@ public class ParserCup extends java_cup.runtime.lr_parser {
   public int error_sym() {return 1;}
 
 
-
+  
+	
 	public void report_error(String msg, Object info){
 		if(info instanceof Symbol){
 			if(((Symbol)info).left != -1 && ((Symbol)info).right!=-1){
@@ -372,6 +375,7 @@ public class ParserCup extends java_cup.runtime.lr_parser {
 			}
 		}
 	}
+    
 
 
 /** Cup generated class to encapsulate user supplied action code.*/
@@ -402,13 +406,16 @@ class CUP$ParserCup$actions {
           case 0: // Programma ::= HEAD Decls START Statements 
             {
               Programma RESULT =null;
+		int hleft = ((java_cup.runtime.Symbol)CUP$ParserCup$stack.elementAt(CUP$ParserCup$top-3)).left;
+		int hright = ((java_cup.runtime.Symbol)CUP$ParserCup$stack.elementAt(CUP$ParserCup$top-3)).right;
+		Object h = (Object)((java_cup.runtime.Symbol) CUP$ParserCup$stack.elementAt(CUP$ParserCup$top-3)).value;
 		int declsleft = ((java_cup.runtime.Symbol)CUP$ParserCup$stack.elementAt(CUP$ParserCup$top-2)).left;
 		int declsright = ((java_cup.runtime.Symbol)CUP$ParserCup$stack.elementAt(CUP$ParserCup$top-2)).right;
 		Decls decls = (Decls)((java_cup.runtime.Symbol) CUP$ParserCup$stack.elementAt(CUP$ParserCup$top-2)).value;
 		int sleft = ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()).left;
 		int sright = ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()).right;
 		Statements s = (Statements)((java_cup.runtime.Symbol) CUP$ParserCup$stack.peek()).value;
-		 RESULT = new Programma("Programma", decls, s);
+		 RESULT = new Programma(hxleft, hxright, "Programma", decls, s); 
               CUP$ParserCup$result = parser.getSymbolFactory().newSymbol("Programma",0, ((java_cup.runtime.Symbol)CUP$ParserCup$stack.elementAt(CUP$ParserCup$top-3)), ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), RESULT);
             }
           return CUP$ParserCup$result;
