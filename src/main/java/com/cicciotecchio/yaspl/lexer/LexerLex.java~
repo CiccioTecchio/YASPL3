@@ -940,11 +940,11 @@ public final class LexerLex implements java_cup.runtime.Scanner {
             }
           case 47: break;
           case 2: 
-            { return symbol("ID", LexerSym.ID, yytext());
+            { return symbol(yytext(), LexerSym.ID);
             }
           case 48: break;
           case 3: 
-            { return symbol("INT_CONST", LexerSym.INT_CONST, yytext());
+            { return symbol(yytext(), LexerSym.INT_CONST);
             }
           case 49: break;
           case 4: 
@@ -1004,11 +1004,11 @@ public final class LexerLex implements java_cup.runtime.Scanner {
             }
           case 63: break;
           case 18: 
-            { return symbol("STRING_CONST", LexerSym.STRING_CONST,yytext());
+            { return symbol(yytext(), LexerSym.STRING_CONST);
             }
           case 64: break;
           case 19: 
-            { return symbol("CHAR_CONST", LexerSym.CHAR_CONST, yytext());
+            { return symbol(yytext(), LexerSym.CHAR_CONST);
             }
           case 65: break;
           case 20: 
@@ -1048,7 +1048,7 @@ public final class LexerLex implements java_cup.runtime.Scanner {
             }
           case 74: break;
           case 29: 
-            { return symbol("DOUBLE_CONST", LexerSym.DOUBLE_CONST, yytext());
+            { return symbol(yytext(), LexerSym.DOUBLE_CONST);
             }
           case 75: break;
           case 30: 

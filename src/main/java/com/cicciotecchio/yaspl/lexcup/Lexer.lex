@@ -51,7 +51,7 @@ import java.io.InputStreamReader;
 %}
 
 %eofval{
-	return new Symbol(LexerSym.EOF);
+	return symbol("EOF", LexerSym.EOF);
 %eofval}
 
 id 			= ([:jletter:] | "_" ) ([:jletterdigit:] | [:jletter:] | "_" )*
@@ -100,10 +100,10 @@ EndOfLineComment     = "//" {InputCharacter}* {LineTerminator}?
 "-"				{ return symbol("MINUS", LexerSym.MINUS); }
 "*"				{ return symbol("TIMES", LexerSym.TIMES); }
 "/"				{ return symbol("DIV", LexerSym.DIV); }
-{intConst}		{ return symbol(yytext(), LexerSym.INT_CONST); }
-{doubleConst}	{ return symbol(yytext(), LexerSym.DOUBLE_CONST); }
-{stringConst}	{ return symbol(yytext(), LexerSym.STRING_CONST); }
-{charConst}		{ return symbol(yytext(), LexerSym.CHAR_CONST); }
+{intConst}		{ return symbol("INT_CONST", LexerSym.INT_CONST, yytext()); }
+{doubleConst}	{ return symbol("DOUBLE_CONST", LexerSym.DOUBLE_CONST, yytext()); }
+{stringConst}	{ return symbol("STRING_CONST", LexerSym.STRING_CONST,yytext()); }
+{charConst}		{ return symbol("CHAR_CONST", LexerSym.CHAR_CONST, yytext()); }
 "true"			{ return symbol("TRUE", LexerSym.TRUE); }
 "false"			{ return symbol("FALSE", LexerSym.FALSE); }
 "="				{ return symbol("ASSIGN", LexerSym.ASSIGN); }
@@ -123,5 +123,5 @@ EndOfLineComment     = "//" {InputCharacter}* {LineTerminator}?
 "in"			{ return symbol("IN", LexerSym.IN); }
 "out"			{ return symbol("OUT", LexerSym.OUT); }
 "inout"			{ return symbol("INOUT", LexerSym.INOUT); }
-{id}			{ return symbol(yytext(), LexerSym.ID); }
+{id}			{ return symbol("ID", LexerSym.ID, yytext()); }
 [^]				{  throw new Error("Illegal character <"+yytext()+"> at line "+yyline+", column "+yycolumn);}
