@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.cicciotecchio.yaspl.parser.LexerSym;
 import java_cup.runtime.Symbol;
 import java_cup.runtime.ComplexSymbolFactory.Location; 
+import java.io.InputStreamReader;
 
 %%
 
@@ -26,7 +27,7 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
     private ComplexSymbolFactory symbolFactory;
 
 	public LexerLex(ComplexSymbolFactory csf, java.io.InputStream io){
-		this(io);
+		this(new InputStreamReader(io));
 		symbolFactory = csf;
 	}
 	
