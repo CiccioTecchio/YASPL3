@@ -1,17 +1,15 @@
-package main;
+package com.cicciotecchio.yaspl.cli;
+
+import com.cicciotecchio.yaspl.lexer.LexerLex;
+import com.cicciotecchio.yaspl.parser.ParserCup;
+import java_cup.runtime.ComplexSymbolFactory;
+import com.cicciotecchio.yaspl.syntaxTree.Programma;
+import com.cicciotecchio.yaspl.visitor.*;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import lexer.LexerLex;
-import parser.ParserCup;
-import syntaxTree.Programma;
-import visitor.ASTVisitor;
-import visitor.CodeVisitor;
-import visitor.EnrichASTVisitor;
-import visitor.ScopeCheckerVisitor;
-import visitor.TypeCheckerVisitor;
 
 public class Cli {
 	
@@ -37,7 +35,8 @@ public class Cli {
 	public static void main(String[] args) {
 		try {
 			FileInputStream fs = new FileInputStream(new File(args[args.length-1]));
-			LexerLex lexer = new LexerLex(fs);
+			ComplexSymbolFactory csf = new ComplexSymbolFactory();
+			LexerLex lexer = new LexerLex(csf, fs);
 			ParserCup parser = new ParserCup(lexer);
 			Programma p = (Programma) parser.parse().value;
 			FileWriter fw;

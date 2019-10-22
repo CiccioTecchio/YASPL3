@@ -1,10 +1,10 @@
-package syntaxTree.leaf;
+package com.cicciotecchio.yaspl.syntaxTree.leaf;
 
 import java_cup.runtime.ComplexSymbolFactory.Location;
-import syntaxTree.Expr;
-import syntaxTree.components.Leaf;
-import visitor.Visitable;
-import visitor.Visitor;
+import com.cicciotecchio.yaspl.syntaxTree.Expr;
+import com.cicciotecchio.yaspl.syntaxTree.components.Leaf;
+import com.cicciotecchio.yaspl.visitor.Visitable;
+import com.cicciotecchio.yaspl.visitor.Visitor;
 
 public class IdConst extends Expr implements Visitable {
 	

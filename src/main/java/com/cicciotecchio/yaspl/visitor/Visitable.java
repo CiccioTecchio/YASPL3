@@ -1,4 +1,4 @@
-package visitor;
+package com.cicciotecchio.yaspl.visitor;
 
 public interface Visitable{
 		

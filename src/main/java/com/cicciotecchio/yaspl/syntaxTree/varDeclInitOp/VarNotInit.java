@@ -1,10 +1,10 @@
-package syntaxTree.varDeclInitOp;
+package com.cicciotecchio.yaspl.syntaxTree.varDeclInitOp;
 
 import java_cup.runtime.ComplexSymbolFactory.Location;
-import syntaxTree.leaf.IdConst;
-import syntaxTree.wrapper.VarDeclsInitWrapper;
-import visitor.Visitable;
-import visitor.Visitor;
+import com.cicciotecchio.yaspl.syntaxTree.leaf.IdConst;
+import com.cicciotecchio.yaspl.syntaxTree.wrapper.VarDeclsInitWrapper;
+import com.cicciotecchio.yaspl.visitor.Visitable;
+import com.cicciotecchio.yaspl.visitor.Visitor;
 
 public class VarNotInit extends VarDeclsInitWrapper implements Visitable {
 

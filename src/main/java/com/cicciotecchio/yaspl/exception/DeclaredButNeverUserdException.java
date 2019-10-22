@@ -1,4 +1,4 @@
-package exception;
+package com.cicciotecchio.yaspl.exception;
 
 public class DeclaredButNeverUserdException extends RuntimeException {
 

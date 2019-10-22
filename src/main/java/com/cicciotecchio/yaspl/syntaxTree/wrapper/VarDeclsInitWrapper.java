@@ -1,12 +1,10 @@
-package syntaxTree.wrapper;
+package com.cicciotecchio.yaspl.syntaxTree.wrapper;
 
 import java_cup.runtime.ComplexSymbolFactory.Location;
-import syntaxTree.VarInitValue;
-import syntaxTree.components.Internal;
-import syntaxTree.components.Leaf;
-import syntaxTree.leaf.IdConst;
-import visitor.Visitable;
-import visitor.Visitor;
+import com.cicciotecchio.yaspl.syntaxTree.VarInitValue;
+import com.cicciotecchio.yaspl.syntaxTree.components.Internal;
+import com.cicciotecchio.yaspl.syntaxTree.leaf.IdConst;
+import com.cicciotecchio.yaspl.visitor.Visitor;
 
 public abstract class VarDeclsInitWrapper extends Internal {
 

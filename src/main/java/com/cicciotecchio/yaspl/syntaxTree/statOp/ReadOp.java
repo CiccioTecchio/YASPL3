@@ -1,10 +1,10 @@
-package syntaxTree.statOp;
+package com.cicciotecchio.yaspl.syntaxTree.statOp;
 
 import java_cup.runtime.ComplexSymbolFactory.Location;
-import syntaxTree.Stat;
-import syntaxTree.Vars;
-import visitor.Visitable;
-import visitor.Visitor;
+import com.cicciotecchio.yaspl.syntaxTree.Stat;
+import com.cicciotecchio.yaspl.syntaxTree.Vars;
+import com.cicciotecchio.yaspl.visitor.Visitable;
+import com.cicciotecchio.yaspl.visitor.Visitor;
 
 public class ReadOp extends Stat implements Visitable {
 

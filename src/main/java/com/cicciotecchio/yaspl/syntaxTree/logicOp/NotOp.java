@@ -1,9 +1,9 @@
-package syntaxTree.logicOp;
+package com.cicciotecchio.yaspl.syntaxTree.logicOp;
 
 import java_cup.runtime.ComplexSymbolFactory.Location;
-import syntaxTree.Expr;
-import visitor.Visitable;
-import visitor.Visitor;
+import com.cicciotecchio.yaspl.syntaxTree.Expr;
+import com.cicciotecchio.yaspl.visitor.Visitable;
+import com.cicciotecchio.yaspl.visitor.Visitor;
 
 public class NotOp extends Expr implements Visitable {
 

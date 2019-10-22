@@ -1,11 +1,11 @@
-package syntaxTree;
-
-import java.util.ArrayList;
+package com.cicciotecchio.yaspl.syntaxTree;
 
 import java_cup.runtime.ComplexSymbolFactory.Location;
-import syntaxTree.components.Internal;
-import visitor.Visitable;
-import visitor.Visitor;
+import com.cicciotecchio.yaspl.syntaxTree.components.Internal;
+import com.cicciotecchio.yaspl.visitor.Visitable;
+import com.cicciotecchio.yaspl.visitor.Visitor;
+
+import java.util.ArrayList;
 
 public class Statements extends Internal implements Visitable {
 

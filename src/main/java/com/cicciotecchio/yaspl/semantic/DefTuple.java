@@ -1,8 +1,7 @@
-package semantic;
+package com.cicciotecchio.yaspl.semantic;
 
+import com.cicciotecchio.yaspl.semantic.SymbolTable.Kind;
 import java.util.ArrayList;
-
-import semantic.SymbolTable.Kind;
 
 public class DefTuple extends Tuple {
 	private ArrayList<ParTuple> parArray; 

@@ -1,12 +1,12 @@
-package syntaxTree;
-
-import java.util.ArrayList;
+package com.cicciotecchio.yaspl.syntaxTree;
 
 import java_cup.runtime.ComplexSymbolFactory.Location;
-import syntaxTree.components.Internal;
-import syntaxTree.wrapper.VarDeclsInitWrapper;
-import visitor.Visitable;
-import visitor.Visitor;
+import com.cicciotecchio.yaspl.syntaxTree.components.Internal;
+import com.cicciotecchio.yaspl.syntaxTree.wrapper.VarDeclsInitWrapper;
+import com.cicciotecchio.yaspl.visitor.Visitable;
+import com.cicciotecchio.yaspl.visitor.Visitor;
+
+import java.util.ArrayList;
 
 public class VarDeclsInit extends Internal implements Visitable {
 

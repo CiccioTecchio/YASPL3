@@ -1,13 +1,12 @@
-package syntaxTree.utils;
+package com.cicciotecchio.yaspl.syntaxTree.utils;
 
 import java_cup.runtime.ComplexSymbolFactory.Location;
-import syntaxTree.components.Internal;
-import syntaxTree.components.Leaf;
-import syntaxTree.leaf.IdConst;
-import syntaxTree.leaf.ParTypeLeaf;
-import syntaxTree.leaf.TypeLeaf;
-import visitor.Visitable;
-import visitor.Visitor;
+import com.cicciotecchio.yaspl.syntaxTree.components.Internal;
+import com.cicciotecchio.yaspl.syntaxTree.leaf.IdConst;
+import com.cicciotecchio.yaspl.syntaxTree.leaf.ParTypeLeaf;
+import com.cicciotecchio.yaspl.syntaxTree.leaf.TypeLeaf;
+import com.cicciotecchio.yaspl.visitor.Visitable;
+import com.cicciotecchio.yaspl.visitor.Visitor;
 
 public class ParDeclSon extends Internal implements Visitable {
 	

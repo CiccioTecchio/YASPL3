@@ -1,8 +1,7 @@
-package syntaxTree.components;
+package com.cicciotecchio.yaspl.syntaxTree.components;
 
 import java_cup.runtime.ComplexSymbolFactory.Location;
-import semantic.SymbolTable;
-import semantic.Tuple;
+import com.cicciotecchio.yaspl.semantic.SymbolTable;
 
 public class Node {
 	

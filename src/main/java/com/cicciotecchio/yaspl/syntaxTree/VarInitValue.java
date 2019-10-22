@@ -1,9 +1,9 @@
-package syntaxTree;
+package com.cicciotecchio.yaspl.syntaxTree;
 
 import java_cup.runtime.ComplexSymbolFactory.Location;
-import syntaxTree.components.Internal;
-import visitor.Visitable;
-import visitor.Visitor;
+import com.cicciotecchio.yaspl.syntaxTree.components.Internal;
+import com.cicciotecchio.yaspl.visitor.Visitable;
+import com.cicciotecchio.yaspl.visitor.Visitor;
 
 public class VarInitValue extends Internal implements Visitable {
 

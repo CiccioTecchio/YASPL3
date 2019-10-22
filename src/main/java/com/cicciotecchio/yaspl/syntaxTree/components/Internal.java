@@ -1,9 +1,8 @@
-package syntaxTree.components;
-
-import java.util.ArrayList;
+package com.cicciotecchio.yaspl.syntaxTree.components;
 
 import java_cup.runtime.ComplexSymbolFactory.Location;
-import syntaxTree.components.Node;
+
+import java.util.ArrayList;
 
 public class Internal extends Node {
 	

@@ -1,6 +1,6 @@
-package exception;
+package com.cicciotecchio.yaspl.exception;
 
-import semantic.SymbolTable.Type;
+import com.cicciotecchio.yaspl.semantic.SymbolTable.Type;
 
 public class TypeMismatchException extends RuntimeException {
 

@@ -2,7 +2,7 @@ package com.cicciotecchio.yaspl.lexer;
 
 import java_cup.runtime.*;
 import java.io.IOException;
-import parser.LexerSym;
+import com.cicciotecchio.yaspl.parser.LexerSym;
 import java_cup.runtime.Symbol;
 import java_cup.runtime.ComplexSymbolFactory.Location; 
 

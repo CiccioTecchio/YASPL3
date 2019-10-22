@@ -1,15 +1,13 @@
-package syntaxTree.wrapper;
+package com.cicciotecchio.yaspl.syntaxTree.wrapper;
 
 import java_cup.runtime.ComplexSymbolFactory.Location;
-import syntaxTree.Body;
-import syntaxTree.ParDecls;
-import syntaxTree.VarDeclsInit;
-import syntaxTree.components.Internal;
-import syntaxTree.components.Leaf;
-import syntaxTree.leaf.IdConst;
-import syntaxTree.leaf.TypeLeaf;
-import visitor.Visitable;
-import visitor.Visitor;
+import com.cicciotecchio.yaspl.syntaxTree.Body;
+import com.cicciotecchio.yaspl.syntaxTree.ParDecls;
+import com.cicciotecchio.yaspl.syntaxTree.VarDeclsInit;
+import com.cicciotecchio.yaspl.syntaxTree.components.Internal;
+import com.cicciotecchio.yaspl.syntaxTree.leaf.IdConst;
+import com.cicciotecchio.yaspl.syntaxTree.leaf.TypeLeaf;
+import com.cicciotecchio.yaspl.visitor.Visitor;
 
 public abstract class DeclsWrapper extends Internal{
 	

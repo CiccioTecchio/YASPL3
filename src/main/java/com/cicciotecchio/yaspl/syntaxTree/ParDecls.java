@@ -1,12 +1,12 @@
-package syntaxTree;
-
-import java.util.ArrayList;
+package com.cicciotecchio.yaspl.syntaxTree;
 
 import java_cup.runtime.ComplexSymbolFactory.Location;
-import syntaxTree.components.Internal;
-import syntaxTree.utils.ParDeclSon;
-import visitor.Visitable;
-import visitor.Visitor;
+import com.cicciotecchio.yaspl.syntaxTree.components.Internal;
+import com.cicciotecchio.yaspl.syntaxTree.utils.ParDeclSon;
+import com.cicciotecchio.yaspl.visitor.Visitable;
+import com.cicciotecchio.yaspl.visitor.Visitor;
+
+import java.util.ArrayList;
 
 public class ParDecls extends Internal implements Visitable {
 

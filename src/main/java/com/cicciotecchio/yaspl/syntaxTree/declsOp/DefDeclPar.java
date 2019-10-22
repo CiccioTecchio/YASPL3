@@ -1,14 +1,12 @@
-package syntaxTree.declsOp;
+package com.cicciotecchio.yaspl.syntaxTree.declsOp;
 
 import java_cup.runtime.ComplexSymbolFactory.Location;
-import syntaxTree.Body;
-import syntaxTree.ParDecls;
-import syntaxTree.components.Leaf;
-import syntaxTree.leaf.IdConst;
-import syntaxTree.leaf.TypeLeaf;
-import syntaxTree.wrapper.DeclsWrapper;
-import visitor.Visitable;
-import visitor.Visitor;
+import com.cicciotecchio.yaspl.syntaxTree.Body;
+import com.cicciotecchio.yaspl.syntaxTree.ParDecls;
+import com.cicciotecchio.yaspl.syntaxTree.leaf.IdConst;
+import com.cicciotecchio.yaspl.syntaxTree.wrapper.DeclsWrapper;
+import com.cicciotecchio.yaspl.visitor.Visitable;
+import com.cicciotecchio.yaspl.visitor.Visitor;
 
 public class DefDeclPar extends DeclsWrapper implements Visitable {
 

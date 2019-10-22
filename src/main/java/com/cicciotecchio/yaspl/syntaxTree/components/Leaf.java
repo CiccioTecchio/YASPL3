@@ -1,9 +1,8 @@
-package syntaxTree.components;
+package com.cicciotecchio.yaspl.syntaxTree.components;
 
 import java_cup.runtime.ComplexSymbolFactory.Location;
-import syntaxTree.components.Node;
-import visitor.Visitable;
-import visitor.Visitor;
+import com.cicciotecchio.yaspl.visitor.Visitable;
+import com.cicciotecchio.yaspl.visitor.Visitor;
 
 public class Leaf extends Node implements Visitable{
 

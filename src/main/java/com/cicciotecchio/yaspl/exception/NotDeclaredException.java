@@ -1,4 +1,4 @@
-package exception;
+package com.cicciotecchio.yaspl.exception;
 
 public class NotDeclaredException extends RuntimeException {
 	private static final long serialVersionUID = 1L;

@@ -1,4 +1,4 @@
-package semantic;
+package com.cicciotecchio.yaspl.semantic;
 
 import java.util.Map;
 import java.util.TreeMap;

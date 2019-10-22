@@ -1,9 +1,9 @@
-package syntaxTree.arithOp;
+package com.cicciotecchio.yaspl.syntaxTree.arithOp;
 
 import java_cup.runtime.ComplexSymbolFactory.Location;
-import syntaxTree.Expr;
-import visitor.Visitable;
-import visitor.Visitor;
+import com.cicciotecchio.yaspl.syntaxTree.Expr;
+import com.cicciotecchio.yaspl.visitor.Visitable;
+import com.cicciotecchio.yaspl.visitor.Visitor;
 
 public class DivOp extends Expr implements Visitable {
 

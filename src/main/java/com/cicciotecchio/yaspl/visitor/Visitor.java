@@ -1,15 +1,15 @@
-package visitor;
+package com.cicciotecchio.yaspl.visitor;
 
-import syntaxTree.*;  
-import syntaxTree.arithOp.*;
-import syntaxTree.components.*;
-import syntaxTree.declsOp.*;
-import syntaxTree.leaf.*;
-import syntaxTree.logicOp.*;
-import syntaxTree.relOp.*;
-import syntaxTree.statOp.*;
-import syntaxTree.utils.ParDeclSon;
-import syntaxTree.varDeclInitOp.*;
+import com.cicciotecchio.yaspl.syntaxTree.*;
+import com.cicciotecchio.yaspl.syntaxTree.arithOp.*;
+import com.cicciotecchio.yaspl.syntaxTree.components.*;
+import com.cicciotecchio.yaspl.syntaxTree.declsOp.*;
+import com.cicciotecchio.yaspl.syntaxTree.leaf.*;
+import com.cicciotecchio.yaspl.syntaxTree.logicOp.*;
+import com.cicciotecchio.yaspl.syntaxTree.relOp.*;
+import com.cicciotecchio.yaspl.syntaxTree.statOp.*;
+import com.cicciotecchio.yaspl.syntaxTree.utils.ParDeclSon;
+import com.cicciotecchio.yaspl.syntaxTree.varDeclInitOp.*;
 
 public interface Visitor<E> {
 

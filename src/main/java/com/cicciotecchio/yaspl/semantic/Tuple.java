@@ -1,8 +1,6 @@
-package semantic;
+package com.cicciotecchio.yaspl.semantic;
 
-import semantic.SymbolTable.Kind;
-import semantic.SymbolTable.ParType;
-import semantic.SymbolTable.Type;
+import com.cicciotecchio.yaspl.semantic.SymbolTable.Kind;
 
 public class Tuple {
 	

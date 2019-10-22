@@ -1,10 +1,11 @@
-package syntaxTree;
+package com.cicciotecchio.yaspl.syntaxTree;
+
+import java_cup.runtime.ComplexSymbolFactory.Location;
+import com.cicciotecchio.yaspl.syntaxTree.components.Internal;
+import com.cicciotecchio.yaspl.visitor.Visitable;
+import com.cicciotecchio.yaspl.visitor.Visitor;
 
 import java.util.ArrayList;
-import java_cup.runtime.ComplexSymbolFactory.Location;
-import syntaxTree.components.Internal;
-import visitor.Visitable;
-import visitor.Visitor;
 
 public class Args extends Internal implements Visitable {
 

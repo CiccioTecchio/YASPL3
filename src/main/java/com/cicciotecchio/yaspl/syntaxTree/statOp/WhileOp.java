@@ -1,12 +1,12 @@
-package syntaxTree.statOp;
+package com.cicciotecchio.yaspl.syntaxTree.statOp;
 
 import java_cup.runtime.ComplexSymbolFactory.Location;
-import syntaxTree.Body;
-import syntaxTree.CompStat;
-import syntaxTree.Expr;
-import syntaxTree.Stat;
-import visitor.Visitable;
-import visitor.Visitor;
+import com.cicciotecchio.yaspl.syntaxTree.Body;
+import com.cicciotecchio.yaspl.syntaxTree.CompStat;
+import com.cicciotecchio.yaspl.syntaxTree.Expr;
+import com.cicciotecchio.yaspl.syntaxTree.Stat;
+import com.cicciotecchio.yaspl.visitor.Visitable;
+import com.cicciotecchio.yaspl.visitor.Visitor;
 
 public class WhileOp extends Stat implements Visitable {
 
