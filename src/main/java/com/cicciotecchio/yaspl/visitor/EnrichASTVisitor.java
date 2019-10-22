@@ -341,6 +341,34 @@ public class EnrichASTVisitor implements Visitor<String> {
 	}
 
 	@Override
+	public String visit(PreFixInc n) throws RuntimeException {
+		String tr = astBuilder(n.getOp());
+		tr += appendValue(n.getId().accept(this));
+		return tr+=closeTag(n.getOp());
+	}
+
+	@Override
+	public String visit(PostFixInc n) throws RuntimeException {
+		String tr = astBuilder(n.getOp());
+		tr += appendValue(n.getId().accept(this));
+		return tr+=closeTag(n.getOp());
+	}
+
+	@Override
+	public String visit(PreFixDec n) throws RuntimeException {
+		String tr = astBuilder(n.getOp());
+		tr += appendValue(n.getId().accept(this));
+		return tr+=closeTag(n.getOp());
+	}
+
+	@Override
+	public String visit(PostFixDec n) throws RuntimeException {
+		String tr = astBuilder(n.getOp());
+		tr += appendValue(n.getId().accept(this));
+		return tr+=closeTag(n.getOp());
+	}
+
+	@Override
 	public String visit(Leaf n) throws RuntimeException {
 		return n.getValue();
 	}

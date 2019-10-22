@@ -22,8 +22,9 @@ parser code{:
    if(info instanceof ComplexSymbol){
     int line = (((ComplexSymbol)info).getLeft().getLine())+1;
     int col  = (((ComplexSymbol)info).getRight().getColumn())+1;
-    String val = (String)((ComplexSymbol)info).value;
-   throw new SyntaxErrorException(val, line, col);
+    //String val = (String)((ComplexSymbol)info).value;
+   //throw new SyntaxErrorException(val, line, col);
+   throw new SyntaxErrorException(line, col);
    }
   }
     
@@ -76,7 +77,8 @@ terminal OUT;
 terminal INOUT;
 terminal INT;
 terminal UMINUS; /*is the Symbol '-'  used for unary Internal*/
-
+terminal INC;
+terminal DEC;
 /*List of non teminals*/  
 non terminal	Programma			Programma; 
 non terminal	Decls		 		Decls;
@@ -172,6 +174,10 @@ Stat		::= Vars:vars READ:read SEMI									{: RESULT = new ReadOp(readxleft, rea
 			|	IF LPAR Expr:e RPAR THEN Comp_stat:cs1 ELSE Comp_stat:cs2	{: RESULT = new IfThenElseOp(exleft, exright,"IfThenElseOp", e, cs1, cs2); :}
 			|	IF LPAR Expr:e RPAR THEN Comp_stat:cs					    {: RESULT = new IfThenOp(exleft, exright,"IfThenOp", e, cs); :}
 			|	WHILE LPAR Expr:e RPAR DO Body:b						    {: RESULT = new WhileOp(exleft, exright,"WhileOp", e, b); :}
+			|   ID:id INC SEMI                                              {: RESULT = new PostFixInc(idxleft, idxright, "PostFixInc", new IdConst(idxleft, idxright, "Id", new Leaf(idxleft, idxright, "Value", id))); :}
+			|   INC ID:id SEMI                                              {: RESULT = new PreFixInc(idxleft, idxright, "PreFixInc", new IdConst(idxleft, idxright, "Id", new Leaf(idxleft, idxright, "Value", id))); :}
+			|   ID:id DEC SEMI                                              {: RESULT = new PostFixDec(idxleft, idxright, "PostFixDec", new IdConst(idxleft, idxright, "Id", new Leaf(idxleft, idxright, "Value", id))); :}
+			|   DEC ID:id SEMI                                              {: RESULT = new PreFixDec(idxleft, idxright, "PreFixDec", new IdConst(idxleft, idxright, "Id", new Leaf(idxleft, idxright, "Value", id))); :}
 			;
 			
 Args		::=	Expr:e COMMA Args:arg		{: RESULT = arg.addChild(e);:}

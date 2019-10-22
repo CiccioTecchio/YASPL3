@@ -427,6 +427,30 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 	}
 
 	@Override
+	public Object visit(PreFixInc n) throws RuntimeException {
+		checkNotDeclared(n.getId().accept(this).toString(), n);
+		return null;
+	}
+
+	@Override
+	public Object visit(PostFixInc n) throws RuntimeException {
+		checkNotDeclared(n.getId().accept(this).toString(), n);
+		return null;
+	}
+
+	@Override
+	public Object visit(PreFixDec n) throws RuntimeException {
+		checkNotDeclared(n.getId().accept(this).toString(), n);
+		return null;
+	}
+
+	@Override
+	public Object visit(PostFixDec n) throws RuntimeException {
+		checkNotDeclared(n.getId().accept(this).toString(), n);
+		return null;
+	}
+
+	@Override
 	public Object visit(Leaf n) {
 		return n.getValue();
 	}
@@ -470,7 +494,8 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 		default: return null;
 		}
 	}
-	
+
+	//usato nei visit che contengono dichiarazioni
 	private void checkAlreadyDeclared(String id, Node n) throws AlreadyDeclaredException {
 		if(this.actualScope.containsKey(id)) {
 			throw new AlreadyDeclaredException(id, this.actualScope.getScopeName(), n);

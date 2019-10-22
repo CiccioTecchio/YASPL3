@@ -582,6 +582,26 @@ public class CodeVisitor implements Visitor<String> {
 	}
 
 	@Override
+	public String visit(PreFixInc n) throws RuntimeException {
+		return "++"+n.getId().accept(this)+";\n";
+	}
+
+	@Override
+	public String visit(PostFixInc n) throws RuntimeException {
+		return n.getId().accept(this)+"++;\n";
+	}
+
+	@Override
+	public String visit(PreFixDec n) throws RuntimeException {
+		return "--"+n.getId().accept(this)+";\n";
+	}
+
+	@Override
+	public String visit(PostFixDec n) throws RuntimeException {
+		return n.getId().accept(this)+"--;\n";
+	}
+
+	@Override
 	public String visit(Leaf n) throws RuntimeException {
 		return n.getValue();
 	}

@@ -30,6 +30,7 @@ public interface LexerSym {
   public static final int BOOL = 5;
   public static final int RGPAR = 15;
   public static final int COMMA = 10;
+  public static final int INC = 47;
   public static final int DIV = 21;
   public static final int PLUS = 18;
   public static final int ASSIGN = 28;
@@ -51,6 +52,7 @@ public interface LexerSym {
   public static final int LPAR = 12;
   public static final int STRING = 7;
   public static final int DEF = 11;
+  public static final int DEC = 48;
   public static final int FALSE = 27;
   public static final int STRING_CONST = 24;
   public static final int GT = 34;
@@ -102,7 +104,9 @@ public interface LexerSym {
   "OUT",
   "INOUT",
   "INT",
-  "UMINUS"
+  "UMINUS",
+  "INC",
+  "DEC"
   };
 }
 

@@ -95,8 +95,8 @@ public class ASTVisitor implements Visitor<String> {
 	@Override
 	public String visit(Statements n) {
 		String toReturn = "<"+n.getOp()+">\n";
-		for(Stat e: n.getChildList())
-			toReturn += e.accept(this);
+		for(Stat s: n.getChildList())
+			toReturn += s.accept(this);
 		toReturn += "</"+n.getOp()+">\n";
 		return toReturn;
 	}
@@ -324,7 +324,39 @@ public class ASTVisitor implements Visitor<String> {
 		return toReturn;
 	}
 
-	
+	@Override
+	public String visit(PreFixInc n) throws RuntimeException {
+		String toReturn = "<"+n.getOp()+">\n";
+		toReturn += n.getId().accept(this);
+		toReturn += "</"+n.getOp()+">\n";
+		return toReturn;
+	}
+
+	@Override
+	public String visit(PostFixInc n) throws RuntimeException {
+		String toReturn = "<"+n.getOp()+">\n";
+		toReturn += n.getId().accept(this);
+		toReturn += "</"+n.getOp()+">\n";
+		return toReturn;
+	}
+
+	@Override
+	public String visit(PreFixDec n) throws RuntimeException {
+		String toReturn = "<"+n.getOp()+">\n";
+		toReturn += n.getId().accept(this);
+		toReturn += "</"+n.getOp()+">\n";
+		return toReturn;
+	}
+
+	@Override
+	public String visit(PostFixDec n) throws RuntimeException {
+		String toReturn = "<"+n.getOp()+">\n";
+		toReturn += n.getId().accept(this);
+		toReturn += "</"+n.getOp()+">\n";
+		return toReturn;
+	}
+
+
 	public String visit(Leaf n) {
 		String toReturn = "";
 		toReturn += ""+n.getValue()+"\n";

@@ -1,5 +1,11 @@
 head
 int x = 2;
+
 start
-"Hello"->;
-3+2+x->;
+x++;
+x--;
+--x;
+++x;
+x,"\n"->;
+"Hello\n"->;
+3+2+x,"\n"->;

@@ -67,7 +67,12 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 	
 	private SymbolTable.Type[] uminusOpCompOp = {
 			Type.INT, null, Type.DOUBLE, null, null,  null
-	};	
+	};
+
+	//basterebbe usare solo gift per controllare incremente e decrementi...
+	private SymbolTable.Type[] incDecOpCompOp = {
+			Type.INT, null, null, null, null, null
+	};
 	
 	public TypeCheckerVisitor() {
 		this.stack = new Stack<>();
@@ -558,6 +563,33 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		return Type.VOID;
 	}
 
+	@Override
+	public Object visit(PreFixInc n) throws RuntimeException {
+		Type t = (Type) n.getId().accept(this);
+		if(this.incDecOpCompOp[gift(t)] == null) throw new TypeMismatchException(n.getOp(), t, n);
+		return null;
+	}
+
+	@Override
+	public Object visit(PostFixInc n) throws RuntimeException {
+		Type t = (Type) n.getId().accept(this);
+		if(this.incDecOpCompOp[gift(t)] == null) throw new TypeMismatchException(n.getOp(), t, n);
+		return null;
+	}
+
+	@Override
+	public Object visit(PreFixDec n) throws RuntimeException {
+		Type t = (Type) n.getId().accept(this);
+		if(this.incDecOpCompOp[gift(t)] == null) throw new TypeMismatchException(n.getOp(), t, n);
+		return null;
+	}
+
+	@Override
+	public Object visit(PostFixDec n) throws RuntimeException {
+		Type t = (Type) n.getId().accept(this);
+		if(this.incDecOpCompOp[gift(t)] == null) throw new TypeMismatchException(n.getOp(), t, n);
+		return null;
+	}
 
 
 	@Override

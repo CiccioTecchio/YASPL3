@@ -60,6 +60,7 @@ intConst 	= {digit}+
 doubleConst = {intConst}("."{intConst})?
 any			= .
 stringConst = \"~\"
+
 // singleLineComment = "//"~"\n"
 // multilineComment = "/*"~"*/"
 //comment 	= {singleLineComment} | {multilineComment}
@@ -96,6 +97,8 @@ EndOfLineComment     = "//" {InputCharacter}* {LineTerminator}?
 "}"				{ return symbol("RGPAR", LexerSym.RGPAR); }
 "<-"			{ return symbol("READ", LexerSym.READ); }
 "->"			{ return symbol("WRITE", LexerSym.WRITE); }
+"++"            { return symbol("INC",LexerSym.INC); }
+"--"            { return symbol("DEC",LexerSym.DEC); }
 "+"				{ return symbol("PLUS", LexerSym.PLUS); }
 "-"				{ return symbol("MINUS", LexerSym.MINUS); }
 "*"				{ return symbol("TIMES", LexerSym.TIMES); }

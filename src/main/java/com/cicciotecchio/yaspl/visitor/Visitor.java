@@ -58,6 +58,11 @@ public interface Visitor<E> {
 	E visit(ReadOp n) throws RuntimeException;
 	E visit(WhileOp n) throws RuntimeException;
 	E visit(WriteOp n) throws RuntimeException;
+	E visit(PreFixInc n) throws RuntimeException;
+	E visit(PostFixInc n) throws RuntimeException;
+	E visit(PreFixDec n) throws RuntimeException;
+	E visit(PostFixDec n) throws RuntimeException;
+
 	E visit(Leaf n) throws RuntimeException;
 
 	E visit(ParDeclSon n) throws RuntimeException;
