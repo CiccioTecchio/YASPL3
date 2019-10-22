@@ -47,17 +47,19 @@
             <groupId>de.jflex</groupId>
             <artifactId>jflex-maven-plugin</artifactId>
             <version>1.7.0</version>
+            <!-- configuration must be outside execution tag
+                for different outside lifecicle excecution -->
+            <configuration>
+                <outputDirectory>${output}</outputDirectory>
+                <lexDefinitions>
+                    <lexDefinition>${flex.input}</lexDefinition>
+                </lexDefinitions>
+            </configuration>
             <executions>
                 <execution>
                     <goals>
                         <goal>generate</goal>
                     </goals>
-                    <configuration>
-                        <outputDirectory>${output}</outputDirectory>
-                        <lexDefinitions>
-                            <lexDefinition>${flex.input}</lexDefinition>
-                        </lexDefinitions>
-                    </configuration>
                 </execution>
             </executions>
         </plugin>

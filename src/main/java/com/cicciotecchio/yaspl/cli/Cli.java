@@ -13,7 +13,7 @@ import java.io.FileWriter;
 
 public class Cli {
 	
-	private static final String HELPemSDK = "before generate js code you need to install emscriten and follow this tutorial:\n"
+	private static final String HELPEMSDK = "before generate js code you need to install emscriten and follow this tutorial:\n"
 			  + "https://emscripten.org/docs/getting_started/downloads.html";
 	
 	private static final String HELP = "[options] [path to emsdk] <source.yaspl>"
@@ -21,7 +21,7 @@ public class Cli {
 			+ "-ast\tgenerate ast.xml\n"
 			+ "-scope\tgenerate scope.log\n"
 			+ "-enrich\tgenerate enrich.xml\n"
-			+ "-js\tgenerate the JavaScript equivalent of souce.yaspl\n"+HELPemSDK
+			+ "-js\tgenerate the JavaScript equivalent of souce.yaspl\n"+HELPEMSDK
 			+ "path to emsdk need to be passed with the path based of the home directory for OSX is ~ example\n"
 			+ "~/path to/emsdk";
 	
@@ -37,7 +37,7 @@ public class Cli {
 			FileInputStream fs = new FileInputStream(new File(args[args.length-1]));
 			ComplexSymbolFactory csf = new ComplexSymbolFactory();
 			LexerLex lexer = new LexerLex(csf, fs);
-			ParserCup parser = new ParserCup(lexer);
+			ParserCup parser = new ParserCup(lexer, csf);
 			Programma p = (Programma) parser.parse().value;
 			FileWriter fw;
 			ProcessBuilder pb = new ProcessBuilder();
