@@ -1,4 +1,4 @@
-package lexer;
+package com.cicciotecchio.yaspl.lexer;
 
 import java_cup.runtime.*;
 import java.io.IOException;

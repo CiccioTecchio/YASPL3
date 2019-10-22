@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.cicciotecchio</groupId>
+    <artifactId>yaspl</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>yaspl</name>
+
+    <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>12</maven.compiler.source>
+    <maven.compiler.target>12</maven.compiler.target>
+    <flex.input>src/main/java/com/cicciotecchio/yaspl/lexcup/Lexer.lex</flex.input>
+    <cup.input>src/main/java/com/cicciotecchio/yaspl/lexcup/Parser.cup</cup.input>
+    <output>src/main/java</output>
+    </properties>
+
+    <dependencies>
+    <dependency>
+        <groupId>com.github.vbmacher</groupId>
+        <artifactId>java-cup-runtime</artifactId>
+        <version>11b-20160615</version>
+    </dependency>
+    <!-- Java Cup dependencies -->
+    <dependency>
+        <groupId>com.github.vbmacher</groupId>
+        <artifactId>java-cup</artifactId>
+        <version>11b-20160615</version>
+    </dependency>
+        <!-- JFlex dependencies-->
+        <dependency>
+            <groupId>de.jflex</groupId>
+            <artifactId>jflex</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+        <!--JFlex maven plugin. Automates Lexer generation -->
+        <plugin>
+            <groupId>de.jflex</groupId>
+            <artifactId>jflex-maven-plugin</artifactId>
+            <version>1.7.0</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>generate</goal>
+                    </goals>
+                    <configuration>
+                        <outputDirectory>${output}</outputDirectory>
+                        <lexDefinitions>
+                            <lexDefinition>${flex.input}</lexDefinition>
+                        </lexDefinitions>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+
+            <plugin>
+                <!--Java CUP maven plugin. Automates Parser generation-->
+                <groupId>com.github.vbmacher</groupId>
+                <artifactId>cup-maven-plugin</artifactId>
+                <version>11b-20160615</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <cupDefinition>${cup.input}</cupDefinition>
+                    <outputDirectory>${output}</outputDirectory>
+                    <className>ParserCup</className>
+                    <symbolsInterface>true</symbolsInterface>
+                    <symbolsName>LexerSym</symbolsName>
+                    <locations>true</locations>
+                </configuration>
+            </plugin>
+
+
+        </plugins>
+    </build>
+</project>

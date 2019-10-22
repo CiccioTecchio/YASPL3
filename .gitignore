@@ -35,4 +35,7 @@ hs_err_pid*
 *.wasm
 yasplSource
 
-src/scripts/yaspl_src.sublime-workspace
+.idea/
+/target/
+
+.settings/
