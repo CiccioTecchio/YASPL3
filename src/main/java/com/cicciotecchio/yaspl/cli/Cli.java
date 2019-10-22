@@ -31,6 +31,7 @@ public class Cli {
 	private static boolean scope = false;
 	private static boolean enrich = false;
 	private static boolean js = false;
+	private static final String PATHEMSDK = "src/main/resources/emsdk";
 	
 	public static void main(String[] args) {
 		try {
@@ -90,14 +91,13 @@ public class Cli {
                 line = reader.readLine();  
             }
            if(js) {
-            	String pathEmSDK = args[args.length -2];
-            	pb.command("bash", "-c", "source "+pathEmSDK+"/emsdk_env.sh ;"
+
+            	pb.command("bash", "-c", "source "+PATHEMSDK+"/emsdk_env.sh ;"
             							+ "emcc target.ll -o yaspl.out.js");
             	process = pb.start();
             }
             reader.close();*/
 		    process.destroy();
-			System.out.println("fine");
 		} catch (FileNotFoundException e) {
 			System.err.println(HELP);
 			e.printStackTrace();

@@ -4,6 +4,7 @@
 package com.cicciotecchio.yaspl.exception;
 
 import com.cicciotecchio.yaspl.semantic.SymbolTable.Type;
+import com.cicciotecchio.yaspl.syntaxTree.components.Node;
 
 /**
  * @author ferdi
@@ -13,20 +14,9 @@ public class WrongArgumentException extends RuntimeException {
 	
 	private static final long serialVersionUID = 1L;
 
-	public WrongArgumentException(String id) {
-		System.err.println(String.format("Numero argomenti errato per func %s\n", id));
-		System.exit(1);
-	}
-	
-	public WrongArgumentException(String id, int i, Type t1, Type t2) {
-		String toPrint = String.format("Tipo argomento #%d errato in func %s expected %s find %s",i, id, t1, t2);
-		System.err.println(toPrint);
-		System.exit(1);
-	}
-	
-	public WrongArgumentException(String id, int i) {
-		String toPrint = String.format("Non è possibile passare espressioni o costanti alle variabili di output alla func %s ", id);
-		System.err.println(toPrint);
+	public WrongArgumentException(String id, int require, int provided, Node n) {
+		System.err.println(String.format("Wrong number of argument for function "
+				+ "%s, required :%d provided:%d linea <%s> colonna <%s>", id, require, provided, n.getLeft().getLine(), n.getRight().getColumn()));
 		System.exit(1);
 	}
 }

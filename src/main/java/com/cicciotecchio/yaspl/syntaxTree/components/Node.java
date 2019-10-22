@@ -8,8 +8,8 @@ public class Node {
 	private String op;
 	private SymbolTable.Type type;
 	private SymbolTable sym;
-	private final Location left;
-	private final Location right;
+	private Location left;
+	private Location right;
 	
 	public Node(Location left, Location right, String op) {
 		this.op = op; 
@@ -70,4 +70,10 @@ public class Node {
 	public Location getRight() {
 		return right;
 	}
+
+	public void setLocation(Location l, Location r) {
+		this.left = l;
+		this.right = r;
+	}
+
 }

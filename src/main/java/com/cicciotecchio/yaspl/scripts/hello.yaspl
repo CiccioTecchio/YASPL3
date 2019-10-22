@@ -1,5 +1,5 @@
 head
-int x="3";
+int x = 2;
 start
 "Hello"->;
 3+2+x->;

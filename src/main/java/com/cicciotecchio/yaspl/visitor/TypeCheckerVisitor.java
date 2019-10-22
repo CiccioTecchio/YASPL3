@@ -233,7 +233,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		Type t2 = (Type) n.getE2().accept(this);
 		Type toReturn = this.arithOpCompOp[gift(t1)][gift(t2)];
 		if(toReturn == null) {
-			throw new TypeMismatchException(n.getOp(), t1, t2);
+			throw new TypeMismatchException(n.getOp(), t1, t2, n);
 		}else
 		n.setType(toReturn);
 		return toReturn;
@@ -247,7 +247,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		Type t2 = (Type) n.getE2().accept(this);
 		Type toReturn = this.arithOpCompOp[gift(t1)][gift(t2)];
 		if(toReturn == null) {
-			throw new TypeMismatchException(n.getOp(), t1, t2);
+			throw new TypeMismatchException(n.getOp(), t1, t2, n);
 		}else
 		n.setType(toReturn);
 		return toReturn;
@@ -261,7 +261,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		Type t2 = (Type) n.getE2().accept(this);
 		Type toReturn = this.arithOpCompOp[gift(t1)][gift(t2)];
 		if(toReturn == null) {
-			throw new TypeMismatchException(n.getOp(), t1, t2);
+			throw new TypeMismatchException(n.getOp(), t1, t2, n);
 		}else
 		n.setType(toReturn);
 		return toReturn;
@@ -274,7 +274,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		Type t2 = (Type) n.getE2().accept(this);
 		Type toReturn = this.arithOpCompOp[gift(t1)][gift(t2)];
 		if(toReturn == null) {
-			throw new TypeMismatchException(n.getOp(), t1, t2);
+			throw new TypeMismatchException(n.getOp(), t1, t2, n);
 		}else
 		n.setType(toReturn);
 		return toReturn;
@@ -286,7 +286,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		Type t = (Type) n.getE().accept(this);
 		Type toReturn = this.uminusOpCompOp[gift(t)];
 		if(toReturn == null) {
-			throw new TypeMismatchException(n.getOp(), t);
+			throw new TypeMismatchException(n.getOp(), t, n);
 		}else
 		n.setType(toReturn);
 		return toReturn;
@@ -300,7 +300,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		Type t2 = (Type) n.getE2().accept(this);
 		Type toReturn = (t1 == t2) && (t2 == Type.BOOL)? Type.BOOL : null;
 		if(toReturn == null) {
-			throw new TypeMismatchException(n.getOp(), t1, t2);
+			throw new TypeMismatchException(n.getOp(), t1, t2, n);
 		}else
 		n.setType(toReturn);
 		return toReturn;
@@ -313,7 +313,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		Type t = (Type) n.getE().accept(this);
 		Type toReturn = (t == Type.BOOL)? Type.BOOL : null;
 		if(toReturn == null) {
-			throw new TypeMismatchException(n.getOp(), t);
+			throw new TypeMismatchException(n.getOp(), t, n);
 		}else
 		n.setType(toReturn);
 		return n.getType();
@@ -327,7 +327,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		Type t2 = (Type) n.getE2().accept(this);
 		Type toReturn = (t1 == t2) && (t2 == Type.BOOL)? Type.BOOL : null;
 		if(toReturn == null) {
-			throw new TypeMismatchException(n.getOp(), t1, t2);
+			throw new TypeMismatchException(n.getOp(), t1, t2, n);
 		}else
 		n.setType(toReturn);
 		return toReturn;
@@ -341,7 +341,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		Type t2 = (Type) n.getE2().accept(this);
 		Type toReturn = this.eqOpCompOp[gift(t1)][gift(t2)];
 		if(toReturn == null) {
-			throw new TypeMismatchException(n.getOp(), t1, t2);
+			throw new TypeMismatchException(n.getOp(), t1, t2, n);
 		}else
 		n.setType(toReturn);
 		return toReturn;	
@@ -355,7 +355,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		Type t2 = (Type) n.getE2().accept(this);
 		Type toReturn = this.relOpCompOp[gift(t1)][gift(t2)];
 		if(toReturn == null) {
-			throw new TypeMismatchException(n.getOp(), t1, t2);
+			throw new TypeMismatchException(n.getOp(), t1, t2, n);
 		}else
 		n.setType(toReturn);
 		return toReturn;
@@ -369,7 +369,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		Type t2 = (Type) n.getE2().accept(this);
 		Type toReturn = this.relOpCompOp[gift(t1)][gift(t2)];
 		if(toReturn == null) {
-			throw new TypeMismatchException(n.getOp(), t1, t2);
+			throw new TypeMismatchException(n.getOp(), t1, t2, n);
 		}else
 		n.setType(toReturn);
 		return toReturn;
@@ -383,7 +383,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		Type t2 = (Type) n.getE2().accept(this);
 		Type toReturn = this.relOpCompOp[gift(t1)][gift(t2)];
 		if(toReturn == null) {
-			throw new TypeMismatchException(n.getOp(), t1, t2);
+			throw new TypeMismatchException(n.getOp(), t1, t2, n);
 		}else
 		n.setType(toReturn);
 		return toReturn;
@@ -397,7 +397,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		Type t2 = (Type) n.getE2().accept(this);
 		Type toReturn = this.relOpCompOp[gift(t1)][gift(t2)];
 		if(toReturn == null) {
-			throw new TypeMismatchException(n.getOp(), t1, t2);
+			throw new TypeMismatchException(n.getOp(), t1, t2, n);
 		}else
 		n.setType(toReturn);
 		return toReturn;
@@ -468,7 +468,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		}
 		Type toReturn = this.assignOpCompOp[gift(t1)][gift(t2)];
 		if(toReturn == null) {
-			throw new TypeMismatchException(n.getOp(), t1, t2);
+			throw new TypeMismatchException(n.getOp(), t1, t2, n);
 		}else n.setType(Type.VOID);
 		
 		return n.getType();
@@ -487,17 +487,18 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		DefTuple def = (DefTuple)lookup(id);
 		ArrayList<ParTuple> par = def.getParArray();
 		int size = par.size();
-		if(size != typesArgs.size()) throw new WrongArgumentException("Wrog param number");
+		if(size != typesArgs.size()) throw new WrongArgumentException(id, size, exprOfArgs.size(), n);
 		
 		int i;
 		for(i=0; i < size; i++) {
 			if((par.get(i).getPt() == ParType.OUT ||
 				par.get(i).getPt() == ParType.INOUT) &&
 				!(exprOfArgs.get(i) instanceof IdConst)){
-				throw new WrongArgumentException("OUT parameters need to be a variabile");
+				//WrongArgumentException(callId, callParams.size(), n.getA().getChildList().size(), n);
+				throw new WrongArgumentException(id, size, exprOfArgs.size(), n);
 			}
 			if(assignOpCompOp[gift(par.get(i).getType())] [gift(typesArgs.get(i))] == null) {
-				throw new TypeMismatchException(n.getOp(), par.get(i).getType(), typesArgs.get(i));
+				throw new TypeMismatchException(n.getOp(), par.get(i).getType(), typesArgs.get(i), n);
 			}
 		}	
 		return Type.VOID;
@@ -512,7 +513,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		n.getCs2().accept(this);
 		if(expr == Type.BOOL) {
 			n.setType(Type.VOID);
-		}else throw new TypeMismatchException(n.getOp(), expr);
+		}else throw new TypeMismatchException(n.getOp(), expr, n);
 		return Type.VOID;
 	}
 
@@ -524,7 +525,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		n.getCs().accept(this);
 		if(expr == Type.BOOL) {
 			n.setType(Type.VOID);
-		}else throw new TypeMismatchException(n.getOp(), expr);
+		}else throw new TypeMismatchException(n.getOp(), expr, n);
 		return Type.VOID;
 	}
 
@@ -546,7 +547,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		n.getBody().accept(this);
 		if(expr == Type.BOOL) {
 			n.setType(Type.VOID);
-		}else throw new TypeMismatchException(n.getOp(), expr);
+		}else throw new TypeMismatchException(n.getOp(), expr, n);
 		return Type.VOID;
 	}
 	
@@ -580,7 +581,7 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		Type toReturn = this.assignOpCompOp[gift(t1)][gift(t2)];
 		if(toReturn != null) {
 			n.setType(toReturn);
-		}else throw new TypeMismatchException(n.getOp(), t1, t2);
+		}else throw new TypeMismatchException(n.getOp(), t1, t2, n);
 		return toReturn;
 	}
 

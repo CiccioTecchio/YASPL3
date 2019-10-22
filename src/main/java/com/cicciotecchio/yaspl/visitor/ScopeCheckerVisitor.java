@@ -92,7 +92,7 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 	@Override
 	public Object visit(ParDeclSon n){
 		String id = (String)n.getId().accept(this);
-		checkAlreadyDeclared(id);
+		checkAlreadyDeclared(id, n);
 		ParType x = this.getValueOfParTypeLeaf((String)n.getParType().accept(this));
 		ParTuple t = new ParTuple(Kind.VARDECL, x, this.getValueOfLeaf(n.getTypeLeaf()));
 		this.actualScope.put(id, t);
@@ -104,7 +104,7 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 	public Object visit(VarDecl n){
 		ArrayList<String> idList = (ArrayList<String>) n.getVdi().accept(this);	
 		for(String s: idList) {
-			checkAlreadyDeclared(s);
+			checkAlreadyDeclared(s, n);
 			VarTuple t = new VarTuple(Kind.VARDECL, this.getValueOfLeaf(n.getT()));
 			this.actualScope.put(s, t);
 		}
@@ -129,7 +129,7 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 	public Object visit(DefDeclNoPar n) {
 		DefTuple t = new DefTuple(Kind.DEFDECL);
 		String defName = (String)n.getId().accept(this);
-		this.checkAlreadyDeclared(defName);
+		this.checkAlreadyDeclared(defName,n);
 		this.actualScope.put(defName, t);
 		SymbolTable sc = new SymbolTable(defName);
 		this.stack.push(sc);
@@ -143,7 +143,7 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 	public Object visit(DefDeclPar n) {
 		DefTuple t = new DefTuple(Kind.DEFDECL);
 		String defName = (String)n.getId().accept(this);
-		this.checkAlreadyDeclared(defName);
+		this.checkAlreadyDeclared(defName, n);
 		this.actualScope.put(defName, t);
 		SymbolTable sc = new SymbolTable(defName);
 		this.stack.push(sc);
@@ -203,7 +203,7 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 		String id = checkDx(n.getE());
 		if(id.equals("")) n.getE().accept(this);
 		else {
-			this.checkParams(id, ParType.OUT, String.format("%s is a OUT parameter, cannot read in OUT parameter", id));
+			this.checkParams(id, ParType.OUT, String.format("%s is a OUT parameter, cannot read in OUT parameter", id), n);
 		}
 		return null;
 	}
@@ -342,7 +342,7 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 	@Override
 	public Object visit(CallOp n){
 		String callId = n.getId().accept(this)+"";
-		int indexCallOp = checkNotDeclared(callId);
+		int indexCallOp = checkNotDeclared(callId,n);
 		if(n.getA() != null && this.stack.indexOf(actualScope)>0) {
 			//DefTuple della funzione che effettua la callOp
 			DefTuple callDefTuple = (DefTuple)this.stack.elementAt(indexCallOp).get(callId);
@@ -361,7 +361,7 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 				i--;
 			}
 			
-			if(n.getA().getChildList().size() != callParams.size()) throw new WrongArgumentException("numero di argomenti sbagliati");
+			if(n.getA().getChildList().size() != callParams.size()) throw new WrongArgumentException(callId, callParams.size(), n.getA().getChildList().size(), n);
 			//ArrayList<String> argsList = (ArrayList<String>) n.getA().accept(this);
 			ArrayList<Expr> argsList = n.getA().getChildList();
 			int j=0;
@@ -374,7 +374,7 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 					if(callParams.get(j).getPt() != t.getPt() && 
 					   ((callParams.get(j).getPt() != ParType.INOUT || t.getPt() != ParType.INOUT)) &&  
 					   (t.getPt() != ParType.INOUT)) 
-						throw new IllegalParamOperationException(String.format("Variabile %s del tipo %s, tipo richiesto %s", id,t.getPt().toString(),callParams.get(j).getPt().toString()));
+						throw new IllegalParamOperationException(String.format("Variabile %s del tipo %s, tipo richiesto %s", id,t.getPt().toString(),callParams.get(j).getPt().toString()), n);
 				}
 				j++;
 			}
@@ -404,7 +404,7 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 	public Object visit(ReadOp n) {
 		ArrayList<String> list = (ArrayList<String>) n.getV().accept(this);
 		for(String s: list) {
-			checkParams(s, ParType.IN, String.format("%s is a IN parameter, cannot write in IN parameter", s));
+			checkParams(s, ParType.IN, String.format("%s is a IN parameter, cannot write in IN parameter", s), n);
 		}
 		return null;
 	}
@@ -471,16 +471,13 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 		}
 	}
 	
-	private void checkAlreadyDeclared(String id) throws AlreadyDeclaredException {
+	private void checkAlreadyDeclared(String id, Node n) throws AlreadyDeclaredException {
 		if(this.actualScope.containsKey(id)) {
-			throw new AlreadyDeclaredException(String.format("%s already declared in %s scope",
-															  id,
-															  this.actualScope.getScopeName()
-												));
+			throw new AlreadyDeclaredException(id, this.actualScope.getScopeName(), n);
 		}
 	}
 	
-	private int checkNotDeclared(String id) throws NotDeclaredException {
+	private int checkNotDeclared(String id, Node n) throws NotDeclaredException {
 		int i = this.stack.indexOf(actualScope);
 		boolean find = false;
 		
@@ -490,10 +487,7 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 			i--;
 		}
 		if(!find) {
-			throw new NotDeclaredException(String.format("%s undeclared in %s scope",
-															  id,
-															  this.actualScope.getScopeName()
-												));
+			throw new NotDeclaredException(id, this.actualScope.getScopeName(), n);
 		}
 		i++;
 		return i;
@@ -503,16 +497,16 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 		String id = "";
 		if(e instanceof IdConst) {
 			id = ""+e.accept(this);
-			checkNotDeclared(id);
+			checkNotDeclared(id, e);
 		}
 		return id;
 	}
 	
-	private void checkParams(String id, ParType check, String mess) {
-		int position = this.checkNotDeclared(id);
+	private void checkParams(String id, ParType check, String mess, Node n) {
+		int position = this.checkNotDeclared(id, n);
 		if(this.stack.elementAt(position).get(id) instanceof ParTuple) {
 			ParTuple pt = (ParTuple) this.stack.elementAt(position).get(id);
-			if(pt.getPt() == check) throw new IllegalParamOperationException(mess);
+			if(pt.getPt() == check) throw new IllegalParamOperationException(mess, n);
 		}
 	}
 	
@@ -522,13 +516,13 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 		if(idE1.equals("")) {
 			e1.accept(this);
 		}else {
-			this.checkParams(idE1, ParType.OUT, String.format("%s is a OUT parameter, cannot read in OUT parameter", idE1));
+			this.checkParams(idE1, ParType.OUT, String.format("%s is a OUT parameter, cannot read in OUT parameter", idE1), e1);
 		}
 		
 		if(idE2.equals("")) {
 			e2.accept(this);
 		}else {
-			this.checkParams(idE2, ParType.OUT, String.format("%s is a OUT parameter, cannot read in OUT parameter", idE2));
+			this.checkParams(idE2, ParType.OUT, String.format("%s is a OUT parameter, cannot read in OUT parameter", idE2), e2);
 		}
 	}
 	
@@ -537,7 +531,7 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 		if(id.equals("")) {
 			e.accept(this);
 		}else {
-			this.checkParams(id, ParType.OUT, String.format("%s is a OUT parameter, cannot read in OUT parameter", id));
+			this.checkParams(id, ParType.OUT, String.format("%s is a OUT parameter, cannot read in OUT parameter", id), e);
 		}
 	}
 	

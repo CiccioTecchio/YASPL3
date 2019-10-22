@@ -39,3 +39,4 @@ yasplSource
 /target/
 
 .settings/
+src/main/resources/emsdk
