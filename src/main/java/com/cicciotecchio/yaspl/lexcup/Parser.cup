@@ -22,9 +22,14 @@ parser code{:
    if(info instanceof ComplexSymbol){
     int line = (((ComplexSymbol)info).getLeft().getLine())+1;
     int col  = (((ComplexSymbol)info).getRight().getColumn())+1;
-    //String val = (String)((ComplexSymbol)info).value;
-   //throw new SyntaxErrorException(val, line, col);
-   throw new SyntaxErrorException(line, col);
+    String val = (String)((ComplexSymbol)info).value;
+
+    if(val == null) {
+    throw new SyntaxErrorException(line, col);
+    } else
+    throw new SyntaxErrorException(val, line, col);
+
+
    }
   }
     
@@ -95,7 +100,7 @@ non terminal	ParTypeLeaf			Par_type;
 non terminal	Body				Body;
 non terminal	Stat				Stat;
 non terminal	Args				Args;
-non terminal	CompStat			Comp_stat;
+//non terminal	CompStat			Comp_stat;
 non terminal	Expr				Expr;
 
 /*List of precedences*/
@@ -171,8 +176,8 @@ Stat		::= Vars:vars READ:read SEMI									{: RESULT = new ReadOp(readxleft, rea
 			|	ID:id ASSIGN:assing Args:e1 SEMI							{: RESULT = new AssignOp(assingxleft, assingxright, "AssignOp", new IdConst(idxleft, idxright, "Id", new Leaf(idxleft, idxright, "Value", id)), e1); :}
 			|	ID:id LPAR Args:args RPAR SEMI								{: RESULT = new CallOp(idxleft, idxright, "CallOpWithArgs", new IdConst(idxleft, idxright,"Id", new Leaf(idxleft, idxright,"Value", id)), args); :}
 			|	ID:id LPAR RPAR SEMI									 	{: RESULT = new CallOp(idxleft, idxright, "CallOp", new IdConst(idxleft, idxright, "Id", new Leaf(idxleft, idxright, "Value", id))); :}
-			|	IF LPAR Expr:e RPAR THEN Comp_stat:cs1 ELSE Comp_stat:cs2	{: RESULT = new IfThenElseOp(exleft, exright,"IfThenElseOp", e, cs1, cs2); :}
-			|	IF LPAR Expr:e RPAR THEN Comp_stat:cs					    {: RESULT = new IfThenOp(exleft, exright,"IfThenOp", e, cs); :}
+			|	IF LPAR Expr:e RPAR THEN Body:b1 ELSE Body:b2	            {: RESULT = new IfThenElseOp(exleft, exright,"IfThenElseOp", e, b1, b2); :}
+			|	IF LPAR Expr:e RPAR THEN Body:b       	        			{: RESULT = new IfThenOp(exleft, exright,"IfThenOp", e, b); :}
 			|	WHILE LPAR Expr:e RPAR DO Body:b						    {: RESULT = new WhileOp(exleft, exright,"WhileOp", e, b); :}
 			|   ID:id INC SEMI                                              {: RESULT = new PostFixInc(idxleft, idxright, "PostFixInc", new IdConst(idxleft, idxright, "Id", new Leaf(idxleft, idxright, "Value", id))); :}
 			|   INC ID:id SEMI                                              {: RESULT = new PreFixInc(idxleft, idxright, "PreFixInc", new IdConst(idxleft, idxright, "Id", new Leaf(idxleft, idxright, "Value", id))); :}
@@ -185,8 +190,8 @@ Args		::=	Expr:e COMMA Args:arg		{: RESULT = arg.addChild(e);:}
 			|	Expr:e						{: RESULT = new Args(exleft, exright, "ArgsOp").addChild(e); :}
 			;
 			
-Comp_stat	::=	LGPAR Statements:s RGPAR 	{: RESULT = new CompStat(sxleft, sxright, "CompStat", s); :}
-			;
+//Comp_stat	::=	LGPAR Statements:s RGPAR 	{: RESULT = new CompStat(sxleft, sxright, "CompStat", s); :}
+//			;
 
 Expr		::=	Expr:e1 MINUS:minus Expr:e2		{: RESULT = new SubOp(minusxleft, minusxright, "SubOp", e1, e2); :}
 			|	Expr:e1 PLUS:plus Expr:e2 		{: RESULT = new AddOp(plusxleft, plusxright, "AddOp", e1, e2); :}

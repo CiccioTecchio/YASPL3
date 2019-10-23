@@ -1,7 +1,28 @@
 head
 int x = 2;
+int k =3;
+
+def funct(inout int x){
+"la"->;
+x->;
+}
 
 start
+funct(x);
+if(x==2)then{
+int k = 10;
+k,"\n"->;
+}
+k,"\n"->;
+k = 10000;
+if(x<3)then{
+    int ll =2;
+    ll,"\n"->;
+}else{
+    int ll;
+    k,"\n"->;
+    ll ->;
+}
 x++;
 x--;
 --x;

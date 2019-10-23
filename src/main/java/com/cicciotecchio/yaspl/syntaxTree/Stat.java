@@ -28,14 +28,7 @@ public abstract class Stat extends Internal{
 		super(left, right, op, id);
 	}
 	//IfThenElseOp
-	public Stat(Location left, Location right, String op, Expr e, CompStat cs1, CompStat cs2) {
-		super(left, right, op, e, cs1, cs2);
-	}
-	//IfThenOp && WhileOp
-	public Stat(Location left, Location right, String op, Expr e, CompStat cs) {
-		super(left, right, op, e, cs);
-	}
-	
+	public Stat(Location left, Location right, String op, Expr e, Body b1, Body b2) { super(left, right, op, e, b1, b2); }
 	//IfThenOp && WhileOp with scope
 	public Stat(Location left, Location right, String op, Expr e, Body b) {
 		super(left, right, op, e, b);

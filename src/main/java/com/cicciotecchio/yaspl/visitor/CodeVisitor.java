@@ -490,9 +490,13 @@ public class CodeVisitor implements Visitor<String> {
 		sb.append("if(");
 		sb.append(n.getE().accept(this));
 		sb.append("){\n");
-		sb.append(n.getCs1().accept(this));
+		this.stack.push(n.getSym());
+		this.actualScope = this.stack.peek();
+		sb.append(n.getB1().accept(this));
 		sb.append("}\nelse{\n");
-		sb.append(n.getCs2().accept(this));
+		this.stack.push(n.getSym());
+		this.actualScope = this.stack.peek();
+		sb.append(n.getB2().accept(this));
 		sb.append("}\n");
 		return sb.toString();
 	}
@@ -503,7 +507,9 @@ public class CodeVisitor implements Visitor<String> {
 		sb.append("if(");
 		sb.append(n.getE().accept(this));
 		sb.append("){\n");
-		sb.append(n.getCs().accept(this));
+		this.stack.push(n.getSym());
+		this.actualScope = this.stack.peek();
+		sb.append(n.getB().accept(this));
 		sb.append("}\n");
 		return sb.toString();
 	}

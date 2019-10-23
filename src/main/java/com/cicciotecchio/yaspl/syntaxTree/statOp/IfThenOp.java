@@ -1,5 +1,6 @@
 package com.cicciotecchio.yaspl.syntaxTree.statOp;
 
+import com.cicciotecchio.yaspl.syntaxTree.Body;
 import java_cup.runtime.ComplexSymbolFactory.Location;
 import com.cicciotecchio.yaspl.syntaxTree.CompStat;
 import com.cicciotecchio.yaspl.syntaxTree.Expr;
@@ -11,13 +12,13 @@ public class IfThenOp extends Stat implements Visitable {
 
 	private String op;
 	private Expr e;
-	private CompStat cs;
+	private Body b;
 	
-	public IfThenOp(Location left, Location right, String op, Expr e, CompStat cs) {
-		super(left, right, op, e, cs);
+	public IfThenOp(Location left, Location right, String op, Expr e, Body b) {
+		super(left, right, op, e, b);
 		this.op = op;
 		this.e = e;
-		this.cs = cs;
+		this.b = b;
 	}
 	
 	@Override
@@ -34,10 +35,9 @@ public class IfThenOp extends Stat implements Visitable {
 		return e;
 	}
 
-	public CompStat getCs() {
-		return cs;
+	public Body getB() {
+		return b;
 	}
-	
 	
 
 }

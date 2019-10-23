@@ -388,15 +388,24 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 	@Override
 	public Object visit(IfThenElseOp n) {
 		if(checkDx(n.getE()).equals("")) n.getE().accept(this);
-		n.getCs1().accept(this);
-		n.getCs2().accept(this);
+		this.stack.push(new SymbolTable("Then scope - hashCode: "+n.hashCode()));
+		this.actualScope = this.stack.peek();
+		n.setSym(actualScope);
+		n.getB1().accept(this);
+		this.stack.push(new SymbolTable("Else scope - hashCode: "+n.hashCode()));
+		this.actualScope = this.stack.peek();
+		n.setElseTbl(actualScope);
+		n.getB2().accept(this);
 		return null;
 	}
 
 	@Override
 	public Object visit(IfThenOp n) {
 		if(checkDx(n.getE()).equals("")) n.getE().accept(this);
-		n.getCs().accept(this);
+		this.stack.push(new SymbolTable("Then - hashCode: "+n.hashCode()));
+		this.actualScope = this.stack.peek();
+		n.setSym(actualScope);
+		n.getB().accept(this);
 		return null;
 	}
 

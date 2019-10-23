@@ -283,8 +283,8 @@ public class ASTVisitor implements Visitor<String> {
 	public String visit(IfThenElseOp n) {
 		String toReturn = "<"+n.getOp()+">\n";
 		toReturn += n.getE().accept(this);
-		toReturn += n.getCs1().accept(this);
-		toReturn += n.getCs2().accept(this);
+		toReturn += n.getB1().accept(this);
+		toReturn += n.getB2().accept(this);
 		toReturn += "</"+n.getOp()+">\n";
 		return toReturn;
 	}
@@ -293,7 +293,7 @@ public class ASTVisitor implements Visitor<String> {
 	public String visit(IfThenOp n) {
 		String toReturn = "<"+n.getOp()+">\n";
 		toReturn += n.getE().accept(this);
-		toReturn += n.getCs().accept(this);
+		toReturn += n.getB().accept(this);
 		toReturn += "</"+n.getOp()+">\n";
 		return toReturn;
 	}

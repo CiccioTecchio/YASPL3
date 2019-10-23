@@ -305,8 +305,8 @@ public class EnrichASTVisitor implements Visitor<String> {
 	public String visit(IfThenElseOp n) throws RuntimeException {
 		String tr = astBuilder(n.getOp(), n.getType());
 		tr += appendValue(n.getE().accept(this));
-		tr += appendValue(n.getCs1().accept(this));
-		tr += appendValue(n.getCs2().accept(this));
+		tr += appendValue(n.getB1().accept(this));
+		tr += appendValue(n.getB2().accept(this));
 		return tr += closeTag(n.getOp());
 	}
 
@@ -314,7 +314,7 @@ public class EnrichASTVisitor implements Visitor<String> {
 	public String visit(IfThenOp n) throws RuntimeException {
 		String tr = astBuilder(n.getOp(), n.getType());
 		tr += appendValue(n.getE().accept(this));
-		tr += appendValue(n.getCs().accept(this));
+		tr += appendValue(n.getB().accept(this));
 		return tr += closeTag(n.getOp());
 	}
 

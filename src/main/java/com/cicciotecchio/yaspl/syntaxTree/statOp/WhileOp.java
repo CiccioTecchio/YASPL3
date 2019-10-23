@@ -12,15 +12,7 @@ public class WhileOp extends Stat implements Visitable {
 
 	private String op;
 	private Expr e;
-	private CompStat cs;
 	private Body b;
-	
-	public WhileOp(Location left, Location right, String op, Expr e, CompStat cs) {
-		super(left, right, op, e, cs);
-		this.op = op;
-		this.e = e;
-		this.cs = cs;
-	}
 	
 	public WhileOp(Location left, Location right, String op, Expr e, Body b) {
 		super(left, right, op, e, b);
@@ -40,10 +32,6 @@ public class WhileOp extends Stat implements Visitable {
 
 	public Expr getE() {
 		return e;
-	}
-
-	public CompStat getCs() {
-		return cs;
 	}
 	
 	public Body getBody() {
