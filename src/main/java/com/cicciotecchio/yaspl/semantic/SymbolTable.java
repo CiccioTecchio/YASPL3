@@ -1,6 +1,7 @@
 package com.cicciotecchio.yaspl.semantic;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 
 public class SymbolTable extends TreeMap<String, Tuple> {
@@ -47,7 +48,18 @@ public class SymbolTable extends TreeMap<String, Tuple> {
 	public String getScopeName() {
 		return scopeName;
 	}
-	
-	
-	
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		if (!super.equals(o)) return false;
+		SymbolTable that = (SymbolTable) o;
+		return Objects.equals(scopeName, that.scopeName);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), scopeName);
+	}
 }

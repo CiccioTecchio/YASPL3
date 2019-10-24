@@ -70,12 +70,14 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 	public Object visit(Body n) {
 		n.getVd().accept(this);
 		n.getS().accept(this);
+
 		if(pathToPrintScope.equals("")) {
 			this.stack.pop();
 		}else {
 			logger.info(this.stack.pop().toString());
 		}
 		this.actualScope = this.stack.peek();
+
 		return null;
 	}
 	
@@ -341,8 +343,10 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(AssignOp n) {
-		n.getId().accept(this);
+		String id = n.getId().accept(this).toString();
+		checkParams(id, ParType.IN, String.format("%s is a IN parameter, cannot write in IN parameter", id), n);
 		n.getA().accept(this);
+
 		//checkParams(id, ParType.IN, String.format("%s is a IN parameter, cannot write in IN parameter", id));
 		//if(checkDx(n.getE()).equals(""))n.getE().accept(this);
 		return null;
@@ -440,10 +444,11 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(ForOp n) throws RuntimeException {
-		String id = n.getId().accept(this).toString();
-		checkNotDeclared(id, n);
+		String id = checkDx(n.getId());
+		checkParams(id, ParType.IN, String.format("%s is a IN parameter, cannot write in IN parameter", id), n);
 		if(checkDx(n.getStart()).equals("")) n.getStart().accept(this);
 		if(checkDx(n.getEnd()).equals("")) n.getEnd().accept(this);
+
 		this.stack.push(new SymbolTable("ForOp - hashCode: "+n.hashCode()));
 		this.actualScope = this.stack.peek();
 		n.setSym(actualScope);
@@ -459,25 +464,29 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(PreFixInc n) throws RuntimeException {
-		checkNotDeclared(n.getId().accept(this).toString(), n);
+		String id = checkDx(n.getId());
+		checkParams(id, ParType.IN, String.format("%s is a IN parameter, cannot write in IN parameter", id), n);
 		return null;
 	}
 
 	@Override
 	public Object visit(PostFixInc n) throws RuntimeException {
-		checkNotDeclared(n.getId().accept(this).toString(), n);
+		String id = checkDx(n.getId());
+		checkParams(id, ParType.IN, String.format("%s is a IN parameter, cannot write in IN parameter", id), n);
 		return null;
 	}
 
 	@Override
 	public Object visit(PreFixDec n) throws RuntimeException {
-		checkNotDeclared(n.getId().accept(this).toString(), n);
+		String id = checkDx(n.getId());
+		checkParams(id, ParType.IN, String.format("%s is a IN parameter, cannot write in IN parameter", id), n);
 		return null;
 	}
 
 	@Override
 	public Object visit(PostFixDec n) throws RuntimeException {
-		checkNotDeclared(n.getId().accept(this).toString(), n);
+		String id = checkDx(n.getId());
+		checkParams(id, ParType.IN, String.format("%s is a IN parameter, cannot write in IN parameter", id), n);
 		return null;
 	}
 
@@ -536,7 +545,6 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 	private int checkNotDeclared(String id, Node n) throws NotDeclaredException {
 		int i = this.stack.indexOf(actualScope);
 		boolean find = false;
-		
 		while(!find && i>=0) {
 			SymbolTable app = this.stack.elementAt(i);
 			find = app.containsKey(id);

@@ -1,0 +1,23 @@
+head
+bool divide = false;
+int smallest = 2520;
+
+def checkDivided(in int num, out bool res){
+int i = 2;
+while(i<20 and (num mod i) == 0 ) do{
+i++;
+}
+if(i>=20) then {
+res = true;
+}else{
+res = false;
+}
+}
+
+start
+while(divide == false) do{
+checkDivided(smallest, divide);
+smallest++;
+}
+smallest--;
+smallest,"\n"->;

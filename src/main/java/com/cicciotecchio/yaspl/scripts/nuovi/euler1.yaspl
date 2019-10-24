@@ -3,9 +3,10 @@ head
 
 int num;
 int sum = 0;
+int end = 1000;
 start
 
-for(num:1:1000:1){
+for(num:1:end:1){
 if((num mod 3) == 0 or (num mod 5) == 0) then{
 sum = sum + num;
 }

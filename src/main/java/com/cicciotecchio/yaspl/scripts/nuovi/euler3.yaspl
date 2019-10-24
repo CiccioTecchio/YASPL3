@@ -1,0 +1,27 @@
+//What is the largest prime factor of the number 600851475 ?
+head
+int lgf = 0;
+int end = 600851475;
+int i = 2;
+
+def Funcprimo(inout bool primo){
+int j = 2;
+    while(j < i and primo == true) do{
+        if((i mod j) == 0)then{
+        primo = false;
+        }
+    j++;
+    }
+}
+
+start
+for(i:2:end:1){
+if((end mod i ) ==0) then{
+    bool primo = true;
+    Funcprimo(primo);
+    if(primo == true) then{
+    lgf = i;
+    }
+}
+}
+lgf,"\n"->;
