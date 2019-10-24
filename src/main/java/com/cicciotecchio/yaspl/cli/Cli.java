@@ -27,8 +27,8 @@ public class Cli {
 	private static boolean ast = false;
 	private static boolean scope = false;
 	private static boolean enrich = false;
-	//private static boolean js = false;
-	private static final String PATHEMSDK = "/src/main/resources/emsdk";
+	private static boolean js = false;
+	private static final String PATHEMSDK = "src/main/resources/emsdk";
 	
 	public static void main(String[] args) {
 		try {
@@ -71,28 +71,29 @@ public class Cli {
 		    fw.write(genC.visit(p));
 		    fw.close();
 		    pb.redirectErrorStream(true);
-		    /*if(js){
+		    if(js){
 		    pb.command("bash", "-c", "cd yasplSource;"
-		    					   + "clang target.c -o ../yaspl.out;"
-		    					   + "clang -S -emit-llvm target.c -o ../target.ll;"
+		    					   + "clang target.c -o ../a.out;"
+		    					   //+ "clang -S -emit-llvm target.c -o ../target.ll;"
 		    					   );
-		    }else{*/
+		    }else{
 		    pb.command("bash", "-c", "cd yasplSource; clang target.c -o ../a.out");
-		    //}
-		    
-		    process = pb.start();
-		    BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-		    String line = reader.readLine();
-            while (line != null) {
-                System.out.println(line);
-                line = reader.readLine();  
-            }
-           /*if(js) {
+		    }
 
-            	pb.command("bash", "-c", "source "+PATHEMSDK+"/emsdk_env.sh ;"
-            							+ "emcc target.ll -o yaspl.out.js");
-            	process = pb.start();
-            }*/
+			process = pb.start();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			String line = reader.readLine();
+			while (line != null) {
+				System.out.println(line);
+				line = reader.readLine();
+			}
+
+			if(js) {
+				pb.command("bash", "-c", "source "+PATHEMSDK+"/emsdk_env.sh;"
+						+ "emcc yasplSource/target.c -o yaspl.out.js");
+				process = pb.start();
+			}
+
             reader.close();
 		    process.destroy();
 		} catch (FileNotFoundException e) {
@@ -114,7 +115,7 @@ public class Cli {
 			case "-ast": ast = true; break;
 			case "-scope": scope = true; break;
 			case "-enrich": enrich = true; break;
-			//case "-js": js = true; break;
+			case "-js": js = true; break;
 			case "help": System.out.println(HELP); break;
 			case "-help": System.out.println(HELP); break;
 			}
