@@ -522,9 +522,9 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(IfThenElseOp n) throws RuntimeException {
+		Type expr = (Type) n.getE().accept(this);
 		this.stack.push(n.getSym());
 		this.actualScope = this.stack.peek();
-		Type expr = (Type) n.getE().accept(this);
 		n.getB1().accept(this);
 		this.stack.push(n.getElseTbl());
 		this.actualScope = this.stack.peek();
@@ -539,8 +539,9 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(IfThenOp n) throws RuntimeException {
-		this.stack.push(n.getSym());
 		Type expr = (Type) n.getE().accept(this);
+		this.stack.push(n.getSym());
+		this.actualScope = this.stack.peek();
 		n.getB().accept(this);
 		if(expr == Type.BOOL) {
 			n.setType(Type.VOID);
@@ -561,8 +562,9 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(WhileOp n) throws RuntimeException {
-		this.stack.push(n.getSym());
 		Type expr = (Type) n.getE().accept(this);
+		this.stack.push(n.getSym());
+		this.actualScope = this.stack.peek();
 		n.getBody().accept(this);
 		if(expr == Type.BOOL) {
 			n.setType(Type.VOID);
