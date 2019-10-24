@@ -39,6 +39,7 @@ parser code{:
 /*List of terminals*/
 terminal HEAD;
 terminal START;
+terminal COLON;
 terminal SEMI; 
 terminal BOOL;
 terminal DOUBLE;
@@ -66,6 +67,7 @@ terminal FALSE;
 terminal ASSIGN;
 terminal IF;
 terminal THEN;
+terminal FOR;
 terminal WHILE;
 terminal DO;
 terminal ELSE;
@@ -178,6 +180,8 @@ Stat		::= Vars:vars READ:read SEMI									{: RESULT = new ReadOp(readxleft, rea
 			|	ID:id LPAR RPAR SEMI									 	{: RESULT = new CallOp(idxleft, idxright, "CallOp", new IdConst(idxleft, idxright, "Id", new Leaf(idxleft, idxright, "Value", id))); :}
 			|	IF LPAR Expr:e RPAR THEN Body:b1 ELSE Body:b2	            {: RESULT = new IfThenElseOp(exleft, exright,"IfThenElseOp", e, b1, b2); :}
 			|	IF LPAR Expr:e RPAR THEN Body:b       	        			{: RESULT = new IfThenOp(exleft, exright,"IfThenOp", e, b); :}
+			|   FOR:f LPAR ID:id COLON Expr:start COLON Expr:end COLON INT_CONST:incr RPAR Body:b {: RESULT = new ForOp(fxleft, fxright, "ForOp", new IdConst(idxleft, idxright, "Id", new Leaf(idxleft, idxright, "Value", id)), start, end, new IntConst(incrxleft, incrxright, "IntConst", new Leaf(incrxleft, incrxright, "Value", incr)),b); :}
+			|   FOR:f LPAR ID:id COLON Expr:start COLON Expr:end COLON MINUS INT_CONST:incr RPAR Body:b {: RESULT = new ForOp(fxleft, fxright, "ForOp", new IdConst(idxleft, idxright, "Id", new Leaf(idxleft, idxright, "Value", id)), start, end, true, new IntConst(incrxleft, incrxright, "IntConst", new Leaf(incrxleft, incrxright, "Value", incr)),b); :}
 			|	WHILE LPAR Expr:e RPAR DO Body:b						    {: RESULT = new WhileOp(exleft, exright,"WhileOp", e, b); :}
 			|   ID:id INC SEMI                                              {: RESULT = new PostFixInc(idxleft, idxright, "PostFixInc", new IdConst(idxleft, idxright, "Id", new Leaf(idxleft, idxright, "Value", id))); :}
 			|   INC ID:id SEMI                                              {: RESULT = new PreFixInc(idxleft, idxright, "PreFixInc", new IdConst(idxleft, idxright, "Id", new Leaf(idxleft, idxright, "Value", id))); :}

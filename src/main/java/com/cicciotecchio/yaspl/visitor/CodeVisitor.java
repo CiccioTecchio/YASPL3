@@ -570,6 +570,47 @@ public class CodeVisitor implements Visitor<String> {
 	}
 
 	@Override
+	public String visit(ForOp n) throws RuntimeException {
+		StringBuilder sb = new StringBuilder();
+		sb.append("for(");
+		String id = n.getId().accept(this).toString();
+		sb.append(id).append("=").append(n.getStart().accept(this)).append("; ");
+		int incr = Integer.parseInt(n.getIncr().accept(this).toString());
+		if(n.getMinus()){
+			if(incr > 0){
+				sb.append(id);
+				sb.append(">=");
+				sb.append(n.getEnd().accept(this));
+			}else{
+				sb.append(id);
+				sb.append("<");
+				sb.append(n.getEnd().accept(this));
+			}
+			sb.append("; ");
+			sb.append(id).append("=").append(id).append("+").append("-").append(incr);
+		}else {
+			if(incr > 0){
+				sb.append(id);
+				sb.append("<");
+				sb.append(n.getEnd().accept(this));
+			}else{
+				sb.append(id);
+				sb.append(">=");
+				sb.append(n.getEnd().accept(this));
+			}
+			sb.append("; ");
+			sb.append(id).append("=").append(id).append("+").append(incr);
+		}
+		//if(n.getMinus())sb.append(id).append("=").append(id).append(" + ").append("-").append(incr);
+		sb.append("){\n");
+		this.stack.push(n.getSym());
+		this.actualScope = this.stack.peek();
+		sb.append(n.getB().accept(this));
+		sb.append("}\n");
+		return sb.toString();
+	}
+
+	@Override
 	public String visit(WriteOp n) throws RuntimeException {
 		StringBuilder sb = new StringBuilder();
 		this.isWrite = true;

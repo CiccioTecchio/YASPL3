@@ -3,30 +3,35 @@ int x = 2;
 int k =3;
 
 def funct(inout int x){
-"la"->;
-x->;
+"For di funct\n"->;
+for(x:0:-5:-1){
+x," la\n"->;
+}
 }
 
 start
 funct(x);
+for(x:0:5:1){
+x," la\n"->;
+}
 if(x==2)then{
 int k = 10;
-k,"\n"->;
+"IfThen ",k,"\n"->;
 }
-k,"\n"->;
+"dopo IfThen ",k,"\n"->;
 k = 10000;
 if(x<3)then{
-    int ll =2;
-    ll,"\n"->;
+    int ll = 2;
+    "Then dell' IfThenElse ",ll,"\n"->;
 }else{
-    int ll;
-    k,"\n"->;
-    ll ->;
+    int ll= 12;
+    "Else dell' IfThenElse ",k,"\n"->;
+    "Else dell' IfThenElse ",ll,"\n" ->;
 }
 x++;
 x--;
 --x;
 ++x;
-x,"\n"->;
+"X dopo gli incrementi ",x,"\n"->;
 "Hello\n"->;
-3+2+x,"\n"->;
+"Fine ",3+2+x,"\n"->;

@@ -1,5 +1,6 @@
 package com.cicciotecchio.yaspl.syntaxTree;
 
+import com.cicciotecchio.yaspl.syntaxTree.leaf.IntConst;
 import java_cup.runtime.ComplexSymbolFactory.Location;
 import com.cicciotecchio.yaspl.syntaxTree.components.Internal;
 import com.cicciotecchio.yaspl.syntaxTree.leaf.IdConst;
@@ -33,7 +34,10 @@ public abstract class Stat extends Internal{
 	public Stat(Location left, Location right, String op, Expr e, Body b) {
 		super(left, right, op, e, b);
 	}
-	
+	//ForOp
+	public Stat(Location left, Location right, String op, IdConst id, Expr start, Expr end, IntConst incr, Body b) { super(left, right, op, id, start, end, incr, b); }
+	//ForOp Minus
+	public Stat(Location left, Location right, String op, IdConst id, Expr start, Expr end, boolean minus, IntConst incr, Body b) { super(left, right, op, id, start, end, incr, b); }
 	public abstract Object accept(Visitor<?> visitor);
 	
 }

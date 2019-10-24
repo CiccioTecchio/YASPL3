@@ -6,10 +6,7 @@ import java_cup.runtime.ComplexSymbolFactory;
 import com.cicciotecchio.yaspl.syntaxTree.Programma;
 import com.cicciotecchio.yaspl.visitor.*;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.*;
 
 public class Cli {
 	
@@ -30,8 +27,8 @@ public class Cli {
 	private static boolean ast = false;
 	private static boolean scope = false;
 	private static boolean enrich = false;
-	private static boolean js = false;
-	private static final String PATHEMSDK = "src/main/resources/emsdk";
+	//private static boolean js = false;
+	private static final String PATHEMSDK = "/src/main/resources/emsdk";
 	
 	public static void main(String[] args) {
 		try {
@@ -73,15 +70,15 @@ public class Cli {
 		    fw = new FileWriter("yasplSource/target.c");
 		    fw.write(genC.visit(p));
 		    fw.close();
-		    /*pb.redirectErrorStream(true);
-		    if(js){
+		    pb.redirectErrorStream(true);
+		    /*if(js){
 		    pb.command("bash", "-c", "cd yasplSource;"
 		    					   + "clang target.c -o ../yaspl.out;"
 		    					   + "clang -S -emit-llvm target.c -o ../target.ll;"
 		    					   );
-		    }else{
-		    pb.command("bash", "-c", "cd yasplSource; clang target.c -o ../yaspl.out");
-		    }
+		    }else{*/
+		    pb.command("bash", "-c", "cd yasplSource; clang target.c -o ../a.out");
+		    //}
 		    
 		    process = pb.start();
 		    BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -90,13 +87,13 @@ public class Cli {
                 System.out.println(line);
                 line = reader.readLine();  
             }
-           if(js) {
+           /*if(js) {
 
             	pb.command("bash", "-c", "source "+PATHEMSDK+"/emsdk_env.sh ;"
             							+ "emcc target.ll -o yaspl.out.js");
             	process = pb.start();
-            }
-            reader.close();*/
+            }*/
+            reader.close();
 		    process.destroy();
 		} catch (FileNotFoundException e) {
 			System.err.println(HELP);
@@ -117,7 +114,7 @@ public class Cli {
 			case "-ast": ast = true; break;
 			case "-scope": scope = true; break;
 			case "-enrich": enrich = true; break;
-			case "-js": js = true; break;
+			//case "-js": js = true; break;
 			case "help": System.out.println(HELP); break;
 			case "-help": System.out.println(HELP); break;
 			}

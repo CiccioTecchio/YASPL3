@@ -83,6 +83,7 @@ EndOfLineComment     = "//" {InputCharacter}* {LineTerminator}?
 {Comment}		{ /* ignore */ }
 "head"			{ return symbol("HEAD", LexerSym.HEAD); }
 "start"			{ return symbol("START", LexerSym.START); }
+":"				{ return symbol("SEMI", LexerSym.COLON); }
 ";"				{ return symbol("SEMI", LexerSym.SEMI); }
 "int"			{ return symbol("INT", LexerSym.INT); }
 "bool"			{ return symbol("BOOL", LexerSym.BOOL); }
@@ -112,6 +113,7 @@ EndOfLineComment     = "//" {InputCharacter}* {LineTerminator}?
 "="				{ return symbol("ASSIGN", LexerSym.ASSIGN); }
 "if"			{ return symbol("IF", LexerSym.IF); }
 "then"			{ return symbol("THEN", LexerSym.THEN);  }
+"for"           { return symbol("FOR", LexerSym.FOR);  }
 "while"			{ return symbol("WHILE", LexerSym.WHILE); }
 "do"			{ return symbol("DO", LexerSym.DO); }
 "else"			{ return symbol("ELSE", LexerSym.ELSE); }

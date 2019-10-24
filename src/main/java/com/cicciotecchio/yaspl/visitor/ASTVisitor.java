@@ -317,6 +317,19 @@ public class ASTVisitor implements Visitor<String> {
 	}
 
 	@Override
+	public String visit(ForOp n) throws RuntimeException {
+		String toReturn = "<"+n.getOp()+">\n";
+		toReturn += n.getId().accept(this);
+		toReturn += n.getStart().accept(this);
+		toReturn += n.getEnd().accept(this);
+		toReturn += (n.getMinus())?"-"+n.getIncr().accept(this):n.getIncr().accept(this);
+		//toReturn += n.getCs().accept(this);
+		toReturn += n.getB().accept(this);
+		toReturn += "</"+n.getOp()+">\n";
+		return toReturn;
+	}
+
+	@Override
 	public String visit(WriteOp n) {
 		String toReturn = "<"+n.getOp()+">\n";
 		toReturn += n.getA().accept(this);

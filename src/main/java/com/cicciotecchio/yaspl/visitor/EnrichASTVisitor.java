@@ -334,6 +334,16 @@ public class EnrichASTVisitor implements Visitor<String> {
 	}
 
 	@Override
+	public String visit(ForOp n) throws RuntimeException {
+		String tr = astBuilderWithSymTbl(n.getOp(), n.getSym().getScopeName(), n.getType());
+		tr += appendValue(n.getId().accept(this));
+		tr += appendValue(n.getStart().accept(this));
+		tr += appendValue(n.getEnd().accept(this));
+		tr += (n.getMinus())?"-"+appendValue(n.getIncr().accept(this)):appendValue(n.getIncr().accept(this));
+		return tr += closeTag(n.getOp());
+	}
+
+	@Override
 	public String visit(WriteOp n) throws RuntimeException {
 		String tr = astBuilder(n.getOp(), n.getType());
 		tr += appendValue(n.getA().accept(this));

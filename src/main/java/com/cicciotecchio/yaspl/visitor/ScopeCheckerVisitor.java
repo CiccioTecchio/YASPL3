@@ -430,6 +430,19 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 	}
 
 	@Override
+	public Object visit(ForOp n) throws RuntimeException {
+		String id = n.getId().accept(this).toString();
+		checkNotDeclared(id, n);
+		if(checkDx(n.getStart()).equals("")) n.getStart().accept(this);
+		if(checkDx(n.getEnd()).equals("")) n.getEnd().accept(this);
+		this.stack.push(new SymbolTable("ForOp - hashCode: "+n.hashCode()));
+		this.actualScope = this.stack.peek();
+		n.setSym(actualScope);
+		n.getB().accept(this);
+		return null;
+	}
+
+	@Override
 	public Object visit(WriteOp n) {
 		n.getA().accept(this);
 		return null;
