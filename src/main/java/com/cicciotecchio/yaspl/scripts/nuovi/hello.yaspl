@@ -11,7 +11,7 @@ x," la\n"->;
 
 start
 funct(x);
-for(x:0:5:1){
+for(x:0:5+5+k:1){
 x," la\n"->;
 }
 if(x==2)then{

@@ -20,14 +20,12 @@ import com.cicciotecchio.yaspl.syntaxTree.wrapper.VarDeclsInitWrapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
-import java.util.logging.Logger;
 
 public class TypeCheckerVisitor implements Visitor<Object> {
 
 	private Stack<SymbolTable> stack;
 	private SymbolTable actualScope;
 	private String ast;
-	private Logger logger=Logger.getLogger("TypeChecker");
 	
 	private SymbolTable.Type[][] arithOpCompOp = { // it's add, sub, mult and divOp
 			{Type.INT, null, Type.DOUBLE, null, null, null},	//riga interi
@@ -258,6 +256,17 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 		return toReturn;
 	}
 
+	@Override
+	public Object visit(ModOp n) throws RuntimeException {
+		Type t1 = (Type) n.getE1().accept(this);
+		Type t2 = (Type) n.getE2().accept(this);
+
+		if(t1 != Type.INT && t2 != Type.INT) {
+			throw new TypeMismatchException(n.getOp(), t1, t2, n);
+		}else
+			n.setType(Type.INT);
+		return Type.INT;
+	}
 
 
 	@Override

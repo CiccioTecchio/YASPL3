@@ -104,6 +104,7 @@ EndOfLineComment     = "//" {InputCharacter}* {LineTerminator}?
 "-"				{ return symbol("MINUS", LexerSym.MINUS); }
 "*"				{ return symbol("TIMES", LexerSym.TIMES); }
 "/"				{ return symbol("DIV", LexerSym.DIV); }
+"mod"			{ return symbol("DIV", LexerSym.MOD); }
 {intConst}		{ return symbol("INT_CONST", LexerSym.INT_CONST, yytext()); }
 {doubleConst}	{ return symbol("DOUBLE_CONST", LexerSym.DOUBLE_CONST, yytext()); }
 {stringConst}	{ return symbol("STRING_CONST", LexerSym.STRING_CONST,yytext()); }

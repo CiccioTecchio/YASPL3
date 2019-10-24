@@ -261,6 +261,15 @@ public class CodeVisitor implements Visitor<String> {
 	}
 
 	@Override
+	public String visit(ModOp n) throws RuntimeException {
+		StringBuilder sb = new StringBuilder();
+		sb.append(n.getE1().accept(this));
+		sb.append(" % ");
+		sb.append(n.getE2().accept(this));
+		return sb.toString();
+	}
+
+	@Override
 	public String visit(MultOp n) throws RuntimeException {
 		StringBuilder sb = new StringBuilder();
 		sb.append(n.getE1().accept(this));

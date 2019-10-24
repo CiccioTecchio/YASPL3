@@ -200,11 +200,14 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(VarInitValue n) {
-		String id = checkDx(n.getE());
-		if(id.equals("")) n.getE().accept(this);
-		else {
-			this.checkParams(id, ParType.OUT, String.format("%s is a OUT parameter, cannot read in OUT parameter", id), n);
-		}
+		//in C non è possibile inizializzare variabili con IdConst nella memoria statica
+		if(this.stack.indexOf(this.actualScope)==0 && !isConst(n.getE())) throw new IllegalParamOperationException("initializer element is not a compile-time constant: ", n);
+			String id = checkDx(n.getE());
+			if (id.equals("")) n.getE().accept(this);
+			else {
+				this.checkParams(id, ParType.OUT, String.format("%s is a OUT parameter, cannot read in OUT parameter", id), n);
+			}
+
 		return null;
 	}
 
@@ -228,7 +231,13 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 		visitOfBinaryExpr(n.getE1(), n.getE2());
 		return null;
 	}
-	
+
+	@Override
+	public Object visit(ModOp n) throws RuntimeException {
+		visitOfBinaryExpr(n.getE1(), n.getE2());
+		return null;
+	}
+
 	@Override
 	public Object visit(MultOp n) {
 		visitOfBinaryExpr(n.getE1(), n.getE2());
@@ -580,6 +589,15 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 		}else {
 			this.checkParams(id, ParType.OUT, String.format("%s is a OUT parameter, cannot read in OUT parameter", id), e);
 		}
+	}
+
+	private boolean isConst(Expr e){
+		boolean isInt = e instanceof  IntConst;
+		boolean isStr = e instanceof  StringConst;
+		boolean isDouble = e instanceof DoubleConst;
+		boolean isChar = e instanceof CharConst;
+		boolean isBool = e instanceof BoolConst;
+		return (isInt || isStr || isDouble || isChar || isBool)?true:false;
 	}
 	
 }

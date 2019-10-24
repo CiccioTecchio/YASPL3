@@ -1,0 +1,25 @@
+/*
+Considerando i termini della sequenza di Fibonacci
+i cui valori non superano i 40k,
+trovare la somma dei termini a valore pari.
+*/
+head
+
+int fib1 = 1, fib2 = 1;
+int f=0;
+int sum=0;
+
+def fibonacci(inout int a, inout int b, inout int res){
+res = a + b;
+b = a;
+a = res;
+}
+
+start
+while(f < 40000)do{
+fibonacci(fib1, fib2, f);
+if((f mod 2)==0) then{
+sum = sum + f;
+}
+}
+sum,"\n"->;

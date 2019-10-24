@@ -156,6 +156,14 @@ public class EnrichASTVisitor implements Visitor<String> {
 	}
 
 	@Override
+	public String visit(ModOp n) throws RuntimeException {
+		String tr = astBuilder(n.getOp(), n.getType());
+		tr += appendValue(n.getE1().accept(this));
+		tr += appendValue(n.getE2().accept(this));
+		return tr += closeTag(n.getOp());
+	}
+
+	@Override
 	public String visit(MultOp n) throws RuntimeException {
 		String tr = astBuilder(n.getOp(), n.getType());
 		tr += appendValue(n.getE1().accept(this));

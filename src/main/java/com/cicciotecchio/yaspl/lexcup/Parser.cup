@@ -58,6 +58,7 @@ terminal PLUS;
 terminal MINUS; 
 terminal TIMES;
 terminal DIV;
+terminal MOD;
 terminal String INT_CONST;
 terminal String DOUBLE_CONST;
 terminal String STRING_CONST;
@@ -107,7 +108,7 @@ non terminal	Expr				Expr;
 
 /*List of precedences*/
 precedence nonassoc  ELSE; 
-precedence left PLUS,MINUS,OR;
+precedence left PLUS,MINUS,MOD, OR;
 precedence left TIMES,DIV,AND;
 precedence nonassoc GT, GE, LT, LE, EQ; 
 precedence left UMINUS, NOT, COMMA;	 
@@ -200,6 +201,7 @@ Args		::=	Expr:e COMMA Args:arg		{: RESULT = arg.addChild(e);:}
 Expr		::=	Expr:e1 MINUS:minus Expr:e2		{: RESULT = new SubOp(minusxleft, minusxright, "SubOp", e1, e2); :}
 			|	Expr:e1 PLUS:plus Expr:e2 		{: RESULT = new AddOp(plusxleft, plusxright, "AddOp", e1, e2); :}
 			|	Expr:e1 TIMES:times Expr:e2		{: RESULT = new MultOp(timesxleft, timesxright, "MultOp", e1, e2); :}
+			|   Expr:e1 MOD:mod Expr:e2         {: RESULT = new ModOp(modxleft, modxright, "ModOp", e1,e2); :}
 			|	Expr:e1 DIV:div Expr:e2			{: RESULT = new DivOp(divxleft, divxright, "DivOp", e1, e2); :}
 			|	Expr:e1 AND:and Expr:e2			{: RESULT = new AndOp(andxleft, andxright, "AndOp", e1, e2); :}
 			|	Expr:e1 OR:or Expr:e2			{: RESULT = new OrOp(orxleft, orxright, "OrOp", e1, e2); :}

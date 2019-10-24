@@ -164,6 +164,15 @@ public class ASTVisitor implements Visitor<String> {
 	}
 
 	@Override
+	public String visit(ModOp n) throws RuntimeException {
+		String toReturn = "<"+n.getOp()+">\n";
+		toReturn += n.getE1().accept(this);
+		toReturn += n.getE2().accept(this);
+		toReturn += "</"+n.getOp()+">\n";
+		return toReturn;
+	}
+
+	@Override
 	public String visit(MultOp n) {
 		String toReturn = "<"+n.getOp()+">\n";
 		toReturn += n.getE1().accept(this);

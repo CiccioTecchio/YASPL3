@@ -1,0 +1,35 @@
+head
+
+double a, b, c, h, res;
+
+def resetResult(inout double res){
+res = 0;
+}
+
+def area(in double base, in double altezza, out double res){
+//resetResult(res);
+res = (b*h)/2;
+}
+
+def perimetro(in double l1, in double l2, in double l3, out double res){
+//resetResult(res);
+res = l+l+l;
+}
+
+start
+"Calcolo area del triangolo\n"->;
+"L'area è ",res,"\n"->;
+"Inserisci lato a: "->;
+a<-;
+"Inserisci base: "->;
+b<-;
+"Inserisci lato c: "->;
+a<-;
+"Inserisci altezza: "->;
+h<-;
+resetResult(res);
+area(b, h, res);
+"area: ",res,"\n"->;
+resetResult(res);
+perimetro(a, b, c, res);
+"perimetro: ",res,"\n"->;

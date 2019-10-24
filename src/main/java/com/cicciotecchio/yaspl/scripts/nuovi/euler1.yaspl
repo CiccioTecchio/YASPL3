@@ -1,0 +1,13 @@
+//somma dei multipli di 3 e 5 sotto 1000
+head
+
+int num;
+int sum = 0;
+start
+
+for(num:1:1000:1){
+if((num mod 3) == 0 or (num mod 5) == 0) then{
+sum = sum + num;
+}
+}
+sum,"\n"->;
