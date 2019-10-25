@@ -1,0 +1,53 @@
+head
+int limit, res, letto, i, somma = 0;
+bool pari;
+string paridisp;
+
+def fibonacci(in int n, inout int o){
+	int t = 0;
+	if(n==1 or n==2) then{
+		t=1;
+	}
+	else{
+		fibonacci(n-1,o);
+		t = t + o;
+		fibonacci(n-2,o);
+		t = t + o;
+	}
+	o = t;
+}
+
+start
+
+"Inserisci un numero limite\n"->;
+limit<-;
+
+"0) Somma tutti i numeri PARI della successione di fibonacci minori di ",limit,"\n"->;
+"1) Somma tutti i numeri DISPARI della successione di fibonacci minori di ",limit,"\n"->;
+"Scelta: "->;
+letto<-;
+
+if(letto == 0) then {
+	paridisp = "pari";
+}
+else {
+	paridisp = "dispari";
+}
+
+//for i in (1:limit:1){
+res = 1;
+i = 1;
+while(res < limit)do{
+	if((letto == 0) and ((res mod 2) == 0))then{
+		somma = somma + res;
+	}
+	else {
+		if((letto == 1) and (not((res mod 2) == 0)))then{
+			somma = somma + res;
+		}
+	}
+	i++;
+	fibonacci(i, res);
+}
+
+"La somma di tutti i numeri ",paridisp," della successione di fibonacci minori di ",limit," è ",somma,"\n"->;

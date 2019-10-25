@@ -575,14 +575,14 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 	@Override
 	public Object visit(ForOp n) throws RuntimeException {
 		Type id = (Type) n.getId().accept(this);
-		if(id == Type.STRING || id == Type.BOOL || id == Type.DOUBLE)
+		if(id == Type.STRING || id == Type.BOOL /*|| id == Type.DOUBLE*/)
 			throw new TypeMismatchException(n.getOp(), n.getId().getType(), n);
 
 		Type start = (Type) n.getStart().accept(this);
-		if(start == Type.STRING || start == Type.BOOL || start == Type.DOUBLE)
+		if(start == Type.STRING || start == Type.BOOL/* || start == Type.DOUBLE*/)
 			throw new TypeMismatchException(n.getOp(), n.getId().getType(), n);
 		Type end = (Type) n.getStart().accept(this);
-		if(end == Type.STRING || end == Type.BOOL || end == Type.DOUBLE)
+		if(end == Type.STRING || end == Type.BOOL /*|| end == Type.DOUBLE*/)
 			throw new TypeMismatchException(n.getOp(), n.getId().getType(), n);
 		n.getIncr().accept(this);
 		this.stack.push(n.getSym());

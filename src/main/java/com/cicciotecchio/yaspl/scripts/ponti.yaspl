@@ -1,0 +1,16 @@
+head
+int p;
+int i = 10;
+def f(inout int p){
+    if(p == 0) then {
+        p=10;
+        if(p == 10) then{
+           p=20;
+        }
+    }
+
+}
+start
+p=0;
+f(p);
+p,"\n"->;

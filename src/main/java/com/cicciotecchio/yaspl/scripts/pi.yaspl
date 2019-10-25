@@ -1,0 +1,25 @@
+head
+
+int i=0;
+double pi =0;
+string error = "Inserisci un numero positivo";
+
+def glSeries(in int maxIter,inout double pi){
+
+double i;
+int s = 1;
+for(i:1:(maxIter*2)+1:2){
+pi = pi + (s * (4/i));
+s = -s;
+}
+}
+
+start
+"inserisci un numero di iterazioni > di 0\n"->;
+i<-;
+while(i<=0)do{
+i<-;
+error->;
+}
+glSeries(i, pi);
+"Pi approssimato a ", i," iterazione vale, ",pi,"\n"->;
