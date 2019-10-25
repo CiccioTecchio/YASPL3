@@ -676,7 +676,8 @@ public class TypeCheckerVisitor implements Visitor<Object> {
 	}
 	
 	private Tuple lookup(String id){
-		int i = this.stack.indexOf(actualScope);
+		//int i = this.stack.indexOf(actualScope);
+		int i = this.stack.size()-1;
 		boolean find = false;
 		Tuple tr = null;
 		SymbolTable app = null;

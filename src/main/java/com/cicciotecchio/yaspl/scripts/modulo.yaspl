@@ -1,8 +1,0 @@
-head
-int a;
-int b;
-
-start
-"Calcolo il resto fra due numeri\nInserisci due numeri"->;
-a, b<-;
-a%b ->;

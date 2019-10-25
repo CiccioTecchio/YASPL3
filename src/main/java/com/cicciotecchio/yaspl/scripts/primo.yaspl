@@ -1,0 +1,27 @@
+ //dato un numero vedere se è primo
+ head
+ int num;
+ bool b = false;
+
+ def isPrimo(in int num, out bool res){
+ int i = 2;
+ res = false;
+ while((i < num) and not((num mod i) == 0) )do{
+ i++;
+ }
+ if(i<num)then{
+ res = false;
+ }else{
+ res = true;
+ }
+ }
+
+ start
+"Inserisci un numero "->;
+num<-;
+isPrimo(num, b);
+if(b)then{
+num," è primo\n"->;
+}else{
+num," non è primo\n"->;
+}

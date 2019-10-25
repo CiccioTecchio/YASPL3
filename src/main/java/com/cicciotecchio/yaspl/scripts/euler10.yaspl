@@ -1,0 +1,33 @@
+//Find the sum of all the primes below 20k.
+head
+
+int sum = 0;
+
+ def isPrimo(in int num, out bool res){
+ int i = 2;
+ res = false;
+ while((i < num) and not((num mod i) == 0) )do{
+ i++;
+ }
+ if(i<num)then{
+ res = false;
+ }else{
+ res = true;
+ }
+ }
+
+ def sumPrime(inout int sum){
+ int i = 2;
+ while(i < 20000) do{
+    bool b;
+    isPrimo(i, b);
+    if(b)then{
+    sum = sum + i;
+    }
+    i++;
+ }
+ }
+
+start
+sumPrime(sum);
+sum,"\n"->;

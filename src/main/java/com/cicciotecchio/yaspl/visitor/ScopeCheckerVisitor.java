@@ -465,28 +465,28 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 	@Override
 	public Object visit(PreFixInc n) throws RuntimeException {
 		String id = checkDx(n.getId());
-		checkParams(id, ParType.IN, String.format("%s is a IN parameter, cannot write in IN parameter", id), n);
+		checkParams(id, ParType.OUT, String.format("%s is a IN parameter, cannot write in IN parameter", id), n);
 		return null;
 	}
 
 	@Override
 	public Object visit(PostFixInc n) throws RuntimeException {
 		String id = checkDx(n.getId());
-		checkParams(id, ParType.IN, String.format("%s is a IN parameter, cannot write in IN parameter", id), n);
+		checkParams(id, ParType.OUT, String.format("%s is a OUT parameter, cannot write in OUT parameter", id), n);
 		return null;
 	}
 
 	@Override
 	public Object visit(PreFixDec n) throws RuntimeException {
 		String id = checkDx(n.getId());
-		checkParams(id, ParType.IN, String.format("%s is a IN parameter, cannot write in IN parameter", id), n);
+		checkParams(id, ParType.OUT, String.format("%s is a OUT parameter, cannot write in OUT parameter", id), n);
 		return null;
 	}
 
 	@Override
 	public Object visit(PostFixDec n) throws RuntimeException {
 		String id = checkDx(n.getId());
-		checkParams(id, ParType.IN, String.format("%s is a IN parameter, cannot write in IN parameter", id), n);
+		checkParams(id, ParType.OUT, String.format("%s is a OUT parameter, cannot write in OUT parameter", id), n);
 		return null;
 	}
 
@@ -543,7 +543,7 @@ public class ScopeCheckerVisitor implements Visitor<Object> {
 	}
 	
 	private int checkNotDeclared(String id, Node n) throws NotDeclaredException {
-		int i = this.stack.indexOf(actualScope);
+		int i = this.stack.size()-1;
 		boolean find = false;
 		while(!find && i>=0) {
 			SymbolTable app = this.stack.elementAt(i);

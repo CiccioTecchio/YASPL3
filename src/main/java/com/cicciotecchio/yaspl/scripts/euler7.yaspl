@@ -1,0 +1,37 @@
+//What is the 10 001st prime number?
+head
+
+int result;
+
+ def isPrimo(in int num, out bool res){
+ int i = 2;
+ res = false;
+ while((i < num) and not((num mod i) == 0) )do{
+ i++;
+ }
+ if(i<num)then{
+ res = false;
+ }else{
+ res = true;
+ }
+ }
+
+ def whatIs(out int res){
+    int cont =0, num = 2;
+    bool b;
+
+    while(cont < 10001)do{
+    isPrimo(num,b);
+    if(b)then{
+    cont++;
+    }
+    num++;
+    }
+    num--;
+    res = num;
+ }
+
+
+start
+whatIs(result);
+"Il 10001mo numero primo è ",result,"\n"->;

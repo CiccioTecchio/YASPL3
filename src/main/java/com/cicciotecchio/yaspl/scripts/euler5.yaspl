@@ -1,11 +1,17 @@
+/*
+What is the smallest positive number that is evenly
+divisible by all of the numbers from 1 to 20?
+*/
 head
 bool divide = false;
 int smallest = 2520;
 
 def checkDivided(in int num, out bool res){
 int i = 2;
-while(i<20 and (num mod i) == 0 ) do{
+int resto = num mod i;
+while(i<20 and resto == 0 ) do{
 i++;
+resto = num mod i;
 }
 if(i>=20) then {
 res = true;
