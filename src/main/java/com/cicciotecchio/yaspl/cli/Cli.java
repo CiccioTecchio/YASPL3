@@ -2,9 +2,9 @@ package com.cicciotecchio.yaspl.cli;
 
 import com.cicciotecchio.yaspl.lexer.LexerLex;
 import com.cicciotecchio.yaspl.parser.ParserCup;
-import java_cup.runtime.ComplexSymbolFactory;
 import com.cicciotecchio.yaspl.syntaxTree.Programma;
 import com.cicciotecchio.yaspl.visitor.*;
+import java_cup.runtime.ComplexSymbolFactory;
 
 import java.io.*;
 
@@ -28,7 +28,6 @@ public class Cli {
 	private static boolean scope = false;
 	private static boolean enrich = false;
 	private static boolean js = false;
-	private static final String PATHEMSDK = "src/main/resources/emsdk";
 	
 	public static void main(String[] args) {
 		try {
@@ -71,27 +70,24 @@ public class Cli {
 		    fw.write(genC.visit(p));
 		    fw.close();
 		    pb.redirectErrorStream(true);
+		    String pathEmsdk = args[args.length-2];
+
 		    if(js){
-		    pb.command("bash", "-c", "cd yasplSource;"
-		    					   + "clang target.c -o ../a.out;"
-		    					   //+ "clang -S -emit-llvm target.c -o ../target.ll;"
-		    					   );
+		    pb.command("bash", "-c", "source "+pathEmsdk+"/emsdk_env.sh;"
+								   + "cd yasplSource;"
+		    					   + "clang target.c -o ../a.out; gindent target.c;"
+								   + "emcc target.c -o ../yaspl.out.js");
 		    }else{
-		    pb.command("bash", "-c", "cd yasplSource; clang target.c -o ../a.out");
+		    pb.command("bash", "-c", "cd yasplSource; clang target.c -o ../a.out; gindent target.c");
 		    }
 
 			process = pb.start();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			String line = reader.readLine();
+
 			while (line != null) {
 				System.out.println(line);
 				line = reader.readLine();
-			}
-
-			if(js) {
-				pb.command("bash", "-c", "source "+PATHEMSDK+"/emsdk_env.sh;"
-						+ "emcc yasplSource/target.c -o yaspl.out.js");
-				process = pb.start();
 			}
 
             reader.close();
