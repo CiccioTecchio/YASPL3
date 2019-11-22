@@ -4,5 +4,5 @@ This is an implementation of a programming language, to generate the lexical ana
 
 ## How to install
 1. You can download the YASPL compiler [here](https://github.com/CiccioTecchio/YASPL3/releases/tag/2.0).
-3. For more information about the lexical, grammatical and semantic rules specification read the wiki.
+3. For more information about the lexical, grammatical and semantic rules specification read the [wiki](https://github.com/CiccioTecchio/YASPL3/wiki/Yet-Another-Simple-Programming-Language).
 2. You can clone this project you can import it in IntelliJ an run the Maven task **jflex** to generate the lexical analyzer and run the Maven task **jcup** to generate the parser.
