@@ -81,6 +81,7 @@
                     <outputDirectory>${output}</outputDirectory>
                     <className>ParserCup</className>
                     <symbolsInterface>true</symbolsInterface>
+                    <!--<dumpStates>true</dumpStates>-->
                     <symbolsName>LexerSym</symbolsName>
                     <locations>true</locations>
                 </configuration>
